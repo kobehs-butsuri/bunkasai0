@@ -1,0 +1,42 @@
+{
+  "rooms": [
+    {
+      "id": "class_2-9",
+      "eventId": "event-001"
+    },
+    {
+      "id": "room-a102",
+      "eventId": "event-002"
+    },
+    {
+      "id": "room-a201",
+      "eventId": "event-003"
+    },
+    {
+      "id": "room-a202"
+    },
+    {
+      "id": "room-b101",
+      "eventId": "event-004"
+    },
+    {
+      "id": "room-b102",
+      "eventId": "event-005"
+    },
+    {
+      "id": "room-b201",
+      "eventId": "event-006"
+    },
+    {
+      "id": "room-c101",
+      "eventId": "event-007"
+    },
+    {
+      "id": "room-c102"
+    },
+    {
+      "id": "room-d001",
+      "eventId": "event-008"
+    }
+  ]
+}
