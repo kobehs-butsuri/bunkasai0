@@ -7,6 +7,12 @@ interface EventDetailPageProps {
     params: Promise<{ id: string }>
 }
 
+export async function generateStaticParams(): Promise<{ id: string }[]> {
+    return eventsData.events.map((event) => ({
+        id: event.id,
+    }));
+}
+
 export default async function EventDetailPage({ params }: EventDetailPageProps) {
     const { id } = await params
     const events = eventsData.events
