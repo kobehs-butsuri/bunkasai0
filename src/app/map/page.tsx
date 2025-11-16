@@ -6,7 +6,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
-import {useMediaQuery} from "@/hooks/use-mobile"
+import useMobile from "@/hooks/use-mobile"
 
 interface Exhibition {
     id: string
@@ -22,7 +22,7 @@ export default function Map() {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
     const [showPopup, setShowPopup] = useState(false)
     const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
-    const isMobile = useMediaQuery("(max-width: 768px)")
+    const isMobile = useMobile()
 
     // モバイル用のズーム・パン状態
     const [scale, setScale] = useState(1)
@@ -88,6 +88,23 @@ export default function Map() {
             return () => window.removeEventListener('mouseup', handleGlobalMouseUp)
         }
     }, [isMobile, isDragging])
+
+    // モバイルモードのマウスホイール操作に対する挙動調整
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+
+        const handler = (e: WheelEvent) => {
+            if (isMobile)
+                e.preventDefault();
+        };
+
+        el.addEventListener("wheel", handler, { passive: false });
+
+        return () => {
+            el.removeEventListener("wheel", handler);
+        };
+    }, [isMobile]);
 
     const handleRoomClick = (roomId: string) => {
         const exhibition = getExhibitionByRoomId(roomId)

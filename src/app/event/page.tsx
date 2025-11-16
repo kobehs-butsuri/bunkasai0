@@ -5,48 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
-
-interface Schedule {
-    dayId: string
-    location: string
-    startTime: string
-    endTime: string
-}
-
-interface Performance {
-    id: string
-    name: string
-    organization: string
-    type: string
-    description: string
-    schedules: Schedule[]
-}
-
-interface Exhibition {
-    id: string
-    name: string
-    organization: string
-    type: string
-    description: string
-    roomId: string
-}
-
-interface Day {
-    id: string
-    date: string
-    name: string
-}
-
-// 統合されたイベント型
-interface UnifiedEvent {
-    id: string
-    name: string
-    organization: string
-    description: string
-    category: 'performance' | 'exhibition'
-    schedules?: Schedule[]
-    roomId?: string
-}
+import {Performance, Exhibition, UnifiedEvent, Day} from "@/data/types";
 
 export default function EventsPage() {
     const performances = festivalData.performances as Performance[]
@@ -102,8 +61,14 @@ export default function EventsPage() {
             const day = days.find(d => d.id === schedule.dayId);
             return (
                 <span key={schedule.dayId}>
-                    <span className="font-bold">{day?.name || '不明'}:</span>
-                    {' '}{schedule.startTime}-{schedule.endTime} @{schedule.location}
+                    <span className="font-bold">{day?.name}: </span>
+                    {schedule.info.map((info, idx) =>
+                        (
+                            <span key={`${event.id}-${schedule.dayId}-${idx}-time-pos`}>
+                                                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{info.location}</span>
+                                                            </span>
+                        )
+                    )}<br/>
                 </span>
             );
         });

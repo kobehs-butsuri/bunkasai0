@@ -5,28 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
-
-interface Schedule {
-    dayId: string
-    location: string
-    startTime: string
-    endTime: string
-}
-
-interface Performance {
-    id: string
-    name: string
-    organization: string
-    type: string
-    description: string
-    schedules: Schedule[]
-}
-
-interface Day {
-    id: string
-    date: string
-    name: string
-}
+import {Info, Performance, Day} from "@/data/types"
 
 const HOUR_HEIGHT = 240
 const START_HOUR = 9
@@ -41,7 +20,7 @@ export default function Timetable() {
     // 場所のユニークリストを取得
     const locations = Array.from(
         new Set(
-            performances.flatMap(p => p.schedules.map(s => s.location))
+            performances.flatMap(p => p.schedules.map(s => s.info.map(info => info.location)).flat())
         )
     ).sort()
 
@@ -50,7 +29,7 @@ export default function Timetable() {
         return hours * 60 + minutes
     }
 
-    const getGridPosition = (locationIndex: number, schedule: Schedule) => {
+    const getGridPosition = (locationIndex: number, schedule: Info) => {
         const startMinutes = timeToMinutes(schedule.startTime)
         const endMinutes = timeToMinutes(schedule.endTime)
         const startHourOffset = START_HOUR * 60
@@ -124,26 +103,28 @@ export default function Timetable() {
                                 const schedule = performance.schedules.find(s => s.dayId === currentDayId)
                                 if (!schedule) return null
 
-                                const locationIndex = locations.indexOf(schedule.location)
-                                if (locationIndex === -1) return null
+                                return schedule.info.map((info, idx) => {
+                                    const locationIndex = locations.indexOf(info.location)
+                                    if (locationIndex === -1) return null
 
-                                const position = getGridPosition(locationIndex, schedule)
+                                    const position = getGridPosition(locationIndex, info)
 
-                                return (
-                                    <Link
-                                        key={`perf-${performance.id}-${currentDayId}`}
-                                        href={`/event/${performance.id}`}
-                                        className="relative bg-primary bg-opacity-20 border-l-4 border-primary p-2 transition-all hover:bg-opacity-30 cursor-pointer overflow-hidden flex flex-col justify-center items-center text-center text-background z-10"
-                                        style={position}
-                                        title={performance.name}
-                                    >
-                                        <div className="font-bold text-xs leading-tight">{performance.name}</div>
-                                        <div className="text-xs opacity-75 leading-tight">
-                                            {schedule.startTime} - {schedule.endTime}
-                                        </div>
-                                    </Link>
-                                )
-                            })}
+                                    return (
+                                        <Link
+                                            key={`perf-${performance.id}-${currentDayId}-${idx}`}
+                                            href={`/event/${performance.id}`}
+                                            className="relative bg-primary bg-opacity-20 border-l-4 border-primary p-2 transition-all hover:bg-opacity-30 cursor-pointer overflow-hidden flex flex-col justify-center items-center text-center text-background z-10"
+                                            style={position}
+                                            title={performance.name}
+                                        >
+                                            <div className="font-bold text-xs leading-tight">{performance.name}</div>
+                                            <div className="text-xs opacity-75 leading-tight">
+                                                {info.startTime} - {info.endTime}
+                                            </div>
+                                        </Link>
+                                    )
+                                })
+                            }).flat()}
 
                             {/* 時間ヘッダー */}
                             <div className="sticky left-0 top-0 z-20 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm flex items-center justify-center">

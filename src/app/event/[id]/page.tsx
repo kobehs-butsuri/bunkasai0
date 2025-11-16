@@ -2,35 +2,12 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
+import {Performance, Exhibition, UnifiedEvent} from "@/data/types";
 
 interface EventDetailPageProps {
     params: Promise<{ id: string }>
 }
 
-interface Schedule {
-    dayId: string
-    location: string
-    startTime: string
-    endTime: string
-}
-
-interface Performance {
-    id: string
-    name: string
-    organization: string
-    description: string
-    schedules: Schedule[]
-}
-
-interface Exhibition {
-    id: string
-    name: string
-    organization: string
-    description: string
-    roomId: string
-}
-
-type UnifiedEvent = (Performance & { category: 'performance' }) | (Exhibition & { category: 'exhibition' })
 
 export async function generateStaticParams(): Promise<{ id: string }[]> {
     const performances = festivalData.performances.map((p) => ({ id: p.id }))
@@ -99,9 +76,9 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                         {isPerformance && schedules && schedules.length > 0 && (
                             <>
                                 <div>
-                                    <h3 className="font-bold text-lg mb-2">日時</h3>
+                                    <h3 className="font-bold text-lg mb-2">日時・場所</h3>
                                     {(() => {
-                                        const times = schedules.map(s => `${s.startTime} - ${s.endTime}`)
+                                        const times = schedules.map(s => s.info.map(info => `${info.startTime} - ${info.endTime}`).flat().join(', '))
                                         const allSame = times.every(t => t === times[0])
 
                                         if (allSame && festivalData.festival.days.length === schedules.length) {
@@ -113,32 +90,15 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                                             if (!day) return null
                                             return (
                                                 <p className="text-lg" key={schedule.dayId}>
-                                                    <span className="font-bold">{day.name}:</span> {schedule.startTime} - {schedule.endTime}
+                                                    <span className="font-bold">{day.name}: </span>
+                                                    {schedule.info.map((info, idx) =>
+                                                        (
+                                                            <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
+                                                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{info.location}</span>
+                                                            </span>))}
                                                 </p>
                                             )
-                                        })
-                                    })()}
-                                </div>
-
-                                <div>
-                                    <h3 className="font-bold text-lg mb-2">場所</h3>
-                                    {(() => {
-                                        const locations = schedules.map(s => s.location)
-                                        const allSame = locations.every(loc => loc === locations[0])
-
-                                        if (allSame && festivalData.festival.days.length === schedules.length) {
-                                            return <p className="text-lg">{locations[0]}</p>
-                                        }
-
-                                        return schedules.map(schedule => {
-                                            const day = festivalData.festival.days.find(d => d.id === schedule.dayId)
-                                            if (!day) return null
-                                            return (
-                                                <p className="text-lg" key={schedule.dayId}>
-                                                    <span className="font-bold">{day.name}:</span> {schedule.location}
-                                                </p>
-                                            )
-                                        })
+                                        }).flat()
                                     })()}
                                 </div>
                             </>
