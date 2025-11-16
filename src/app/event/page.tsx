@@ -101,10 +101,10 @@ export default function EventsPage() {
         const scheduleTexts = event.schedules.map(schedule => {
             const day = days.find(d => d.id === schedule.dayId);
             return (
-                <p key={schedule.dayId}>
+                <span key={schedule.dayId}>
                     <span className="font-bold">{day?.name || '不明'}:</span>
                     {' '}{schedule.startTime}-{schedule.endTime} @{schedule.location}
-                </p>
+                </span>
             );
         });
 
