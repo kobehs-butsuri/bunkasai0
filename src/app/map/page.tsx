@@ -31,6 +31,7 @@ export default function Map() {
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
     const [touchStartPos, setTouchStartPos] = useState({ x: 0, y: 0 })
     const [hasMoved, setHasMoved] = useState(false)
+    const [possibleToDrag, setPossibleToDrag] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const mapRef = useRef<HTMLDivElement>(null)
     const lastTouchDistance = useRef<number | null>(null)
@@ -53,21 +54,17 @@ export default function Map() {
         const container = containerRef.current
         const map = mapRef.current
 
-        // SVGのサイズを取得
-        const svg = map.querySelector('svg')
-        if (!svg) return
-
-        const svgRect = svg.getBoundingClientRect()
+        const mapRect = map.getBoundingClientRect()
         const containerRect = container.getBoundingClientRect()
 
         // 縦横比を計算して、小さい方に合わせる
-        const scaleX = containerRect.width / svgRect.width
-        const scaleY = containerRect.height / svgRect.height
+        const scaleX = containerRect.width / mapRect.width
+        const scaleY = containerRect.height / mapRect.height
         const initialScale = Math.min(scaleX, scaleY) * 0.95 // 少し余白を持たせる
 
         // 中央に配置
-        const scaledWidth = svgRect.width * initialScale
-        const scaledHeight = svgRect.height * initialScale
+        const scaledWidth = mapRect.width * initialScale
+        const scaledHeight = mapRect.height * initialScale
         const centerX = (containerRect.width - scaledWidth) / 2
         const centerY = (containerRect.height - scaledHeight) / 2
 
@@ -75,14 +72,6 @@ export default function Map() {
         setPosition({ x: centerX, y: centerY })
         setIsInitialized(true)
     }, [isMobile, isInitialized])
-
-    // モバイルモード切り替え時にリセット
-    useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setScale(1)
-        setPosition({ x: 0, y: 0 })
-        setIsInitialized(false)
-    }, [isMobile])
 
     // グローバルマウスアップイベントを監視
     useEffect(() => {
@@ -115,7 +104,6 @@ export default function Map() {
     // マウスホイールでズーム（モバイルモード時）
     const handleWheel = (e: React.WheelEvent) => {
         if (!isMobile) return
-        e.preventDefault()
 
         const container = containerRef.current
         if (!container) return
@@ -137,7 +125,7 @@ export default function Map() {
         const newY = mouseY - beforeY * newScale
 
         // 位置を制限
-        const constrained = constrainPosition(newX, newY, newScale)
+        const constrained = constrainPosition(newX, newY)
 
         setScale(newScale)
         setPosition(constrained)
@@ -171,6 +159,12 @@ export default function Map() {
             return
         }
 
+        if (e.buttons === 0) {
+            setIsDragging(false)
+            setHasMoved(false)
+            setDragStart({ x: 0, y: 0 })
+            return
+        }
         // マウスダウン後の処理
         if (dragStart.x !== 0 || dragStart.y !== 0 || isDragging) {
             // 移動量が5px以上ならドラッグ開始
@@ -187,7 +181,7 @@ export default function Map() {
                 const newY = e.clientY - dragStart.y
 
                 // 位置を制限
-                const constrained = constrainPosition(newX, newY, scale)
+                const constrained = constrainPosition(newX, newY)
                 setPosition(constrained)
             }
         }
@@ -258,50 +252,45 @@ export default function Map() {
                 y: e.touches[0].clientY
             })
             setHasMoved(false)
+            setPossibleToDrag(true)
         }
     }
 
     // 位置を制限する関数
-    const constrainPosition = (x: number, y: number, currentScale: number) => {
+    const constrainPosition = (x: number, y: number) => {
         if (!containerRef.current || !mapRef.current) return { x, y }
 
         const container = containerRef.current
         const map = mapRef.current
-        const svg = map.querySelector('svg')
-        if (!svg) return { x, y }
 
         const containerRect = container.getBoundingClientRect()
-
-        // SVGの元のサイズを取得（scale=1の時のサイズ）
-        const svgWidth = svg.viewBox.baseVal.width || svg.width.baseVal.value
-        const svgHeight = svg.viewBox.baseVal.height || svg.height.baseVal.value
+        const mapRect = map.getBoundingClientRect()
 
         // スケール適用後のマップサイズ
-        const scaledWidth = svgWidth * currentScale
-        const scaledHeight = svgHeight * currentScale
+        const mapWidth = mapRect.width
+        const mapHeight = mapRect.height
 
-        // 最小・最大位置を計算（マップが画面から出ないように）
-        const minX = (containerRect.width - scaledWidth) / 2
-        const maxX = -(containerRect.width - scaledWidth) / 2
-        const minY = (containerRect.height - scaledHeight) / 2
-        const maxY = -(containerRect.height - scaledHeight) / 2
+        // 上下左右の端
+        const left = containerRect.width / 2
+        const top = containerRect.height / 2
+        const bottom = -mapHeight + containerRect.width / 2
+        const right = -mapWidth + containerRect.width / 2
 
         // マップがコンテナより小さい場合は中央に配置、大きい場合は制限
         let constrainedX: number
         let constrainedY: number
 
-        if (scaledWidth <= containerRect.width) {
-            constrainedX = (containerRect.width - scaledWidth) / 2
+        if (mapWidth <= containerRect.width) {
+            constrainedX = (containerRect.width - mapWidth) / 2
         } else {
-            constrainedX = Math.max(minX, Math.min(maxX, x))
+            constrainedX = Math.max(right, Math.min(left, x))
         }
 
-        if (scaledHeight <= containerRect.height) {
-            constrainedY = (containerRect.height - scaledHeight) / 2
+        if (mapHeight <= containerRect.height) {
+            constrainedY = (containerRect.height - mapHeight) / 2
         } else {
-            constrainedY = Math.max(minY, Math.min(maxY, y))
+            constrainedY = Math.max(bottom, Math.min(top, y))
         }
-
         return { x: constrainedX, y: constrainedY }
     }
 
@@ -340,7 +329,7 @@ export default function Map() {
             const newY = centerY - beforeY * newScale
 
             // 位置を制限
-            const constrained = constrainPosition(newX, newY, newScale)
+            const constrained = constrainPosition(newX, newY)
 
             setScale(newScale)
             setPosition(constrained)
@@ -359,7 +348,7 @@ export default function Map() {
                 const newY = e.touches[0].clientY - dragStart.y
 
                 // 位置を制限
-                const constrained = constrainPosition(newX, newY, scale)
+                const constrained = constrainPosition(newX, newY)
                 setPosition(constrained)
             }
         }
@@ -373,11 +362,11 @@ export default function Map() {
             lastTouchCenter.current = null
             initialPinchScale.current = null
             initialPinchPosition.current = null
+            setPossibleToDrag(false)
         }
 
         if (e.touches.length === 0) {
-            // タップ判定（ドラッグしていない場合）
-            if (!hasMoved) {
+            if (!hasMoved && possibleToDrag) {
                 const touch = e.changedTouches[0]
                 let current: Element | null = document.elementFromPoint(touch.clientX, touch.clientY)
                 while (current && current !== containerRef.current) {
@@ -536,7 +525,7 @@ export default function Map() {
                 )}
             </main>
 
-            {!isMobile && <Footer />}
+            <Footer />
         </div>
     )
 }
