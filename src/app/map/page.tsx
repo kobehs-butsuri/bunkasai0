@@ -5,31 +5,16 @@ import Link from "next/link"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import {MapSVG} from "@/components/map"
-import mapData from "@/data/map.json"
+import festivalData from "@/data/festival.json"
 import {useMediaQuery} from "@/hooks/use-mobile"
 
-interface Room {
+interface Exhibition {
     id: string
-    eventId?: string
-}
-
-const ROOM_DESCRIPTIONS: Record<string, { name: string; description: string }> = {
-    "class_2-9": {
-        name: "2-9",
-        description: "AAA",
-    },
-    "class_1-9": {
-        name: "1-9",
-        description: "BBB",
-    },
-    "WC_1F_1": {
-        name: "トイレ",
-        description: "トイレ",
-    },
-    "WC_1F_2": {
-        name: "トイレ",
-        description: "トイレ",
-    },
+    name: string
+    organization: string
+    type: string
+    description: string
+    roomId: string
 }
 
 export default function Map() {
@@ -54,7 +39,12 @@ export default function Map() {
     const initialPinchPosition = useRef<{ x: number; y: number } | null>(null)
     const [isInitialized, setIsInitialized] = useState(false)
 
-    const rooms = mapData.rooms as Room[]
+    const exhibitions = festivalData.exhibitions as Exhibition[]
+
+    // roomIdから展示情報を取得
+    const getExhibitionByRoomId = (roomId: string): Exhibition | undefined => {
+        return exhibitions.find(exh => exh.roomId === roomId)
+    }
 
     // 初期表示時にマップを中央に配置・拡大
     useEffect(() => {
@@ -111,16 +101,14 @@ export default function Map() {
     }, [isMobile, isDragging])
 
     const handleRoomClick = (roomId: string) => {
-        const room = rooms.find((r) => r.id === roomId)
-        if (!room) return
+        const exhibition = getExhibitionByRoomId(roomId)
+        if (!exhibition) return
 
         if (isMobile) {
             setSelectedRoomId(roomId)
             setShowPopup(true)
         } else {
-            if (room.eventId) {
-                window.location.href = `/event/${room.eventId}`
-            }
+            window.location.href = `/event/${exhibition.id}`
         }
     }
 
@@ -173,7 +161,7 @@ export default function Map() {
             setMousePos({ x: e.clientX, y: e.clientY })
             let element: Element | null = e.target as SVGElement
             while (element && element !== (e.currentTarget as Element)) {
-                if (element.id && ROOM_DESCRIPTIONS[element.id]) {
+                if (element.id && getExhibitionByRoomId(element.id)) {
                     setHoveredRoomId(element.id)
                     return
                 }
@@ -206,12 +194,11 @@ export default function Map() {
     }
 
     const handleMouseUp = (e: React.MouseEvent) => {
-
         if (!hasMoved) {
             // クリック判定 - クリック位置の要素を取得
             let element: Element | null = document.elementFromPoint(e.clientX, e.clientY)
             while (element && element !== containerRef.current) {
-                if (element.id && ROOM_DESCRIPTIONS[element.id]) {
+                if (element.id && getExhibitionByRoomId(element.id)) {
                     e.preventDefault()
                     e.stopPropagation()
                     handleRoomClick(element.id)
@@ -394,7 +381,7 @@ export default function Map() {
                 const touch = e.changedTouches[0]
                 let current: Element | null = document.elementFromPoint(touch.clientX, touch.clientY)
                 while (current && current !== containerRef.current) {
-                    if (current.id && ROOM_DESCRIPTIONS[current.id]) {
+                    if (current.id && getExhibitionByRoomId(current.id)) {
                         e.preventDefault()
                         e.stopPropagation()
                         handleRoomClick(current.id)
@@ -409,8 +396,8 @@ export default function Map() {
         }
     }
 
-    const selectedRoom = selectedRoomId ? ROOM_DESCRIPTIONS[selectedRoomId] : null
-    const selectedRoomData = selectedRoomId ? rooms.find((r) => r.id === selectedRoomId) : null
+    const selectedExhibition = selectedRoomId ? getExhibitionByRoomId(selectedRoomId) : null
+    const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
 
     return (
         <div className="bg-background text-foreground">
@@ -421,11 +408,6 @@ export default function Map() {
                     <h1 className={isMobile ? "text-3xl font-bold mb-2 tracking-tight" : "text-5xl font-bold mb-4 tracking-tight text-balance"}>
                         校内マップ
                     </h1>
-                    <p className={isMobile ? "text-sm text-muted-foreground" : "text-lg text-muted-foreground"}>
-                        {isMobile
-                            ? "ピンチでズーム、スワイプで移動、タップで説明を表示"
-                            : "ホバーで説明を表示、クリックで詳細ページへ"}
-                    </p>
                 </div>
 
                 <div
@@ -471,7 +453,7 @@ export default function Map() {
                     </div>
                 </div>
 
-                {!isMobile && hoveredRoomId && ROOM_DESCRIPTIONS[hoveredRoomId] && (
+                {!isMobile && hoveredRoomId && hoveredExhibition && (
                     <div
                         className="fixed p-6 bg-card border border-accent-light z-50 pointer-events-none"
                         style={{
@@ -496,12 +478,12 @@ export default function Map() {
                                 transform: 'translateX(-50%)',
                             }}
                         ></div>
-                        <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{ROOM_DESCRIPTIONS[hoveredRoomId].name}</h3>
-                        <p className="text-muted-foreground whitespace-nowrap">{ROOM_DESCRIPTIONS[hoveredRoomId].description}</p>
+                        <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{hoveredExhibition.name}</h3>
+                        <p className="text-muted-foreground whitespace-nowrap">{hoveredExhibition.description}</p>
                     </div>
                 )}
 
-                {showPopup && selectedRoom && selectedRoomData && isMobile && (
+                {showPopup && selectedExhibition && isMobile && (
                     <div
                         className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4"
                         onClick={(e) => {
@@ -519,7 +501,7 @@ export default function Map() {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="flex justify-between items-start mb-6">
-                                <h2 className="text-2xl font-bold">{selectedRoom.name}</h2>
+                                <h2 className="text-2xl font-bold">{selectedExhibition.name}</h2>
                                 <button
                                     onClick={() => {
                                         setShowPopup(false)
@@ -531,16 +513,14 @@ export default function Map() {
                                 </button>
                             </div>
 
-                            <p className="text-muted-foreground mb-8">{selectedRoom.description}</p>
+                            <p className="text-muted-foreground mb-8">{selectedExhibition.description}</p>
 
-                            {selectedRoomData.eventId && (
-                                <Link
-                                    href={`/event/${selectedRoomData.eventId}`}
-                                    className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
-                                >
-                                    詳細を見る
-                                </Link>
-                            )}
+                            <Link
+                                href={`/event/${selectedExhibition.id}`}
+                                className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
+                            >
+                                詳細を見る
+                            </Link>
 
                             <button
                                 onClick={() => {

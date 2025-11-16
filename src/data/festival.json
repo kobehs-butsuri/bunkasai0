@@ -1,0 +1,156 @@
+{
+  "festival": {
+    "days": [
+      {
+        "id": "day-1",
+        "date": "2026年XX月XX日",
+        "name": "1日目"
+      },
+      {
+        "id": "day-2",
+        "date": "2026年XX月YY日",
+        "name": "2日目"
+      }
+    ]
+  },
+  "performances": [
+    {
+      "id": "perf-001",
+      "name": "AAA",
+      "organization": "BBB",
+      "description": "DDD",
+      "schedules": [
+        {
+          "dayId": "day-1",
+          "location": "EEE",
+          "startTime": "10:00",
+          "endTime": "11:00"
+        },
+        {
+          "dayId": "day-2",
+          "location": "EEE",
+          "startTime": "10:00",
+          "endTime": "11:00"
+        }
+      ]
+    },
+    {
+      "id": "perf-002",
+      "name": "FFF",
+      "organization": "GGG",
+      "description": "III",
+      "schedules": [
+        {
+          "dayId": "day-1",
+          "location": "EEE",
+          "startTime": "09:00",
+          "endTime": "09:45"
+        },
+        {
+          "dayId": "day-2",
+          "location": "EEE",
+          "startTime": "09:00",
+          "endTime": "09:30"
+        }
+      ]
+    },
+    {
+      "id": "perf-003",
+      "name": "KKK",
+      "organization": "LLL",
+      "description": "NNN",
+      "schedules": [
+        {
+          "dayId": "day-1",
+          "location": "OOO",
+          "startTime": "10:30",
+          "endTime": "11:00"
+        },
+        {
+          "dayId": "day-2",
+          "location": "OOO",
+          "startTime": "10:15",
+          "endTime": "11:00"
+        }
+      ]
+    },
+    {
+      "id": "perf-004",
+      "name": "PPP",
+      "organization": "QQQ",
+      "description": "SSS",
+      "schedules": [
+        {
+          "dayId": "day-1",
+          "location": "TTT",
+          "startTime": "14:00",
+          "endTime": "15:00"
+        }
+      ]
+    },
+    {
+      "id": "perf-005",
+      "name": "UUU",
+      "organization": "VVV",
+      "description": "XXX",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "location": "OOO",
+          "startTime": "13:00",
+          "endTime": "14:30"
+        }
+      ]
+    },
+    {
+      "id": "perf-006",
+      "name": "AAAA",
+      "organization": "BBBB",
+      "description": "DDDD",
+      "schedules": [
+        {
+          "dayId": "day-1",
+          "location": "EEE",
+          "startTime": "15:30",
+          "endTime": "16:30"
+        },
+        {
+          "dayId": "day-2",
+          "location": "EEE",
+          "startTime": "14:00",
+          "endTime": "15:00"
+        }
+      ]
+    }
+  ],
+  "exhibitions": [
+    {
+      "id": "exh-001",
+      "name": "GGGG",
+      "organization": "HHHH",
+      "description": "JJJJ",
+      "roomId": "class_2-9"
+    },
+    {
+      "id": "exh-002",
+      "name": "KKKK",
+      "organization": "LLLL",
+      "description": "NNNN",
+      "roomId": "class_1-9"
+    },
+    {
+      "id": "exh-003",
+      "name": "WWWW",
+      "organization": "XXXX",
+      "description": "ZZZZ",
+      "roomId": "room_a101"
+    },
+    {
+      "id": "exh-004",
+      "name": "AAAAA",
+      "organization": "BBBBB",
+      "description": "DDDDD",
+      "roomId": "room_a102"
+    }
+  ]
+}

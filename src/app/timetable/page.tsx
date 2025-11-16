@@ -4,13 +4,22 @@ import { useState } from "react"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import Link from "next/link"
-import eventsData from "@/data/events.json"
+import festivalData from "@/data/festival.json"
 
 interface Schedule {
     dayId: string
-    locationId: string
+    location: string
     startTime: string
     endTime: string
+}
+
+interface Performance {
+    id: string
+    name: string
+    organization: string
+    type: string
+    description: string
+    schedules: Schedule[]
 }
 
 interface Day {
@@ -26,16 +35,19 @@ const END_HOUR = 17
 export default function Timetable() {
     const [selectedDay, setSelectedDay] = useState(0)
 
-    const days = eventsData.festival.days as Day[]
-    const events = eventsData.events
+    const days = festivalData.festival.days as Day[]
+    const performances = festivalData.performances as Performance[]
+
+    // 場所のユニークリストを取得
+    const locations = Array.from(
+        new Set(
+            performances.flatMap(p => p.schedules.map(s => s.location))
+        )
+    ).sort()
 
     const timeToMinutes = (timeStr: string): number => {
         const [hours, minutes] = timeStr.split(":").map(Number)
         return hours * 60 + minutes
-    }
-
-    const getEventDetails = (eventId: string) => {
-        return events.find((e) => e.id === eventId)
     }
 
     const getGridPosition = (locationIndex: number, schedule: Schedule) => {
@@ -62,7 +74,6 @@ export default function Timetable() {
             <main className="pt-32 pb-24 px-8 max-w-full mx-auto">
                 <div className="mb-12 pt-8 max-w-7xl mx-auto">
                     <h1 className="text-5xl font-bold mb-4 tracking-tight text-balance">タイムテーブル</h1>
-                    <p className="text-lg text-muted-foreground">文化祭当日のスケジュール一覧</p>
                 </div>
 
                 {/* Day tabs */}
@@ -86,85 +97,83 @@ export default function Timetable() {
                     </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto bg-card border border-accent-light overflow-x-auto">
-                    <div
-                        className="inline-grid min-w-full"
-                        style={{
-                            gridTemplateColumns: `80px repeat(${eventsData.festival.locations.length}, 1fr)`,
-                            gridTemplateRows: `auto repeat(${END_HOUR - START_HOUR}, ${HOUR_HEIGHT}px)`,
-                        }}
-                    >
-                        {/* 時間ヘッダー */}
-                        <div className="sticky left-0 top-0 z-20 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm flex items-center justify-center">
-                            時間
-                        </div>
+                <div className="overflow-x-auto">
+                    <div className="max-w-7xl min-w-4xl mx-auto bg-card border border-accent-light">
+                        <div
+                            className="inline-grid min-w-full"
+                            style={{
+                                gridTemplateColumns: `80px repeat(${locations.length}, 1fr)`,
+                                gridTemplateRows: `auto repeat(${END_HOUR - START_HOUR}, ${HOUR_HEIGHT}px)`,
+                            }}
+                        >
 
-                        {/* 場所ヘッダー */}
-                        {eventsData.festival.locations.map((location) => (
-                            <div
-                                key={`header-${location.id}`}
-                                className="top-0 z-10 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm text-center"
-                            >
-                                {location.name}
+                            {/* グリッド背景(1時間ごとの区切り線) */}
+                            {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
+                                return Array.from({ length: locations.length }).map((_, locIndex) => (
+                                    <div
+                                        key={`grid-bg-${i}-${locIndex}`}
+                                        className="border-b border-r border-accent-light opacity-30"
+                                        style={{ gridRow: `${i + 2}`, gridColumn: `${locIndex + 2}` }}
+                                    />
+                                ))
+                            })}
+
+                            {/* イベント */}
+                            {performances.map((performance) => {
+                                const currentDayId = days[selectedDay].id
+                                const schedule = performance.schedules.find(s => s.dayId === currentDayId)
+                                if (!schedule) return null
+
+                                const locationIndex = locations.indexOf(schedule.location)
+                                if (locationIndex === -1) return null
+
+                                const position = getGridPosition(locationIndex, schedule)
+
+                                return (
+                                    <Link
+                                        key={`perf-${performance.id}-${currentDayId}`}
+                                        href={`/event/${performance.id}`}
+                                        className="relative bg-primary bg-opacity-20 border-l-4 border-primary p-2 transition-all hover:bg-opacity-30 cursor-pointer overflow-hidden flex flex-col justify-center items-center text-center text-background z-10"
+                                        style={position}
+                                        title={performance.name}
+                                    >
+                                        <div className="font-bold text-xs leading-tight">{performance.name}</div>
+                                        <div className="text-xs opacity-75 leading-tight">
+                                            {schedule.startTime} - {schedule.endTime}
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+
+                            {/* 時間ヘッダー */}
+                            <div className="sticky left-0 top-0 z-20 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm flex items-center justify-center">
+                                時間
                             </div>
-                        ))}
 
-                        {/* 時間行ラベル */}
-                        {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
-                            const hour = START_HOUR + i
-                            return (
+                            {/* 場所ヘッダー */}
+                            {locations.map((location) => (
                                 <div
-                                    key={`time-${hour}`}
-                                    className="sticky left-0 z-10 bg-card border-r border-b border-accent-light px-4 font-bold text-sm flex items-center justify-center"
-                                    style={{ gridRow: `${i + 2}` }}
+                                    key={`header-${location}`}
+                                    className="top-0 z-10 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm text-center"
                                 >
-                                    {String(hour).padStart(2, "0")}:00
+                                    {location}
                                 </div>
-                            )
-                        })}
+                            ))}
 
-                        {/* グリッド背景(1時間ごとの区切り線) */}
-                        {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
-                            return Array.from({ length: eventsData.festival.locations.length }).map((_, locIndex) => (
-                                <div
-                                    key={`grid-bg-${i}-${locIndex}`}
-                                    className="border-b border-r border-accent-light opacity-30"
-                                    style={{ gridRow: `${i + 2}`, gridColumn: `${locIndex + 2}` }}
-                                />
-                            ))
-                        })}
-
-                        {/* イベント */}
-                        {eventsData.events.map((item, idx) => {
-                            const event = getEventDetails(item.id)
-
-                            const currentDayId = days[selectedDay].id
-                            const schedule = item.schedules.find(s => s.dayId === currentDayId)
-                            if (!schedule) return null
-
-                            const locationIndex = eventsData.festival.locations
-                                .map(loc => loc.id)
-                                .indexOf(schedule.locationId)
-
-                            if (locationIndex === -1) return null
-
-                            const position = getGridPosition(locationIndex, schedule)
-
-                            return (
-                                <Link
-                                    key={`event-${idx}`}
-                                    href={`/event/${item.id}`}
-                                    className="relative bg-primary bg-opacity-20 border-l-4 border-primary p-2 transition-all hover:bg-opacity-30 cursor-pointer overflow-hidden flex flex-col justify-center items-center text-center text-background z-10"
-                                    style={position}
-                                    title={event?.name}
-                                >
-                                    <div className="font-bold text-xs leading-tight">{event?.name}</div>
-                                    <div className="text-xs opacity-75 leading-tight">
-                                        {schedule.startTime} - {schedule.endTime}
+                            {/* 時間行ラベル */}
+                            {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
+                                const hour = START_HOUR + i
+                                return (
+                                    <div
+                                        key={`time-${hour}`}
+                                        className="sticky left-0 z-10 bg-card border-r border-b border-accent-light px-4 font-bold text-sm flex items-center justify-center"
+                                        style={{ gridRow: `${i + 2}` }}
+                                    >
+                                        {String(hour).padStart(2, "0")}:00
                                     </div>
-                                </Link>
-                            )
-                        })}
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
             </main>

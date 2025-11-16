@@ -25,9 +25,9 @@ export default function Access() {
                 <div className="max-w-7xl mx-auto">
                     {/* Title Section */}
                     <ParallaxContainer offset={scrollY * 0.3}>
-                        <div className="mb-16">
+                        <div className="mb-12 pt-8">
                             <h1
-                                className="text-6xl font-bold tracking-wider text-foreground mb-6"
+                                className="text-5xl font-bold mb-4 tracking-tight text-balance"
                                 style={{letterSpacing: "0.05em"}}
                             >
                                 アクセス
@@ -68,7 +68,7 @@ export default function Access() {
                                     </div>
                                     <div>
                                         <p className="font-semibold text-foreground mb-1">バス</p>
-                                        <p>2系統/18系統/102系統 神戸高校前 停留所より徒歩5分</p>
+                                        <p>2系統/18系統/102系統 神戸高校前 停留所から徒歩5分</p>
                                     </div>
                                 </div>
                             </div>
