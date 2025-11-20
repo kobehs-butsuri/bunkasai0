@@ -229,9 +229,6 @@ export default function Map() {
     const handleTouchStart = (e: React.TouchEvent) => {
         if (!isMobile) return
 
-        // すべてのタッチイベントの伝搬を防ぐ
-        e.preventDefault()
-
         if (e.touches.length === 2) {
             // ピンチズーム開始
             const touch1 = e.touches[0]
@@ -313,9 +310,6 @@ export default function Map() {
 
     const handleTouchMove = (e: React.TouchEvent) => {
         if (!isMobile) return
-
-        // すべてのタッチイベントの伝搬を防ぐ
-        e.preventDefault()
 
         if (e.touches.length === 2 && lastTouchDistance.current !== null && lastTouchCenter.current && initialPinchScale.current !== null && initialPinchPosition.current !== null) {
             // ピンチズーム
