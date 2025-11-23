@@ -1,8 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 import ParallaxContainer from "@/components/parallax-container"
 
 export default function Policy() {
@@ -18,10 +16,7 @@ export default function Policy() {
     }, [])
 
     return (
-        <div className="w-full bg-background">
-            <Header />
-
-            <main className="pt-32 pb-24 px-8">
+        <main className="pt-28">
                 <div className="max-w-7xl mx-auto">
                     {/* Title Section */}
                     <ParallaxContainer offset={scrollY * 0.3}>
@@ -75,8 +70,5 @@ export default function Policy() {
                     </ParallaxContainer>
                 </div>
             </main>
-
-            <Footer />
-        </div>
     )
 }

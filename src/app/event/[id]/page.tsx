@@ -51,94 +51,88 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     const roomId = !isPerformance ? (event as Exhibition).roomId : undefined
 
     return (
-        <div className="bg-background text-foreground">
-            <Header />
+        <div className="pt-28 pb-28 max-w-3xl mx-auto">
+            {/* Back link */}
+            <Link href="/event" className="text-primary underline mb-8 inline-block hover:opacity-75">
+                ← イベント一覧
+            </Link>
 
-            <main className="pt-32 pb-24 px-8 max-w-3xl mx-auto">
-                {/* Back link */}
-                <Link href="/event" className="text-primary underline mb-8 inline-block hover:opacity-75">
-                    ← イベント一覧
-                </Link>
-
-                {/* Event header */}
-                <div className="mb-12">
-                    <div className="flex items-start gap-4 mb-6">
-                        <h1 className="text-5xl font-bold tracking-tight text-balance flex-1">{event.name}</h1>
-                        <div>
-                            <p className="text-lg">{event.organization}</p>
-                        </div>
-                        <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold flex-shrink-0">
-                            {isPerformance ? 'パフォーマンス' : '展示'}
-                        </span>
+            {/* Event header */}
+            <div className="mb-12">
+                <div className="flex items-start gap-4 mb-6">
+                    <h1 className="text-5xl font-bold tracking-tight text-balance flex-1">{event.name}</h1>
+                    <div>
+                        <p className="text-lg">{event.organization}</p>
                     </div>
+                    <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold flex-shrink-0">
+                        {isPerformance ? 'パフォーマンス' : '展示'}
+                    </span>
+                </div>
 
-                    <div className="p-8 space-y-6">
-                        {isPerformance && schedules && schedules.length > 0 && (
-                            <>
-                                <div>
-                                    <h3 className="font-bold text-lg mb-2">日時・場所</h3>
-                                    {(() => {
-                                        const times = schedules.map(s => s.info.map(info => `${info.startTime} - ${info.endTime}`).flat().join(', '))
-                                        const allSame = times.every(t => t === times[0])
-
-                                        if (allSame && festivalData.festival.days.length === schedules.length) {
-                                            return <p className="text-lg">{times[0]}</p>
-                                        }
-
-                                        return schedules.map(schedule => {
-                                            const day = festivalData.festival.days.find(d => d.id === schedule.dayId)
-                                            if (!day) return null
-                                            return (
-                                                <p className="text-lg" key={schedule.dayId}>
-                                                    <span className="font-bold">{day.name}: </span>
-                                                    {schedule.info.map((info, idx) =>
-                                                        (
-                                                            <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
-                                                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{info.location}</span>
-                                                            </span>))}
-                                                </p>
-                                            )
-                                        }).flat()
-                                    })()}
-                                </div>
-                            </>
-                        )}
-
-                        {!isPerformance && roomId && (
+                <div className="p-8 space-y-6">
+                    {isPerformance && schedules && schedules.length > 0 && (
+                        <>
                             <div>
-                                <h3 className="font-bold text-lg mb-2">場所</h3>
-                                <p className="text-lg">{roomId}</p>
-                                <p className="text-sm text-muted-foreground font-bold mt-1">常設展示</p>
-                            </div>
-                        )}
+                                <h3 className="font-bold text-lg mb-2">日時・場所</h3>
+                                {(() => {
+                                    const times = schedules.map(s => s.info.map(info => `${info.startTime} - ${info.endTime}`).flat().join(', '))
+                                    const allSame = times.every(t => t === times[0])
 
+                                    if (allSame && festivalData.festival.days.length === schedules.length) {
+                                        return <p className="text-lg">{times[0]}</p>
+                                    }
+
+                                    return schedules.map(schedule => {
+                                        const day = festivalData.festival.days.find(d => d.id === schedule.dayId)
+                                        if (!day) return null
+                                        return (
+                                            <p className="text-lg" key={schedule.dayId}>
+                                                <span className="font-bold">{day.name}: </span>
+                                                {schedule.info.map((info, idx) =>
+                                                    (
+                                                        <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
+                                                            {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{info.location}</span>
+                                                        </span>))}
+                                            </p>
+                                        )
+                                    }).flat()
+                                })()}
+                            </div>
+                        </>
+                    )}
+
+                    {!isPerformance && roomId && (
                         <div>
-                            <h3 className="font-bold text-lg mb-2">詳細</h3>
-                            <p className="text-lg text-muted-foreground leading-relaxed">{event.description}</p>
+                            <h3 className="font-bold text-lg mb-2">場所</h3>
+                            <p className="text-lg">{roomId}</p>
+                            <p className="text-sm text-muted-foreground font-bold mt-1">常設展示</p>
                         </div>
+                    )}
+
+                    <div>
+                        <h3 className="font-bold text-lg mb-2">詳細</h3>
+                        <p className="text-lg text-muted-foreground leading-relaxed">{event.description}</p>
                     </div>
                 </div>
+            </div>
 
-                {/* Navigation */}
-                <div className="flex gap-4">
+            {/* Navigation */}
+            <div className="flex gap-4">
+                <Link
+                    href="/map"
+                    className="flex-1 bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center"
+                >
+                    マップを見る
+                </Link>
+                {isPerformance && (
                     <Link
-                        href="/map"
-                        className="flex-1 bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center"
+                        href="/timetable"
+                        className="flex-1 bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
                     >
-                        マップを見る
+                        タイムテーブルを見る
                     </Link>
-                    {isPerformance && (
-                        <Link
-                            href="/timetable"
-                            className="flex-1 bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
-                        >
-                            タイムテーブルを見る
-                        </Link>
-                    )}
-                </div>
-            </main>
-
-            <Footer />
+                )}
+            </div>
         </div>
     )
 }

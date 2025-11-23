@@ -1,6 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
     title: "タイトル",
@@ -32,8 +34,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja">
-        <body className={`font-sans antialiased`}>
-        {children}
+        <body className={`font-sans antialiased flex flex-col min-h-screen`}>
+            <Header/>
+            <main className="w-full bg-background flex-grow px-8">
+                {children}
+            </main>
+            <Footer/>
         </body>
         </html>
     )

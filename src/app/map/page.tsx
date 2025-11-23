@@ -2,8 +2,6 @@
 
 import React, {useEffect, useRef, useState} from "react"
 import Link from "next/link"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
 import useMobile from "@/hooks/use-mobile"
@@ -49,7 +47,7 @@ export default function Map() {
 
     // 初期表示時にマップを中央に配置・拡大
     useEffect(() => {
-        if (!isMobile || !containerRef.current || !mapRef.current || isInitialized) return
+        if (!containerRef.current || !mapRef.current || isInitialized) return
 
         const container = containerRef.current
         const map = mapRef.current
@@ -83,7 +81,7 @@ export default function Map() {
             }
         }
 
-        if (isMobile && isDragging) {
+        if (isDragging) {
             window.addEventListener('mouseup', handleGlobalMouseUp)
             return () => window.removeEventListener('mouseup', handleGlobalMouseUp)
         }
@@ -120,8 +118,6 @@ export default function Map() {
 
     // マウスホイールでズーム（モバイルモード時）
     const handleWheel = (e: React.WheelEvent) => {
-        if (!isMobile) return
-
         const container = containerRef.current
         if (!container) return
 
@@ -150,7 +146,6 @@ export default function Map() {
 
     // マウスドラッグ（モバイルモード時）
     const handleMouseDown = (e: React.MouseEvent) => {
-        if (!isMobile) return
         e.preventDefault()
         setDragStart({
             x: e.clientX - position.x,
@@ -161,25 +156,24 @@ export default function Map() {
     }
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (!isMobile) {
-            // デスクトップモードのホバー処理
-            setMousePos({ x: e.clientX, y: e.clientY })
-            let element: Element | null = e.target as SVGElement
-            while (element && element !== (e.currentTarget as Element)) {
-                if (element.id && getExhibitionByRoomId(element.id)) {
-                    setHoveredRoomId(element.id)
-                    return
-                }
-                element = element.parentElement
-            }
-            setHoveredRoomId(null)
-            return
-        }
 
         if (e.buttons === 0) {
             setIsDragging(false)
             setHasMoved(false)
             setDragStart({ x: 0, y: 0 })
+            if (!isMobile) {
+                // デスクトップモードのホバー処理
+                setMousePos({ x: e.clientX, y: e.clientY })
+                let element: Element | null = e.target as SVGElement
+                while (element && element !== (e.currentTarget as Element)) {
+                    if (element.id && getExhibitionByRoomId(element.id)) {
+                        setHoveredRoomId(element.id)
+                        return
+                    }
+                    element = element.parentElement
+                }
+                setHoveredRoomId(null)
+            }
             return
         }
         // マウスダウン後の処理
@@ -219,7 +213,6 @@ export default function Map() {
             }
         }
 
-        if (!isMobile) return
         setIsDragging(false)
         setHasMoved(false)
         setDragStart({ x: 0, y: 0 })
@@ -227,8 +220,6 @@ export default function Map() {
 
     // タッチイベントハンドラー（モバイル用）
     const handleTouchStart = (e: React.TouchEvent) => {
-        if (!isMobile) return
-
         if (e.touches.length === 2) {
             // ピンチズーム開始
             const touch1 = e.touches[0]
@@ -309,8 +300,6 @@ export default function Map() {
     }
 
     const handleTouchMove = (e: React.TouchEvent) => {
-        if (!isMobile) return
-
         if (e.touches.length === 2 && lastTouchDistance.current !== null && lastTouchCenter.current && initialPinchScale.current !== null && initialPinchPosition.current !== null) {
             // ピンチズーム
             const touch1 = e.touches[0]
@@ -366,8 +355,6 @@ export default function Map() {
     }
 
     const handleTouchEnd = (e: React.TouchEvent) => {
-        if (!isMobile) return
-
         if (e.touches.length < 2) {
             lastTouchDistance.current = null
             lastTouchCenter.current = null
@@ -400,143 +387,129 @@ export default function Map() {
     const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
 
     return (
-        <div className="bg-background text-foreground">
-            <Header />
+        <div className="pt-28">
+            <div className="mb-12 pt-8 max-w-7xl mx-auto">
+                <h1 className="text-5xl font-bold mb-4 tracking-tight text-balance">校内マップ</h1>
+            </div>
 
-            <main className={isMobile ? "" : "pt-32 pb-24 px-8 max-w-7xl mx-auto"}>
-                <div className={isMobile ? "px-4 pt-24 pb-4" : "mb-12 pt-8"}>
-                    <h1 className={isMobile ? "text-3xl font-bold mb-2 tracking-tight" : "text-5xl font-bold mb-4 tracking-tight text-balance"}>
-                        校内マップ
-                    </h1>
-                </div>
-
+            <div
+                className={isMobile
+                    ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
+                    : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
+                }
+                ref={containerRef}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                onWheel={handleWheel}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={() => {
+                    setIsDragging(false)
+                    setHasMoved(false)
+                    if (!isMobile)
+                        setHoveredRoomId(null)
+                }}
+                style={{
+                    touchAction: 'none',
+                    cursor: !isMobile && hoveredRoomId && hoveredExhibition ? "pointer" : (isDragging ? 'grabbing' : 'default'),
+                }}
+            >
                 <div
-                    className={isMobile
-                        ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
-                        : "bg-card border border-accent-light p-8 mb-12 relative"
-                    }
-                    ref={containerRef}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                    onWheel={handleWheel}
-                    onMouseDown={handleMouseDown}
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={() => {
-                        if (isMobile) {
-                            setIsDragging(false)
-                            setHasMoved(false)
-                        } else {
-                            setHoveredRoomId(null)
-                        }
+                    ref={mapRef}
+                    className="w-full"
+                    style={{
+                        userSelect: 'none',
+                        transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                        transformOrigin: '0 0',
+                        transition: 'none'}}
+                >
+                    <MapSVG />
+                </div>
+            </div>
+
+            {!isMobile && hoveredRoomId && hoveredExhibition && (
+                <div
+                    className="fixed p-6 bg-card border border-accent-light z-50 pointer-events-none"
+                    style={{
+                        left: `${mousePos.x}px`,
+                        top: `${mousePos.y - 20}px`,
+                        transform: 'translate(-50%, -100%)',
                     }}
-                    style={isMobile ? {
-                        touchAction: 'none',
-                        cursor: isDragging ? 'grabbing' : 'default',
-                    } : undefined}
                 >
                     <div
-                        ref={mapRef}
-                        className="w-full"
-                        style={isMobile ? {
-                            userSelect: 'none',
-                            transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                            transformOrigin: '0 0',
-                            transition: 'none',
-                        } : {
-                            userSelect: 'none',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        <MapSVG />
-                    </div>
-                </div>
-
-                {!isMobile && hoveredRoomId && hoveredExhibition && (
-                    <div
-                        className="fixed p-6 bg-card border border-accent-light z-50 pointer-events-none"
+                        className="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-accent-light"
                         style={{
-                            left: `${mousePos.x}px`,
-                            top: `${mousePos.y - 20}px`,
-                            transform: 'translate(-50%, -100%)',
+                            bottom: '-8px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
                         }}
-                    >
-                        <div
-                            className="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-accent-light"
-                            style={{
-                                bottom: '-8px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                            }}
-                        ></div>
-                        <div
-                            className="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-card"
-                            style={{
-                                bottom: '-7px',
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                            }}
-                        ></div>
-                        <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{hoveredExhibition.name}</h3>
-                        <p className="text-muted-foreground whitespace-nowrap">{hoveredExhibition.description}</p>
-                    </div>
-                )}
-
-                {showPopup && selectedExhibition && isMobile && (
+                    ></div>
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4"
-                        onClick={(e) => {
-                            if (e.target === e.currentTarget) {
-                                setShowPopup(false)
-                                setSelectedRoomId(null)
-                            }
+                        className="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-card"
+                        style={{
+                            bottom: '-7px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
                         }}
-                        onTouchEnd={(e) => {
-                            e.stopPropagation()
-                        }}
+                    ></div>
+                    <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{hoveredExhibition.name}</h3>
+                    <p className="text-muted-foreground whitespace-nowrap">{hoveredExhibition.description}</p>
+                </div>
+            )}
+
+            {showPopup && selectedExhibition && isMobile && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                            setShowPopup(false)
+                            setSelectedRoomId(null)
+                        }
+                    }}
+                    onTouchEnd={(e) => {
+                        e.stopPropagation()
+                    }}
+                >
+                    <div
+                        className="bg-card border border-accent-light p-8 max-w-md w-full"
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        <div
-                            className="bg-card border border-accent-light p-8 max-w-md w-full"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <div className="flex justify-between items-start mb-6">
-                                <h2 className="text-2xl font-bold">{selectedExhibition.name}</h2>
-                                <button
-                                    onClick={() => {
-                                        setShowPopup(false)
-                                        setSelectedRoomId(null)
-                                    }}
-                                    className="text-2xl font-bold opacity-50 hover:opacity-100"
-                                >
-                                    ×
-                                </button>
-                            </div>
-
-                            <p className="text-muted-foreground mb-8">{selectedExhibition.description}</p>
-
-                            <Link
-                                href={`/event/${selectedExhibition.id}`}
-                                className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
-                            >
-                                詳細を見る
-                            </Link>
-
+                        <div className="flex justify-between items-start mb-6">
+                            <h2 className="text-2xl font-bold">{selectedExhibition.name}</h2>
                             <button
                                 onClick={() => {
                                     setShowPopup(false)
                                     setSelectedRoomId(null)
                                 }}
-                                className="w-full bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
+                                className="text-2xl font-bold opacity-50 hover:opacity-100"
                             >
-                                閉じる
+                                ×
                             </button>
                         </div>
-                    </div>
-                )}
-            </main>
 
-            <Footer />
+                        <p className="text-muted-foreground mb-8">{selectedExhibition.description}</p>
+
+                        <Link
+                            href={`/event/${selectedExhibition.id}`}
+                            className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
+                        >
+                            詳細を見る
+                        </Link>
+
+                        <button
+                            onClick={() => {
+                                setShowPopup(false)
+                                setSelectedRoomId(null)
+                            }}
+                            className="w-full bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
+                        >
+                            閉じる
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

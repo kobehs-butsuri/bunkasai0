@@ -6,7 +6,7 @@ interface HeroProps {
 
 export default function Hero({ scrollY }: HeroProps) {
     return (
-        <section className="relative w-full h-screen pt-20 flex flex-col items-center justify-center overflow-hidden bg-background">
+        <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-background">
             {/* Parallax layer - back */}
             <div
                 className="absolute inset-0 w-full h-full"

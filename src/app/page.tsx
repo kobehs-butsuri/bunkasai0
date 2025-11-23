@@ -1,9 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Header from "@/components/header"
 import Hero from "@/components/hero"
-import Footer from "@/components/footer"
 import ParallaxContainer from "@/components/parallax-container"
 import {AccessBanner} from "@/components/access";
 
@@ -20,15 +18,13 @@ export default function Home() {
     }, [])
 
     return (
-        <div className="w-full bg-background">
-            <Header />
+        <div>
             <ParallaxContainer offset={scrollY * 0.5}>
                 <Hero scrollY={scrollY} />
             </ParallaxContainer>
             <ParallaxContainer offset={scrollY * 0.5}>
                 <AccessBanner/>
             </ParallaxContainer>
-            <Footer />
         </div>
     )
 }
