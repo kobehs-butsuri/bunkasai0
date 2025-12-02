@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useEffect, useRef, useState} from "react"
+import React, {useCallback, useEffect, useRef, useState} from "react"
 import Link from "next/link"
 import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
@@ -22,8 +22,9 @@ export default function Map() {
     const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
     const isMobile = useMobile()
 
-    // モバイル用のズーム・パン状態
+    // ズーム・パン状態
     const [scale, setScale] = useState(1)
+    const [showScrollOverlay, setShowScrollOverlay] = useState(0)
     const [position, setPosition] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
@@ -40,9 +41,49 @@ export default function Map() {
 
     const exhibitions = festivalData.exhibitions as Exhibition[]
 
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const runTimeoutOnce = () => {
+        // 先に既存 timeout を止める
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        // 新しく登録
+        timeoutRef.current = setTimeout(() => {
+            setShowScrollOverlay(0);
+            timeoutRef.current = null;
+        }, 1500);
+    };
+
+
     // roomIdから展示情報を取得
-    const getExhibitionByRoomId = (roomId: string): Exhibition | undefined => {
+    const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
         return exhibitions.find(exh => exh.roomId === roomId)
+    }, [exhibitions])
+
+    // 位置を制限する関数
+    const constrainPosition = (x: number, y: number) => {
+        if (!containerRef.current || !mapRef.current) return { x, y }
+
+        const container = containerRef.current
+        const map = mapRef.current
+
+        const containerRect = container.getBoundingClientRect()
+        const mapRect = map.getBoundingClientRect()
+
+        // スケール適用後のマップサイズ
+        const mapWidth = mapRect.width
+        const mapHeight = mapRect.height
+
+        // 上下左右の端
+        const left = containerRect.width / 2
+        const top = containerRect.height / 2
+        const bottom = -mapHeight + containerRect.height / 2
+        const right = -mapWidth + containerRect.width / 2
+
+        const constrainedX = Math.max(right, Math.min(left, x))
+        const constrainedY = Math.max(bottom, Math.min(top, y))
+        return { x: constrainedX, y: constrainedY }
     }
 
     // 初期表示時にマップを中央に配置・拡大
@@ -87,24 +128,7 @@ export default function Map() {
         }
     }, [isMobile, isDragging])
 
-    // モバイルモードのマウスホイール操作に対する挙動調整
-    useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
-
-        const handler = (e: WheelEvent) => {
-            if (isMobile)
-                e.preventDefault();
-        };
-
-        el.addEventListener("wheel", handler, { passive: false });
-
-        return () => {
-            el.removeEventListener("wheel", handler);
-        };
-    }, [isMobile]);
-
-    const handleRoomClick = (roomId: string) => {
+    const handleRoomClick = useCallback((roomId: string) => {
         const exhibition = getExhibitionByRoomId(roomId)
         if (!exhibition) return
 
@@ -114,35 +138,47 @@ export default function Map() {
         } else {
             window.location.href = `/event/${exhibition.id}`
         }
-    }
+    }, [getExhibitionByRoomId, isMobile])
 
-    // マウスホイールでズーム（モバイルモード時）
-    const handleWheel = (e: React.WheelEvent) => {
+    // マウスホイールでズーム
+    useEffect(() => {
         const container = containerRef.current
         if (!container) return
 
-        const rect = container.getBoundingClientRect()
-        const mouseX = e.clientX - rect.left
-        const mouseY = e.clientY - rect.top
+        const handleWheel = (e: WheelEvent) => {
+            if (!e.ctrlKey && !e.metaKey) {
+                setShowScrollOverlay(1)
+                runTimeoutOnce()
+                return
+            }
 
-        // ズーム前のマウス位置（変換座標系での位置）
-        const beforeX = (mouseX - position.x) / scale
-        const beforeY = (mouseY - position.y) / scale
+            e.preventDefault()
 
-        // ズーム
-        const delta = e.deltaY > 0 ? 0.9 : 1.1
-        const newScale = Math.max(0.5, Math.min(4, scale * delta))
+            const rect = container.getBoundingClientRect()
+            const mouseX = e.clientX - rect.left
+            const mouseY = e.clientY - rect.top
 
-        // ズーム後のマウス位置が同じ場所を指すように位置を調整
-        const newX = mouseX - beforeX * newScale
-        const newY = mouseY - beforeY * newScale
+            const beforeX = (mouseX - position.x) / scale
+            const beforeY = (mouseY - position.y) / scale
 
-        // 位置を制限
-        const constrained = constrainPosition(newX, newY)
+            const delta = e.deltaY > 0 ? 0.9 : 1.1
+            const newScale = Math.max(0.5, Math.min(4, scale * delta))
 
-        setScale(newScale)
-        setPosition(constrained)
-    }
+            const newX = mouseX - beforeX * newScale
+            const newY = mouseY - beforeY * newScale
+
+            const constrained = constrainPosition(newX, newY)
+
+            setScale(newScale)
+            setPosition(constrained)
+        }
+
+        container.addEventListener('wheel', handleWheel, { passive: false })
+
+        return () => {
+            container.removeEventListener('wheel', handleWheel)
+        }
+    }, [scale, position]) // 依存配列に必要な値を追加
 
     // マウスドラッグ（モバイルモード時）
     const handleMouseDown = (e: React.MouseEvent) => {
@@ -218,170 +254,182 @@ export default function Map() {
         setDragStart({ x: 0, y: 0 })
     }
 
-    // タッチイベントハンドラー（モバイル用）
-    const handleTouchStart = (e: React.TouchEvent) => {
-        if (e.touches.length === 2) {
-            // ピンチズーム開始
-            const touch1 = e.touches[0]
-            const touch2 = e.touches[1]
-            lastTouchDistance.current = Math.hypot(
-                touch2.clientX - touch1.clientX,
-                touch2.clientY - touch1.clientY
-            )
-
-            const container = containerRef.current
-            if (!container) return
-            const rect = container.getBoundingClientRect()
-
-            // 2本指の中心点（コンテナ内の相対座標）
-            const centerX = (touch1.clientX + touch2.clientX) / 2 - rect.left
-            const centerY = (touch1.clientY + touch2.clientY) / 2 - rect.top
-            lastTouchCenter.current = { x: centerX, y: centerY }
-
-            // ピンチ開始時の状態を保存
-            initialPinchScale.current = scale
-            initialPinchPosition.current = { x: position.x, y: position.y }
-
-            // ドラッグ状態をリセット
-            setIsDragging(false)
-            setHasMoved(false)
-            setDragStart({ x: 0, y: 0 })
-        } else if (e.touches.length === 1) {
-            // ドラッグ開始準備
-            setDragStart({
-                x: e.touches[0].clientX - position.x,
-                y: e.touches[0].clientY - position.y,
-            })
-            setTouchStartPos({
-                x: e.touches[0].clientX,
-                y: e.touches[0].clientY
-            })
-            setHasMoved(false)
-            setPossibleToDrag(true)
-        }
-    }
-
-    // 位置を制限する関数
-    const constrainPosition = (x: number, y: number) => {
-        if (!containerRef.current || !mapRef.current) return { x, y }
-
+    useEffect(() => {
         const container = containerRef.current
-        const map = mapRef.current
+        if (!container) return
 
-        const containerRect = container.getBoundingClientRect()
-        const mapRect = map.getBoundingClientRect()
+        // 移動平均用の履歴
+        let centerHistory: Array<{ x: number; y: number }> = []
+        const HISTORY_SIZE = 10
 
-        // スケール適用後のマップサイズ
-        const mapWidth = mapRect.width
-        const mapHeight = mapRect.height
+        const handleTouchStart = (e: TouchEvent) => {
+            if (e.touches.length === 1 || e.touches.length === 2) {
+                // ドラッグ開始準備
+                setDragStart({
+                    x: e.touches[0].clientX - position.x,
+                    y: e.touches[0].clientY - position.y,
+                })
+                setTouchStartPos({
+                    x: e.touches[0].clientX,
+                    y: e.touches[0].clientY
+                })
+                setIsDragging(false)
+                setHasMoved(false)
+                setPossibleToDrag(true)
 
-        // 上下左右の端
-        const left = containerRect.width / 2
-        const top = containerRect.height / 2
-        const bottom = -mapHeight + containerRect.width / 2
-        const right = -mapWidth + containerRect.width / 2
+                if (e.touches.length === 1) return
+                // ピンチズーム開始
+                const touch1 = e.touches[0]
+                const touch2 = e.touches[1]
+                lastTouchDistance.current = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                )
 
-        // マップがコンテナより小さい場合は中央に配置、大きい場合は制限
-        let constrainedX: number
-        let constrainedY: number
+                const rect = container.getBoundingClientRect()
 
-        if (mapWidth <= containerRect.width) {
-            constrainedX = (containerRect.width - mapWidth) / 2
-        } else {
-            constrainedX = Math.max(right, Math.min(left, x))
+                // 2本指の中心点（コンテナ内の相対座標）
+                const centerX = (touch1.clientX + touch2.clientX) / 2 - rect.left
+                const centerY = (touch1.clientY + touch2.clientY) / 2 - rect.top
+                lastTouchCenter.current = {x: centerX, y: centerY}
+
+                // 履歴を初期化
+                centerHistory = [{x: centerX, y: centerY}]
+
+                // ピンチ開始時の状態を保存
+                initialPinchScale.current = scale
+                initialPinchPosition.current = {x: position.x, y: position.y}
+            }
         }
 
-        if (mapHeight <= containerRect.height) {
-            constrainedY = (containerRect.height - mapHeight) / 2
-        } else {
-            constrainedY = Math.max(bottom, Math.min(top, y))
-        }
-        return { x: constrainedX, y: constrainedY }
-    }
+        const handleTouchMove = (e: TouchEvent) => {
+            if (e.touches.length === 2 && lastTouchDistance.current !== null && lastTouchCenter.current && initialPinchScale.current !== null && initialPinchPosition.current !== null) {
+                // ピンチズーム + パン
+                const touch1 = e.touches[0]
+                const touch2 = e.touches[1]
+                const distance = Math.hypot(
+                    touch2.clientX - touch1.clientX,
+                    touch2.clientY - touch1.clientY
+                )
 
-    const handleTouchMove = (e: React.TouchEvent) => {
-        if (e.touches.length === 2 && lastTouchDistance.current !== null && lastTouchCenter.current && initialPinchScale.current !== null && initialPinchPosition.current !== null) {
-            // ピンチズーム
-            const touch1 = e.touches[0]
-            const touch2 = e.touches[1]
-            const distance = Math.hypot(
-                touch2.clientX - touch1.clientX,
-                touch2.clientY - touch1.clientY
-            )
+                const rect = container.getBoundingClientRect()
 
-            const container = containerRef.current
-            if (!container) return
+                // 現在の2本指の中心点
+                const currentCenterX = (touch1.clientX + touch2.clientX) / 2 - rect.left
+                const currentCenterY = (touch1.clientY + touch2.clientY) / 2 - rect.top
 
-            // ズーム中心は最初にタッチした位置を維持
-            const centerX = lastTouchCenter.current.x
-            const centerY = lastTouchCenter.current.y
-
-            // ズーム比率を計算（初期距離からの累積比率）
-            const scaleRatio = distance / lastTouchDistance.current
-            const newScale = Math.max(0.5, Math.min(4, initialPinchScale.current * scaleRatio))
-
-            // ズーム前の位置（ピンチ開始時の状態を基準）
-            const beforeX = (centerX - initialPinchPosition.current.x) / initialPinchScale.current
-            const beforeY = (centerY - initialPinchPosition.current.y) / initialPinchScale.current
-
-            // ズーム後の位置調整
-            const newX = centerX - beforeX * newScale
-            const newY = centerY - beforeY * newScale
-
-            // 位置を制限
-            const constrained = constrainPosition(newX, newY)
-
-            setScale(newScale)
-            setPosition(constrained)
-        } else if (e.touches.length === 1 && (dragStart.x !== 0 || dragStart.y !== 0 || isDragging)) {
-            // ドラッグ
-            const moveDistance = Math.hypot(
-                e.touches[0].clientX - touchStartPos.x,
-                e.touches[0].clientY - touchStartPos.y
-            )
-            if (moveDistance > 5) {
-                if (!isDragging) {
-                    setIsDragging(true)
+                // 履歴に追加
+                centerHistory.push({ x: currentCenterX, y: currentCenterY })
+                if (centerHistory.length > HISTORY_SIZE) {
+                    centerHistory.shift()
                 }
-                setHasMoved(true)
-                const newX = e.touches[0].clientX - dragStart.x
-                const newY = e.touches[0].clientY - dragStart.y
+
+                // 移動平均を計算
+                const avgCenterX = centerHistory.reduce((sum, c) => sum + c.x, 0) / centerHistory.length
+                const avgCenterY = centerHistory.reduce((sum, c) => sum + c.y, 0) / centerHistory.length
+
+                // ズーム比率を計算
+                const scaleRatio = distance / lastTouchDistance.current
+                const newScale = Math.max(0.5, Math.min(4, initialPinchScale.current * scaleRatio))
+
+                // 中心点の移動量（移動平均を使用）
+                const centerDeltaX = avgCenterX - lastTouchCenter.current.x
+                const centerDeltaY = avgCenterY - lastTouchCenter.current.y
+
+                // ズーム前の位置（ピンチ開始時の状態を基準）
+                const beforeX = (lastTouchCenter.current.x - initialPinchPosition.current.x) / initialPinchScale.current
+                const beforeY = (lastTouchCenter.current.y - initialPinchPosition.current.y) / initialPinchScale.current
+
+                // ズーム後の位置調整 + パン移動
+                const newX = lastTouchCenter.current.x - beforeX * newScale + centerDeltaX
+                const newY = lastTouchCenter.current.y - beforeY * newScale + centerDeltaY
 
                 // 位置を制限
                 const constrained = constrainPosition(newX, newY)
+
+                setIsDragging(true)
+                setScale(newScale)
                 setPosition(constrained)
-            }
-        }
-    }
-
-    const handleTouchEnd = (e: React.TouchEvent) => {
-        if (e.touches.length < 2) {
-            lastTouchDistance.current = null
-            lastTouchCenter.current = null
-            initialPinchScale.current = null
-            initialPinchPosition.current = null
-            setPossibleToDrag(false)
-        }
-
-        if (e.touches.length === 0) {
-            if (!hasMoved && possibleToDrag) {
-                const touch = e.changedTouches[0]
-                let current: Element | null = document.elementFromPoint(touch.clientX, touch.clientY)
-                while (current && current !== containerRef.current) {
-                    if (current.id && getExhibitionByRoomId(current.id)) {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        handleRoomClick(current.id)
-                        break
+                e.preventDefault();
+            } else if (e.touches.length === 1 && (dragStart.x !== 0 || dragStart.y !== 0 || isDragging)) {
+                // ドラッグ
+                const moveDistance = Math.hypot(
+                    e.touches[0].clientX - touchStartPos.x,
+                    e.touches[0].clientY - touchStartPos.y
+                )
+                if (moveDistance > 5) {
+                    if (!isDragging) {
+                        setShowScrollOverlay(2)
+                        runTimeoutOnce();
+                        return
                     }
-                    current = current.parentElement
+                    setHasMoved(true)
+                    const newX = e.touches[0].clientX - dragStart.x
+                    const newY = e.touches[0].clientY - dragStart.y
+
+                    // 位置を制限
+                    const constrained = constrainPosition(newX, newY)
+                    setPosition(constrained)
                 }
             }
-            setIsDragging(false)
-            setHasMoved(false)
-            setDragStart({ x: 0, y: 0 })
         }
-    }
+
+        const handleTouchEnd = (e: TouchEvent) => {
+            if (e.touches.length < 2) {
+                lastTouchDistance.current = null
+                lastTouchCenter.current = null
+                initialPinchScale.current = null
+                initialPinchPosition.current = null
+                centerHistory = []
+
+                if (e.touches.length === 1) {
+                    setDragStart({
+                        x: e.touches[0].clientX - position.x,
+                        y: e.touches[0].clientY - position.y,
+                    })
+                    setTouchStartPos({
+                        x: e.touches[0].clientX,
+                        y: e.touches[0].clientY
+                    })
+                    setIsDragging(true)
+                    setHasMoved(true)
+                    setPossibleToDrag(true)
+                } else {
+                    setPossibleToDrag(false)
+                }
+            }
+
+            if (e.touches.length === 0) {
+                if (!hasMoved && possibleToDrag) {
+                    const touch = e.changedTouches[0]
+                    let current: Element | null = document.elementFromPoint(touch.clientX, touch.clientY)
+                    while (current && current !== containerRef.current) {
+                        if (current.id && getExhibitionByRoomId(current.id)) {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            handleRoomClick(current.id)
+                            break
+                        }
+                        current = current.parentElement
+                    }
+                }
+                setIsDragging(false)
+                setHasMoved(false)
+                setDragStart({ x: 0, y: 0 })
+                setPossibleToDrag(false)
+            }
+        }
+
+        container.addEventListener('touchstart', handleTouchStart, { passive: false })
+        container.addEventListener('touchmove', handleTouchMove, { passive: false })
+        container.addEventListener('touchend', handleTouchEnd, { passive: false })
+
+        return () => {
+            container.removeEventListener('touchstart', handleTouchStart)
+            container.removeEventListener('touchmove', handleTouchMove)
+            container.removeEventListener('touchend', handleTouchEnd)
+        }
+    }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick])
 
     const selectedExhibition = selectedRoomId ? getExhibitionByRoomId(selectedRoomId) : null
     const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
@@ -394,14 +442,10 @@ export default function Map() {
 
             <div
                 className={isMobile
-                    ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
-                    : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
+                    ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light mb-16"
+                    : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light mb-16"
                 }
                 ref={containerRef}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-                onWheel={handleWheel}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
@@ -412,10 +456,37 @@ export default function Map() {
                         setHoveredRoomId(null)
                 }}
                 style={{
-                    touchAction: 'none',
+                    touchAction: isDragging ? 'none' : 'pan-x pan-y',
                     cursor: !isMobile && hoveredRoomId && hoveredExhibition ? "pointer" : (isDragging ? 'grabbing' : 'default'),
                 }}
             >
+                <div className="absolute inset-0 bg-background/[.75] bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
+                     style={{
+                         opacity: showScrollOverlay === 0 ? 0 : 1,
+                     }}>
+                    <div className="flex items-center gap-3">
+                        {
+                            showScrollOverlay === 1 && (
+                                <>
+                                    <span className="font-medium">Zoom: </span>
+                                    <kbd className="px-3 py-2 border-2 bg-border rounded font-mono text-sm font-semibold">Ctrl</kbd>
+                                    <span className="text-lg">+</span>
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    </svg>
+                                </>
+                            )
+                        }
+                        {
+                            showScrollOverlay === 2 && (
+                                <>
+                                    <span className="font-medium">Zoom and Pan: </span>
+                                    <span className="text-lg">Use 2 fingers</span>
+                                </>
+                            )
+                        }
+                    </div>
+                </div>
                 <div
                     ref={mapRef}
                     className="w-full"
