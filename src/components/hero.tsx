@@ -1,5 +1,8 @@
 "use client"
 
+import Logo from "@/components/logo";
+import Link from "next/link";
+
 interface HeroProps {
     scrollY: number
 }
@@ -27,44 +30,41 @@ export default function Hero({ scrollY }: HeroProps) {
 
             {/* Content */}
             <div className="relative z-10 text-center max-w-4xl mx-auto px-8">
-                <div className="mb-8">
-                    <span className="text-sm font-medium tracking-widest text-primary uppercase">文化祭2026</span>
-                </div>
-
                 <h1
                     className="text-6xl md:text-8xl font-bold text-foreground mb-6 tracking-tighter"
                     style={{ letterSpacing: "-0.02em" }}
                 >
-          <span
-              style={{
-                  transform: `translateY(${scrollY * -0.1}px)`,
-                  display: "block",
-                  transition: "transform 0.1s ease-out",
-              }}
-          >
-            スローガンロゴ
-          </span>
+                  <span
+                      style={{
+                          transform: `translateY(${scrollY * -0.05}px)`,
+                          display: "block",
+                      }}
+                  >
+                    <Logo size={60} />
+                  </span>
                 </h1>
 
                 <p className="text-lg md:text-xl text-accent-dark leading-relaxed mb-12 max-w-2xl mx-auto">
-                    説明文
+                    創立記念祭
                 </p>
 
-                <button
-                    className="relative px-12 py-4 bg-primary text-background font-medium uppercase tracking-wider hover:scale-105 transition-transform"
-                    style={{
-                        clipPath: "polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))",
-                    }}
-                >
-                    プログラムを見る
-                </button>
+                <Link href="/event">
+                    <button
+                        className="relative px-12 py-4 bg-primary text-background font-medium uppercase tracking-wider hover:scale-105 transition-transform"
+                        style={{
+                            clipPath: "polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px))",
+                        }}
+                    >
+                        プログラムを見る
+                    </button>
+                </Link>
             </div>
 
             {/* Parallax layer - front */}
             <div
                 className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{
-                    transform: `translateY(${scrollY * 0.7}px)`,
+                    transform: `translateY(${scrollY * 0.2}px)`,
                 }}
             >
                 <div
