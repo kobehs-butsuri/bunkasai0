@@ -33,7 +33,7 @@ export function AccessBanner() {
     }, [])
 
     return (
-        <div className="bg-accent/25 pl-5 pr-5 m-20">
+        <div className="bg-accent/25 pl-5 pr-5 md:m-20">
         <div className="w-full">
             {/* Location Information */}
             {useMobile() && (

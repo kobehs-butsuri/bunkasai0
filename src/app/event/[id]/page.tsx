@@ -1,15 +1,34 @@
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
 import {Performance, Exhibition, UnifiedEvent} from "@/data/types";
+import {Metadata} from "next";
+import {notFound} from "next/navigation";
 
 interface EventDetailPageProps {
     params: Promise<{ id: string }>
 }
 
+export async function generateMetadata({ params }: EventDetailPageProps):Promise<Metadata> {
+    const { id } = await params
 
-export async function generateStaticParams(): Promise<{ id: string }[]> {
+    const performance = festivalData.performances.find((p) => p.id === id)
+    if (performance) {
+        return {
+            title: `${performance.name} (舞台)`,
+        }
+    } else {
+        const exhibition = festivalData.exhibitions.find((e) => e.id === id)
+        if (exhibition) {
+            return {
+                title: `${exhibition.name} (展示)`,
+            }
+        }
+    }
+    return {}
+}
+
+
+export const generateStaticParams = () =>{
     const performances = festivalData.performances.map((p) => ({ id: p.id }))
     const exhibitions = festivalData.exhibitions.map((e) => ({ id: e.id }))
     return [...performances, ...exhibitions]
@@ -32,18 +51,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     }
 
     if (!event) {
-        return (
-            <div className="bg-background text-foreground">
-                <Header />
-                <main className="pt-32 pb-24 px-8 max-w-7xl mx-auto">
-                    <h1 className="text-5xl font-bold mb-4">イベントが見つかりません</h1>
-                    <Link href="/event" className="text-primary underline">
-                        イベント一覧に戻る
-                    </Link>
-                </main>
-                <Footer />
-            </div>
-        )
+        return notFound()
     }
 
     const isPerformance = event.category === 'performance'

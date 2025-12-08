@@ -3,11 +3,21 @@ import type { Metadata } from "next"
 import "./globals.css"
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import {PageTitleProvider} from "@/hooks/page-title-context"
+import Heading from "@/components/heading";
+import { Noto_Sans_JP } from "next/font/google";
+
+const noto = Noto_Sans_JP({
+    weight: ["400", "700"],
+    style: "normal",
+    subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-    title: "タイトル",
-    description: "説明文",
-    generator: "v0.app",
+    title: {
+        default: 'B0th',
+        template: '%s | B0th',
+    },
     icons: {
         icon: [
             {
@@ -34,12 +44,15 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja">
-        <body className={`font-sans antialiased flex flex-col min-h-screen`}>
-            <Header/>
-            <main className="w-full bg-background flex-grow px-8">
-                {children}
-            </main>
-            <Footer/>
+        <body className={`font-sans antialiased flex flex-col min-h-screen ${noto.className}`}>
+            <PageTitleProvider>
+                <Header/>
+                <main className="w-full bg-background flex-grow px-8">
+                    <Heading />
+                    {children}
+                </main>
+                <Footer/>
+            </PageTitleProvider>
         </body>
         </html>
     )

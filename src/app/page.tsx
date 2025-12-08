@@ -19,10 +19,10 @@ export default function Home() {
 
     return (
         <div>
-            <ParallaxContainer offset={scrollY * 0.5}>
+            <ParallaxContainer offset={scrollY * 0.1}>
                 <Hero scrollY={scrollY} />
             </ParallaxContainer>
-            <ParallaxContainer offset={scrollY * 0.5}>
+            <ParallaxContainer offset={scrollY * 0.1}>
                 <AccessBanner/>
             </ParallaxContainer>
         </div>
