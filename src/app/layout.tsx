@@ -6,6 +6,7 @@ import Footer from "@/components/footer";
 import {PageTitleProvider} from "@/hooks/page-title-context"
 import Heading from "@/components/heading";
 import { Noto_Sans_JP } from "next/font/google";
+import {Toolbar} from "@/components/tool-bar";
 
 const noto = Noto_Sans_JP({
     weight: ["400", "700"],
@@ -47,12 +48,15 @@ export default function RootLayout({
         <body className={`font-sans antialiased flex flex-col min-h-screen ${noto.className}`}>
             <PageTitleProvider>
                 <Header/>
-                <main className="w-full bg-background flex-grow px-8">
+                <main className="w-full bg-background flex-grow px-8 mb-16">
                     <Heading />
                     {children}
                 </main>
                 <Footer/>
             </PageTitleProvider>
+            <div className="z-10">
+                <Toolbar/>
+            </div>
         </body>
         </html>
     )

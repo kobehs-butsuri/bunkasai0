@@ -1,39 +1,34 @@
 {
   "news": [
     {
-      "id": "news-001",
-      "title": "文化祭のテーマが決定しました",
-      "date": "2025年11月1日",
-      "category": "お知らせ",
-      "content": "今年の文化祭のテーマは『創造と表現の場』に決定いたしました。各部活動による素晴らしいパフォーマンスと展示をお楽しみください。"
+      "title": "ニュースA",
+      "date": "2026-01-01",
+      "category": "カテゴリー1",
+      "content": "<p>AAAAAAAAA<strong>AAAAAAAAA</strong>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p><p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>"
     },
     {
-      "id": "news-002",
-      "title": "食物バザーの出店一覧が公開されました",
-      "date": "2025年11月5日",
-      "category": "イベント情報",
-      "content": "今年も各学年による食物バザーが開催されます。焼きそば、たこ焼き、かき氷など、様々な料理が用意されています。"
+      "title": "ニュースB",
+      "date": "2026-04-01",
+      "category": "カテゴリー2",
+      "content": "<p>BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB</p><ul><li>BBBBB</li><li>BBBBBB</li><li>BBBBBBB</li><li>BBBB</li><li>BBB</li></ul><p>BBBBBBBBBBBBBBBBBBB</p>"
     },
     {
-      "id": "news-003",
-      "title": "チケット販売開始のお知らせ",
-      "date": "2025年11月8日",
-      "category": "お知らせ",
-      "content": "前売りチケットの販売が開始されました。先着順となっており、お早めのご購入をお勧めします。"
+      "title": "ニュースC",
+      "date": "2026-04-01",
+      "category": "カテゴリー1",
+      "content": "<p>CCCCCCCCCCCCCCCCCCC</p><p><strong>CCCCCCCC</strong>CCCCCCCCCCCC</p><p>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</p>"
     },
     {
-      "id": "news-004",
-      "title": "体育館ステージプログラムが確定しました",
-      "date": "2025年11月10日",
-      "category": "イベント情報",
-      "content": "体育館メインステージのプログラムが確定いたしました。オーケストラ演奏、ダンスパフォーマンス、ファッションショーなど、盛りだくさんの内容となっています。"
+      "title": "ニュースD",
+      "date": "2026-04-01",
+      "category": "カテゴリー2",
+      "content": "<p>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</p><ol><li>DDDDDDDDDDDDDDDDDDDDD</li><li>DDDDDDDDDDDDDDDDD</li><li>DDDDDDDDDDDDDDDDDDDDDD</li><li>DDDDD</li><li>DDDDDDDDDDD</li></ol><p>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</p>"
     },
     {
-      "id": "news-005",
-      "title": "アクセス情報・駐車場についての更新",
-      "date": "2025年11月12日",
-      "category": "お知らせ",
-      "content": "文化祭当日のアクセス情報と駐車場情報を更新いたしました。詳細はアクセスページをご参照ください。"
+      "title": "ニュースE",
+      "date": "2026-04-15",
+      "category": "カテゴリー1",
+      "content": "<p>EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE<strong>EEEEE</strong>EEEEEEEEEEE</p><p>EEEEEEEEEEEEEEEEEEEE</p>"
     }
   ]
 }

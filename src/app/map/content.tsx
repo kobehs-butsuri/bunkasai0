@@ -441,8 +441,8 @@ export default function Map() {
         <div>
             <div
                 className={isMobile
-                    ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light mb-16"
-                    : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light mb-16"
+                    ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
+                    : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
                 }
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
