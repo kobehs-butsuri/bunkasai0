@@ -2,7 +2,7 @@
 
 import {useState, useMemo, useEffect} from "react"
 import newsData from "@/data/news.json"
-import {X} from "lucide-react";
+import { X } from 'lucide-react';
 import {useSetPageTitle} from "@/hooks/page-title-context";
 
 interface News {
@@ -26,17 +26,82 @@ export default function NewsPage() {
 
     const newsWithId = useMemo(
         () =>
-            (newsData.news as News[]).map((item, index) => ({
-                ...item,
-                id: `news-${String(index + 1).padStart(3, "0")}`,
-                formattedDate: formatDate(item.date),
-            })),
+            (newsData.news as News[])
+                .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                .map((item, index) => ({
+                    ...item,
+                    id: `news-${String(index + 1).padStart(3, "0")}`,
+                    formattedDate: formatDate(item.date),
+                }))
+                .reverse(),
         [],
     )
 
-    const [selectedId, setSelectedId] = useState<string | null>(newsWithId[0]?.id || null)
-    const selectedNews = newsWithId.find((item) => item.id === selectedId)
+    const [selectedId, setSelectedId] = useState<string | null>(null)
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768) // md breakpoint
+        }
+
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const hash = window.location.hash.slice(1)
+
+            if (hash) {
+                const validNews = newsWithId.find(item => item.id === hash)
+                if (validNews) {
+                    setSelectedId(hash)
+                    if (isMobile) {
+                        setIsDrawerOpen(true)
+                    }
+                } else if (!isMobile) {
+                    const latestId = newsWithId[0]?.id || null
+                    setSelectedId(latestId)
+                    if (latestId) {
+                        window.history.replaceState(null, '', `#${latestId}`)
+                    }
+                }
+            } else if (!isMobile) {
+                const latestId = newsWithId[0]?.id || null
+                setSelectedId(latestId)
+                if (latestId) {
+                    window.history.replaceState(null, '', `#${latestId}`)
+                }
+            }
+        }
+
+        handleHashChange()
+        window.addEventListener('hashchange', handleHashChange)
+        return () => window.removeEventListener('hashchange', handleHashChange)
+    }, [newsWithId, isMobile])
+
+    const handleSelectNews = (id: string) => {
+        setSelectedId(id)
+    }
+
+    useEffect(() => {
+        if (selectedId && !isMobile) {
+            window.history.replaceState(null, '', `#${selectedId}`)
+        }
+    }, [selectedId, isMobile])
+
+    useEffect(() => {
+        if (isMobile && isDrawerOpen && selectedId) {
+            window.history.replaceState(null, '', `#${selectedId}`)
+        } else if (isMobile && !isDrawerOpen) {
+            window.history.replaceState(null, '', window.location.pathname)
+        }
+    }, [isDrawerOpen, selectedId, isMobile])
+
+    const selectedNews = newsWithId.find((item) => item.id === selectedId)
 
     useEffect(() => {
         if (isDrawerOpen) {
@@ -60,7 +125,7 @@ export default function NewsPage() {
                         {newsWithId.map((item) => (
                             <button
                                 key={item.id}
-                                onClick={() => setSelectedId(item.id)}
+                                onClick={() => handleSelectNews(item.id)}
                                 className={`w-full text-left p-4 border transition-all ${
                                     selectedId === item.id
                                         ? "bg-primary text-primary-foreground border-primary"
@@ -84,7 +149,7 @@ export default function NewsPage() {
                                     <h1 className="text-3xl font-bold mb-4 text-balance">{selectedNews.title}</h1>
                                     <div className="flex items-center gap-4">
                                         <span className="text-sm text-muted-foreground">{selectedNews.formattedDate}</span>
-                                        <span className="inline-block bg-primary text-primary-foreground px-3 py-1 text-xs font-bold">
+                                        <span className="inline-block text-background bg-accent-dark px-3 py-1 text-xs font-bold">
                                           {selectedNews.category}
                                         </span>
                                     </div>
@@ -103,7 +168,7 @@ export default function NewsPage() {
                         <button
                             key={item.id}
                             onClick={() => {
-                                setSelectedId(item.id)
+                                handleSelectNews(item.id)
                                 setIsDrawerOpen(true)
                             }}
                             className="w-full text-left p-4 bg-card border border-accent-light hover:border-primary transition-all"
@@ -111,7 +176,7 @@ export default function NewsPage() {
                             <div className="flex flex-col gap-2">
                                 <p className="text-xs font-bold opacity-75">{item.formattedDate}</p>
                                 <h3 className="font-bold line-clamp-2">{item.title}</h3>
-                                <span className="text-xs inline-block bg-accent px-2 py-1 w-fit">{item.category}</span>
+                                <span className="text-xs text-background inline-block bg-accent-dark px-2 py-1 w-fit">{item.category}</span>
                             </div>
                         </button>
                     ))}
@@ -119,18 +184,18 @@ export default function NewsPage() {
             </div>
 
             {/* Mobile Drawer */}
-            {selectedNews && (
+            {isMobile && selectedNews && (
                 <>
                     <div
                         className={`fixed inset-0 bg-black/50 z-40 transition-all duration-300 ease-out ${
                             isDrawerOpen
-                            ? 'opacity-100'
-                            : 'opacity-0 pointer-events-none'}`}
+                                ? 'opacity-100'
+                                : 'opacity-0 pointer-events-none'}`}
                         onClick={() => setIsDrawerOpen(false)}
                     />
 
                     <div className={`fixed bottom-0 left-0 right-0 bg-background border-t border-accent-light p-6 z-50 max-h-[80vh] w-full overflow-y-auto
-                     transition-all duration-300 ease-out ${
+                     transition-all duration-300 ease-out rounded-tl-2xl rounded-tr-2xl ${
                         isDrawerOpen
                             ? 'translate-y-0 opacity-100'
                             : 'translate-y-full opacity-0 pointer-events-none'}`}
