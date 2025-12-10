@@ -6,6 +6,7 @@ import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
 import useMobile from "@/hooks/use-mobile"
 import {useSetPageTitle} from "@/hooks/page-title-context";
+import {Maximize, Minimize} from "lucide-react";
 
 interface Exhibition {
     id: string
@@ -25,7 +26,8 @@ export default function Map() {
     const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
     const isMobile = useMobile()
 
-    // ズーム・パン状態
+    const [isFullscreen, setIsFullscreen] = useState(false)
+
     const [scale, setScale] = useState(1)
     const [showScrollOverlay, setShowScrollOverlay] = useState(0)
     const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -41,30 +43,26 @@ export default function Map() {
     const initialPinchScale = useRef<number | null>(null)
     const initialPinchPosition = useRef<{ x: number; y: number } | null>(null)
     const [isInitialized, setIsInitialized] = useState(false)
+    const [isScreenModeChanged, setIsScreenModeChanged] = useState(false)
 
     const exhibitions = festivalData.exhibitions as Exhibition[]
 
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const runTimeoutOnce = () => {
-        // 先に既存 timeout を止める
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
 
-        // 新しく登録
         timeoutRef.current = setTimeout(() => {
             setShowScrollOverlay(0);
             timeoutRef.current = null;
         }, 1500);
     };
 
-
-    // roomIdから展示情報を取得
     const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
         return exhibitions.find(exh => exh.roomId === roomId)
     }, [exhibitions])
 
-    // 位置を制限する関数
     const constrainPosition = (x: number, y: number) => {
         if (!containerRef.current || !mapRef.current) return { x, y }
 
@@ -74,11 +72,9 @@ export default function Map() {
         const containerRect = container.getBoundingClientRect()
         const mapRect = map.getBoundingClientRect()
 
-        // スケール適用後のマップサイズ
         const mapWidth = mapRect.width
         const mapHeight = mapRect.height
 
-        // 上下左右の端
         const left = containerRect.width / 2
         const top = containerRect.height / 2
         const bottom = -mapHeight + containerRect.height / 2
@@ -89,9 +85,9 @@ export default function Map() {
         return { x: constrainedX, y: constrainedY }
     }
 
-    // 初期表示時にマップを中央に配置・拡大
     useEffect(() => {
-        if (!containerRef.current || !mapRef.current || isInitialized) return
+        constrainPosition(0, 0)
+        if (!containerRef.current || !mapRef.current || isInitialized || isScreenModeChanged) return
 
         const container = containerRef.current
         const map = mapRef.current
@@ -99,23 +95,37 @@ export default function Map() {
         const mapRect = map.getBoundingClientRect()
         const containerRect = container.getBoundingClientRect()
 
-        // 縦横比を計算して、小さい方に合わせる
-        const scaleX = containerRect.width / mapRect.width
-        const scaleY = containerRect.height / mapRect.height
-        const initialScale = Math.min(scaleX, scaleY) * 0.95 // 少し余白を持たせる
+        const scaledWidth = containerRect.width * scale
+        const scaledHeight = containerRect.height * scale
 
-        // 中央に配置
-        const scaledWidth = mapRect.width * initialScale
-        const scaledHeight = mapRect.height * initialScale
-        const centerX = (containerRect.width - scaledWidth) / 2
-        const centerY = (containerRect.height - scaledHeight) / 2
+        const scaleX = scaledWidth / mapRect.width * scale
+        const scaleY = scaledHeight / mapRect.height * scale
+        const newScale = Math.min(scaleX, scaleY) * 0.95
 
-        setScale(initialScale)
-        setPosition({ x: centerX, y: centerY })
+        if (!isInitialized){
+            const centerX = (containerRect.width - mapRect.width / scale * newScale) / 2
+            const centerY = (containerRect.height - mapRect.height / scale * newScale) / 2
+            setScale(newScale)
+            setPosition({ x: centerX, y: centerY })
+            setIsInitialized(true)
+            setIsScreenModeChanged(false)
+            return
+        }
+
+        const left = containerRect.width / 2
+        const top = containerRect.height / 2
+        const bottom = -scaledHeight + containerRect.height / 2
+        const right = -scaledWidth + containerRect.width / 2
+
+
+        const constrainedX = Math.max(right, Math.min(left, position.x / scale * newScale))
+        const constrainedY = Math.max(bottom, Math.min(top, position.y / scale * newScale))
+
+        setScale(newScale)
+        setPosition({ x: constrainedX, y: constrainedY })
         setIsInitialized(true)
-    }, [isMobile, isInitialized])
+    }, [isFullscreen, isInitialized, isScreenModeChanged, isMobile, position.x, position.y, scale])
 
-    // グローバルマウスアップイベントを監視
     useEffect(() => {
         const handleGlobalMouseUp = () => {
             if (isDragging) {
@@ -132,6 +142,7 @@ export default function Map() {
     }, [isMobile, isDragging])
 
     const handleRoomClick = useCallback((roomId: string) => {
+        if (showScrollOverlay !== 0) return
         const exhibition = getExhibitionByRoomId(roomId)
         if (!exhibition) return
 
@@ -141,15 +152,23 @@ export default function Map() {
         } else {
             window.location.href = `/event/${exhibition.id}`
         }
-    }, [getExhibitionByRoomId, isMobile])
+    }, [showScrollOverlay, getExhibitionByRoomId, isMobile])
 
-    // マウスホイールでズーム
+    const handleRoomTouch = useCallback((roomId: string) => {
+        if (showScrollOverlay !== 0) return
+        const exhibition = getExhibitionByRoomId(roomId)
+        if (!exhibition) return
+
+        setSelectedRoomId(roomId)
+        setShowPopup(true)
+    }, [showScrollOverlay, getExhibitionByRoomId])
+
     useEffect(() => {
         const container = containerRef.current
         if (!container) return
 
         const handleWheel = (e: WheelEvent) => {
-            if (!e.ctrlKey && !e.metaKey) {
+            if (!e.ctrlKey && !e.metaKey && !isFullscreen) {
                 setShowScrollOverlay(1)
                 runTimeoutOnce()
                 return
@@ -181,9 +200,8 @@ export default function Map() {
         return () => {
             container.removeEventListener('wheel', handleWheel)
         }
-    }, [scale, position]) // 依存配列に必要な値を追加
+    }, [scale, position, isFullscreen])
 
-    // マウスドラッグ（モバイルモード時）
     const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault()
         setDragStart({
@@ -195,13 +213,11 @@ export default function Map() {
     }
 
     const handleMouseMove = (e: React.MouseEvent) => {
-
         if (e.buttons === 0) {
             setIsDragging(false)
             setHasMoved(false)
             setDragStart({ x: 0, y: 0 })
             if (!isMobile) {
-                // デスクトップモードのホバー処理
                 setMousePos({ x: e.clientX, y: e.clientY })
                 let element: Element | null = e.target as SVGElement
                 while (element && element !== (e.currentTarget as Element)) {
@@ -215,9 +231,8 @@ export default function Map() {
             }
             return
         }
-        // マウスダウン後の処理
+
         if (dragStart.x !== 0 || dragStart.y !== 0 || isDragging) {
-            // 移動量が5px以上ならドラッグ開始
             const moveDistance = Math.hypot(
                 e.clientX - touchStartPos.x,
                 e.clientY - touchStartPos.y
@@ -230,7 +245,6 @@ export default function Map() {
                 const newX = e.clientX - dragStart.x
                 const newY = e.clientY - dragStart.y
 
-                // 位置を制限
                 const constrained = constrainPosition(newX, newY)
                 setPosition(constrained)
             }
@@ -239,7 +253,6 @@ export default function Map() {
 
     const handleMouseUp = (e: React.MouseEvent) => {
         if (!hasMoved) {
-            // クリック判定 - クリック位置の要素を取得
             let element: Element | null = document.elementFromPoint(e.clientX, e.clientY)
             while (element && element !== containerRef.current) {
                 if (element.id && getExhibitionByRoomId(element.id)) {
@@ -261,13 +274,11 @@ export default function Map() {
         const container = containerRef.current
         if (!container) return
 
-        // 移動平均用の履歴
         let centerHistory: Array<{ x: number; y: number }> = []
         const HISTORY_SIZE = 10
 
         const handleTouchStart = (e: TouchEvent) => {
             if (e.touches.length === 1 || e.touches.length === 2) {
-                // ドラッグ開始準備
                 setDragStart({
                     x: e.touches[0].clientX - position.x,
                     y: e.touches[0].clientY - position.y,
@@ -281,7 +292,7 @@ export default function Map() {
                 setPossibleToDrag(true)
 
                 if (e.touches.length === 1) return
-                // ピンチズーム開始
+
                 const touch1 = e.touches[0]
                 const touch2 = e.touches[1]
                 lastTouchDistance.current = Math.hypot(
@@ -291,15 +302,12 @@ export default function Map() {
 
                 const rect = container.getBoundingClientRect()
 
-                // 2本指の中心点（コンテナ内の相対座標）
                 const centerX = (touch1.clientX + touch2.clientX) / 2 - rect.left
                 const centerY = (touch1.clientY + touch2.clientY) / 2 - rect.top
                 lastTouchCenter.current = {x: centerX, y: centerY}
 
-                // 履歴を初期化
                 centerHistory = [{x: centerX, y: centerY}]
 
-                // ピンチ開始時の状態を保存
                 initialPinchScale.current = scale
                 initialPinchPosition.current = {x: position.x, y: position.y}
             }
@@ -307,7 +315,6 @@ export default function Map() {
 
         const handleTouchMove = (e: TouchEvent) => {
             if (e.touches.length === 2 && lastTouchDistance.current !== null && lastTouchCenter.current && initialPinchScale.current !== null && initialPinchPosition.current !== null) {
-                // ピンチズーム + パン
                 const touch1 = e.touches[0]
                 const touch2 = e.touches[1]
                 const distance = Math.hypot(
@@ -317,37 +324,29 @@ export default function Map() {
 
                 const rect = container.getBoundingClientRect()
 
-                // 現在の2本指の中心点
                 const currentCenterX = (touch1.clientX + touch2.clientX) / 2 - rect.left
                 const currentCenterY = (touch1.clientY + touch2.clientY) / 2 - rect.top
 
-                // 履歴に追加
                 centerHistory.push({ x: currentCenterX, y: currentCenterY })
                 if (centerHistory.length > HISTORY_SIZE) {
                     centerHistory.shift()
                 }
 
-                // 移動平均を計算
                 const avgCenterX = centerHistory.reduce((sum, c) => sum + c.x, 0) / centerHistory.length
                 const avgCenterY = centerHistory.reduce((sum, c) => sum + c.y, 0) / centerHistory.length
 
-                // ズーム比率を計算
                 const scaleRatio = distance / lastTouchDistance.current
                 const newScale = Math.max(0.5, Math.min(4, initialPinchScale.current * scaleRatio))
 
-                // 中心点の移動量（移動平均を使用）
                 const centerDeltaX = avgCenterX - lastTouchCenter.current.x
                 const centerDeltaY = avgCenterY - lastTouchCenter.current.y
 
-                // ズーム前の位置（ピンチ開始時の状態を基準）
                 const beforeX = (lastTouchCenter.current.x - initialPinchPosition.current.x) / initialPinchScale.current
                 const beforeY = (lastTouchCenter.current.y - initialPinchPosition.current.y) / initialPinchScale.current
 
-                // ズーム後の位置調整 + パン移動
                 const newX = lastTouchCenter.current.x - beforeX * newScale + centerDeltaX
                 const newY = lastTouchCenter.current.y - beforeY * newScale + centerDeltaY
 
-                // 位置を制限
                 const constrained = constrainPosition(newX, newY)
 
                 setIsDragging(true)
@@ -355,22 +354,24 @@ export default function Map() {
                 setPosition(constrained)
                 e.preventDefault();
             } else if (e.touches.length === 1 && (dragStart.x !== 0 || dragStart.y !== 0 || isDragging)) {
-                // ドラッグ
                 const moveDistance = Math.hypot(
                     e.touches[0].clientX - touchStartPos.x,
                     e.touches[0].clientY - touchStartPos.y
                 )
                 if (moveDistance > 5) {
-                    if (!isDragging) {
+                    if (!isDragging && !isFullscreen) {
                         setShowScrollOverlay(2)
                         runTimeoutOnce();
                         return
+                    }
+                    if (isFullscreen) {
+                        setIsDragging(true)
+                        e.preventDefault();
                     }
                     setHasMoved(true)
                     const newX = e.touches[0].clientX - dragStart.x
                     const newY = e.touches[0].clientY - dragStart.y
 
-                    // 位置を制限
                     const constrained = constrainPosition(newX, newY)
                     setPosition(constrained)
                 }
@@ -410,7 +411,7 @@ export default function Map() {
                         if (current.id && getExhibitionByRoomId(current.id)) {
                             e.preventDefault()
                             e.stopPropagation()
-                            handleRoomClick(current.id)
+                            handleRoomTouch(current.id)
                             break
                         }
                         current = current.parentElement
@@ -432,7 +433,19 @@ export default function Map() {
             container.removeEventListener('touchmove', handleTouchMove)
             container.removeEventListener('touchend', handleTouchEnd)
         }
-    }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick])
+    }, [scale, position, isDragging, isFullscreen, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch])
+
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isFullscreen) {
+                setIsScreenModeChanged(true)
+                setIsFullscreen(false)
+            }
+        }
+
+        window.addEventListener('keydown', handleEscape)
+        return () => window.removeEventListener('keydown', handleEscape)
+    }, [isFullscreen])
 
     const selectedExhibition = selectedRoomId ? getExhibitionByRoomId(selectedRoomId) : null
     const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
@@ -440,9 +453,12 @@ export default function Map() {
     return (
         <div>
             <div
-                className={isMobile
-                    ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
-                    : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
+                className={
+                    isFullscreen
+                        ? "fixed inset-0 z-50 overflow-hidden bg-card"
+                        : (isMobile
+                            ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
+                            : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light")
                 }
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
@@ -459,6 +475,33 @@ export default function Map() {
                     cursor: !isMobile && hoveredRoomId && hoveredExhibition ? "pointer" : (isDragging ? 'grabbing' : 'default'),
                 }}
             >
+                <div
+                    ref={mapRef}
+                    className="w-full transition-all"
+                    style={{
+                        userSelect: 'none',
+                        transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
+                        transformOrigin: '0 0',
+                        transition: (isDragging ? "None" : "")}}
+                >
+                    <MapSVG />
+                </div>
+
+                <button
+                    onClick={() => {
+                        setIsScreenModeChanged(true)
+                        setIsFullscreen(!isFullscreen)
+                    }}
+                    className="absolute top-4 right-4 z-10 bg-card border border-accent-light p-3 hover:bg-accent-light transition-colors shadow-lg cursor-pointer"
+                    title={isFullscreen ? "通常表示" : "全画面表示"}
+                >
+                    {isFullscreen ? (
+                        <Minimize className={"h-5 w-5"}/>
+                    ) : (
+                        <Maximize className={"h-5 w-5"}/>
+                    )}
+                </button>
+
                 <div className="absolute inset-0 bg-background/[.75] bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
                      style={{
                          opacity: showScrollOverlay === 0 ? 0 : 1,
@@ -485,17 +528,6 @@ export default function Map() {
                             )
                         }
                     </div>
-                </div>
-                <div
-                    ref={mapRef}
-                    className="w-full transition-all"
-                    style={{
-                        userSelect: 'none',
-                        transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                        transformOrigin: '0 0',
-                        transition: (isDragging ? "None" : "")}}
-                >
-                    <MapSVG />
                 </div>
             </div>
 
@@ -529,57 +561,62 @@ export default function Map() {
                 </div>
             )}
 
-            {showPopup && selectedExhibition && isMobile && (
+            <div
+                className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 transition-opacity
+                ${showPopup && selectedExhibition
+                    ? 'opacity-100'
+                    : 'opacity-0 pointer-events-none'}`}
+                onClick={(e) => {
+                    if (e.target === e.currentTarget) {
+                        setShowPopup(false)
+                        setSelectedRoomId(null)
+                    }
+                }}
+                onTouchEnd={(e) => {
+                    e.stopPropagation()
+                }}
+            >
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 p-4"
-                    onClick={(e) => {
-                        if (e.target === e.currentTarget) {
-                            setShowPopup(false)
-                            setSelectedRoomId(null)
-                        }
-                    }}
-                    onTouchEnd={(e) => {
-                        e.stopPropagation()
-                    }}
+                    className="bg-card border border-accent-light p-8 max-w-md w-full"
+                    onClick={(e) => e.stopPropagation()}
                 >
-                    <div
-                        className="bg-card border border-accent-light p-8 max-w-md w-full"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="flex justify-between items-start mb-6">
-                            <h2 className="text-2xl font-bold">{selectedExhibition.name}</h2>
+                    {selectedExhibition && (
+                        <>
+                            <div className="flex justify-between items-start mb-6">
+                                <h2 className="text-2xl font-bold">{selectedExhibition.name}</h2>
+                                <button
+                                    onClick={() => {
+                                        setShowPopup(false)
+                                        setSelectedRoomId(null)
+                                    }}
+                                    className="text-2xl font-bold opacity-50 hover:opacity-100"
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+                            <p className="text-muted-foreground mb-8">{selectedExhibition.description}</p>
+
+                            <Link
+                                href={`/event/${selectedExhibition.id}`}
+                                className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
+                            >
+                                詳細を見る
+                            </Link>
+
                             <button
                                 onClick={() => {
                                     setShowPopup(false)
                                     setSelectedRoomId(null)
                                 }}
-                                className="text-2xl font-bold opacity-50 hover:opacity-100"
+                                className="w-full bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
                             >
-                                ×
+                                閉じる
                             </button>
-                        </div>
-
-                        <p className="text-muted-foreground mb-8">{selectedExhibition.description}</p>
-
-                        <Link
-                            href={`/event/${selectedExhibition.id}`}
-                            className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
-                        >
-                            詳細を見る
-                        </Link>
-
-                        <button
-                            onClick={() => {
-                                setShowPopup(false)
-                                setSelectedRoomId(null)
-                            }}
-                            className="w-full bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
-                        >
-                            閉じる
-                        </button>
-                    </div>
+                        </>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     )
 }

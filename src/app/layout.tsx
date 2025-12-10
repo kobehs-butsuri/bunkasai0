@@ -48,8 +48,10 @@ export default function RootLayout({
         <body className={`font-sans antialiased flex flex-col min-h-screen ${noto.className}`}>
             <PageTitleProvider>
                 <Header/>
-                <main className="w-full bg-background flex-grow px-8 mb-16">
-                    <Heading />
+                <main className="w-full bg-background flex-grow mb-16">
+                    <div className={"px-8"}>
+                        <Heading />
+                    </div>
                     {children}
                 </main>
                 <Footer/>
