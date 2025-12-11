@@ -87,7 +87,7 @@ export default function Map() {
 
     useEffect(() => {
         constrainPosition(0, 0)
-        if (!containerRef.current || !mapRef.current || isInitialized || isScreenModeChanged) return
+        if (!containerRef.current || !mapRef.current) return
 
         const container = containerRef.current
         const map = mapRef.current
@@ -95,14 +95,14 @@ export default function Map() {
         const mapRect = map.getBoundingClientRect()
         const containerRect = container.getBoundingClientRect()
 
-        const scaledWidth = containerRect.width * scale
-        const scaledHeight = containerRect.height * scale
+        if (!isInitialized) {
+            const scaledWidth = containerRect.width * scale
+            const scaledHeight = containerRect.height * scale
 
-        const scaleX = scaledWidth / mapRect.width * scale
-        const scaleY = scaledHeight / mapRect.height * scale
-        const newScale = Math.min(scaleX, scaleY) * 0.95
+            const scaleX = scaledWidth / mapRect.width * scale
+            const scaleY = scaledHeight / mapRect.height * scale
+            const newScale = Math.min(scaleX, scaleY) * 0.95
 
-        if (!isInitialized){
             const centerX = (containerRect.width - mapRect.width / scale * newScale) / 2
             const centerY = (containerRect.height - mapRect.height / scale * newScale) / 2
             setScale(newScale)
@@ -112,19 +112,34 @@ export default function Map() {
             return
         }
 
-        const left = containerRect.width / 2
-        const top = containerRect.height / 2
-        const bottom = -scaledHeight + containerRect.height / 2
-        const right = -scaledWidth + containerRect.width / 2
+        if (isScreenModeChanged) {
+            const oldContainerCenterX = containerRect.width / 2
+            const oldContainerCenterY = containerRect.height / 2
 
+            const scaledMapWidth = mapRect.width * scale
+            const scaledMapHeight = mapRect.height * scale
 
-        const constrainedX = Math.max(right, Math.min(left, position.x / scale * newScale))
-        const constrainedY = Math.max(bottom, Math.min(top, position.y / scale * newScale))
+            const mapCenterX = position.x + scaledMapWidth / 2
+            const mapCenterY = position.y + scaledMapHeight / 2
 
-        setScale(newScale)
-        setPosition({ x: constrainedX, y: constrainedY })
-        setIsInitialized(true)
-    }, [isFullscreen, isInitialized, isScreenModeChanged, isMobile, position.x, position.y, scale])
+            const relativeX = (mapCenterX - oldContainerCenterX) / containerRect.width
+            const relativeY = (mapCenterY - oldContainerCenterY) / containerRect.height
+
+            const newContainerCenterX = containerRect.width / 2
+            const newContainerCenterY = containerRect.height / 2
+
+            const newMapCenterX = newContainerCenterX + relativeX * containerRect.width
+            const newMapCenterY = newContainerCenterY + relativeY * containerRect.height
+
+            const newX = newMapCenterX - scaledMapWidth / 2
+            const newY = newMapCenterY - scaledMapHeight / 2
+
+            const constrained = constrainPosition(newX, newY)
+
+            setPosition(constrained)
+            setIsScreenModeChanged(false)
+        }
+    }, [isFullscreen, isInitialized, isScreenModeChanged, position.x, position.y, scale])
 
     useEffect(() => {
         const handleGlobalMouseUp = () => {
@@ -451,7 +466,7 @@ export default function Map() {
     const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
 
     return (
-        <div>
+        <>
             <div
                 className={
                     isFullscreen
@@ -617,6 +632,6 @@ export default function Map() {
                     )}
                 </div>
             </div>
-        </div>
+        </>
     )
 }
