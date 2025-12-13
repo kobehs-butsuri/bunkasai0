@@ -288,11 +288,11 @@
 |本館3階東側|stairs_honkan_3_E|
 |本館4階西側|stairs_honkan_4_W|
 |本館4階東側|stairs_honkan_4_E|
-|講堂棟1階|stairs_kagaku_1|
+|講堂棟1階|stairs_koudou_1|
 |講堂棟1階外|stairs_koudou_1_out|
 |講堂棟2階|stairs_koudou_2|
 |講堂棟2階外|stairs_koudou_2_out|
-|科学館1階|stairs_koudou_1|
+|科学館1階|stairs_kagaku_1|
 |科学館2階|stairs_kagaku_2|
 |科学館3階|stairs_kagaku_3|
 |科学館4階|stairs_kagaku_4|
