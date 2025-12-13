@@ -158,7 +158,7 @@
 |講堂棟1階|koudou_1|
 |講堂棟2階|koudou_2|
 |芸術館1階|geijutsu_1|
-|芸術館2階|geijutsu_1|
+|芸術館2階|geijutsu_2|
 |科学館1階|kagaku_1|
 |科学館2階|kagaku_2|
 |科学館3階|kagaku_3|
