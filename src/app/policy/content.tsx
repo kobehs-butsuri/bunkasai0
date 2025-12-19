@@ -7,7 +7,7 @@ export default function Policy() {
     useSetPageTitle("サイトポリシー")
     return (
         <div className="max-w-7xl mx-auto">
-            <div className="space-y-12">
+            <div className="space-y-12 mx-10">
                 <section>
                     <h2 className="text-3xl font-bold text-foreground mb-6">著作権について</h2>
                     <div className="prose prose-neutral max-w-none">

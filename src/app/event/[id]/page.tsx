@@ -61,19 +61,19 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     return (
         <div className="pt-28 pb-28 max-w-3xl mx-auto">
             {/* Back link */}
-            <Link href="/event" className="text-primary underline mb-8 inline-block hover:opacity-75">
+            <Link href="/event" className="text-primary underline mb-8 inline-block hover:opacity-75 mx-10">
                 ← イベント一覧
             </Link>
 
             {/* Event header */}
-            <div className="mb-12">
+            <div className="mb-12 mx-10">
                 <div className="flex items-start gap-4 mb-6">
                     <h1 className="text-5xl font-bold tracking-tight text-balance flex-1">{event.name}</h1>
                     <div>
                         <p className="text-lg">{event.organization}</p>
                     </div>
                     <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold flex-shrink-0">
-                        {isPerformance ? 'パフォーマンス' : '展示'}
+                        {isPerformance ? '舞台' : '展示'}
                     </span>
                 </div>
 
@@ -125,7 +125,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
             </div>
 
             {/* Navigation */}
-            <div className="flex gap-4">
+            <div className="flex gap-4 mx-10">
                 <Link
                     href="/map"
                     className="flex-1 bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center"

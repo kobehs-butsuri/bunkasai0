@@ -13,7 +13,7 @@ export default function EventsPage() {
     const exhibitions = festivalData.exhibitions as Exhibition[]
     const days = festivalData.festival.days as Day[]
 
-    // パフォーマンスと展示を統合
+    // 舞台と展示を統合
     const allEvents: UnifiedEvent[] = useMemo(() => {
         const perfEvents: UnifiedEvent[] = performances.map(p => ({
             ...p,
@@ -40,7 +40,7 @@ export default function EventsPage() {
         const matchesOrg = !filterOrganization || event.organization === filterOrganization
         const matchesCategory = !filterCategory || event.category === filterCategory
 
-        // パフォーマンスの場合は日程フィルタを適用
+        // 舞台の場合は日程フィルタを適用
         const matchesDay = !filterDay ||
             (event.category === 'performance' && event.schedules?.some(s => s.dayId === filterDay)) ||
             event.category === 'exhibition' // 展示は日程フィルタ無視
@@ -122,7 +122,7 @@ export default function EventsPage() {
                                 className="w-full bg-input border border-border px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                             >
                                 <option value="">全て表示</option>
-                                <option value="performance">パフォーマンス</option>
+                                <option value="performance">舞台</option>
                                 <option value="exhibition">展示</option>
                             </select>
                         </div>
@@ -158,7 +158,7 @@ export default function EventsPage() {
                             <div className="flex items-start justify-between mb-4">
                                 <h3 className="text-xl font-bold text-primary">{event.name}</h3>
                                 <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold flex-shrink-0 ml-2">
-                                    {event.category === 'performance' ? 'パフォーマンス' : '展示'}
+                                    {event.category === 'performance' ? '舞台' : '展示'}
                                 </span>
                             </div>
                             <div className="space-y-3 text-sm">

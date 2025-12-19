@@ -24,7 +24,7 @@ export default function Access() {
         <div className="max-w-7xl mx-auto">
             <title>アクセス</title>
             {/* Location Information */}
-            <div className="grid md:grid-cols-2 grid-rows-1 gap-12 mb-24">
+            <div className="grid md:grid-cols-2 grid-rows-1 gap-12 mb-24 mx-10">
                 <ParallaxContainer offset={scrollY * 0.35}>
                     <div>
                         <h2 className="text-3xl font-bold text-foreground mb-6">会場情報</h2>
@@ -60,7 +60,7 @@ export default function Access() {
 
             {/* Additional Information */}
             <ParallaxContainer offset={scrollY * 0.2}>
-                <div className="border-l-4 border-primary mt-20 pl-8">
+                <div className="border-l-4 border-primary mt-20 pl-8 mx-10">
                     <h2 className="text-2xl font-bold text-foreground mb-4">注意事項</h2>
                     <ul className="space-y-3 text-foreground/80">
                         <li>注意書き1</li>

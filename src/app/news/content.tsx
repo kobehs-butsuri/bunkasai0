@@ -4,6 +4,7 @@ import {useState, useMemo, useEffect} from "react"
 import newsData from "@/data/news.json"
 import { X } from 'lucide-react';
 import {useSetPageTitle} from "@/hooks/page-title-context";
+import useMobile from "@/hooks/use-mobile";
 
 interface News {
     title: string
@@ -39,17 +40,7 @@ export default function NewsPage() {
 
     const [selectedId, setSelectedId] = useState<string | null>(null)
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-    const [isMobile, setIsMobile] = useState(false)
-
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768) // md breakpoint
-        }
-
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [])
+    const isMobile = useMobile()
 
     useEffect(() => {
         const handleHashChange = () => {
@@ -121,7 +112,7 @@ export default function NewsPage() {
                 {/* Desktop: Two Column Layout */}
                 <div className="hidden md:grid md:grid-cols-3 md:gap-8">
                     {/* Left: News List */}
-                    <div className="md:col-span-1 space-y-3 overflow-y-auto">
+                    <div className="md:col-span-1 space-y-0 overflow-y-auto">
                         {newsWithId.map((item) => (
                             <button
                                 key={item.id}
@@ -163,7 +154,7 @@ export default function NewsPage() {
                 </div>
 
                 {/* Mobile: List with Drawer */}
-                <div className="md:hidden space-y-4">
+                <div className="md:hidden space-y-0">
                     {newsWithId.map((item) => (
                         <button
                             key={item.id}
