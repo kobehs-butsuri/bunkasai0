@@ -174,28 +174,28 @@
       "name": "展示1",
       "organization": "G部",
       "description": "詳細7",
-      "roomId": "class_2-9"
+      "roomId": "_39"
     },
     {
       "id": "exh-002",
       "name": "展示2",
       "organization": "H部",
       "description": "詳細8",
-      "roomId": "class_1-9"
+      "roomId": "_11"
     },
     {
       "id": "exh-003",
       "name": "展示3",
       "organization": "I部",
       "description": "詳細9",
-      "roomId": "room_a101"
+      "roomId": "_21"
     },
     {
       "id": "exh-004",
       "name": "展示4",
       "organization": "J部",
       "description": "詳細10",
-      "roomId": "room_a102"
+      "roomId": "_31"
     }
   ]
 }

@@ -47,7 +47,7 @@ export default function Header() {
 
     return (
         <>
-            <header className="sticky top-0 w-full bg-background border-b border-accent-light z-40 backdrop-blur-sm bg-opacity-95 h-20 select-none overflow-hidden">
+            <header className="fixed top-0 w-full bg-background border-b border-accent-light z-40 backdrop-blur-sm bg-opacity-95 h-20 select-none overflow-hidden">
                 <div className="relative max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
 
                     <Link href="/">

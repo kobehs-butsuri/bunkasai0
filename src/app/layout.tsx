@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja">
-        <body className={`font-sans antialiased flex flex-col min-h-screen ${noto.className}`}>
+        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${noto.className}`}>
             <PageTitleProvider>
                 <Header/>
                 <main className="w-full bg-background flex-grow mb-16">

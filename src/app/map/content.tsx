@@ -7,6 +7,8 @@ import festivalData from "@/data/festival.json"
 import useMobile from "@/hooks/use-mobile"
 import {useSetPageTitle} from "@/hooks/page-title-context";
 import {Maximize, Minimize} from "lucide-react";
+import {ActionMenuButton} from "@/components/action-menu";
+import {Button} from "@/components/ui/button";
 
 interface Exhibition {
     id: string
@@ -44,6 +46,8 @@ export default function Map() {
     const initialPinchPosition = useRef<{ x: number; y: number } | null>(null)
     const [isInitialized, setIsInitialized] = useState(false)
     const [isScreenModeChanged, setIsScreenModeChanged] = useState(false)
+
+    const [activeLayer, setActiveLayer] = useState(0)
 
     const exhibitions = festivalData.exhibitions as Exhibition[]
 
@@ -499,15 +503,15 @@ export default function Map() {
                         transformOrigin: '0 0',
                         transition: (isDragging ? "None" : "")}}
                 >
-                    <MapSVG />
+                    <MapSVG layer={activeLayer} />
                 </div>
 
-                <button
+                <Button variant="outline" size="icon" aria-label={isFullscreen ? "通常表示" : "全画面表示"}
                     onClick={() => {
                         setIsScreenModeChanged(true)
                         setIsFullscreen(!isFullscreen)
                     }}
-                    className="absolute top-4 right-4 z-10 bg-card border border-accent-light p-3 hover:bg-accent-light transition-colors shadow-lg cursor-pointer"
+                    className="absolute top-4 right-4 z-10"
                     title={isFullscreen ? "通常表示" : "全画面表示"}
                 >
                     {isFullscreen ? (
@@ -515,7 +519,54 @@ export default function Map() {
                     ) : (
                         <Maximize className={"h-5 w-5"}/>
                     )}
-                </button>
+                </Button>
+
+                <div className="absolute bottom-4 right-4 z-10">
+                    <ActionMenuButton items={[
+                        {
+                            label: "本館地階",
+                            icon: <><code>G</code></>,
+                            onClick: () => {
+                                setActiveLayer(0)
+                            },
+                        },
+                        {
+                            label: "本館1階",
+                            icon: <><code>1</code></>,
+                            onClick: () => {
+                                setActiveLayer(1)
+                            },
+                        },
+                        {
+                            label: "本館2階(別館1階)",
+                            icon: <><code>2</code></>,
+                            onClick: () => {
+                                setActiveLayer(2)
+                            },
+                        },
+                        {
+                            label: "本館3階(別館2階)",
+                            icon: <><code>3</code></>,
+                            onClick: () => {
+                                setActiveLayer(3)
+                            },
+                        },
+                        {
+                            label: "本館4階(別館3階)",
+                            icon: <><code>4</code></>,
+                            onClick: () => {
+                                setActiveLayer(4)
+                            },
+                        },
+                        {
+                            label: "別館4階",
+                            icon: <><code>5</code></>,
+                            onClick: () => {
+                                setActiveLayer(5)
+                            },
+                        },
+                    ]} buttonLabel={"Layers"}/>
+                </div>
 
                 <div className="absolute inset-0 bg-background/[.75] bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
                      style={{
