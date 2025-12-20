@@ -8,50 +8,35 @@ const nextConfig = {
     images: {
         disableStaticImages: true,
     },
-    webpack(config) {
-        const fileLoaderRule = config.module.rules.find((rule) =>
-            rule.test?.test?.('.svg'),
-        );
-
-        config.module.rules.push(
-            {
-                ...fileLoaderRule,
-                test: /\.svg$/i,
-                resourceQuery: /url/,
-            },
-            {
-                test: /\.svg$/i,
-                use: [
-                    {
-                        loader: '@svgr/webpack',
-                        options: {
-                            svgoConfig: {
-                                plugins: [
-                                    {
-                                        name: 'preset-default',
-                                        params: {
-                                            overrides: {
-                                                cleanupIds: false,
-                                                convertShapeToPath: false,
-                                                collapseGroups: false,
-                                                removeUnknownsAndDefaults: {
-                                                    keepRoleAttr: true,
-                                                },
-                                                removeEmptyContainers: false,
-                                            },
-                                        },
+    webpack: (config) => {
+        config.module.rules.push({
+            test: /\.svg$/i,
+            issuer: /\.[jt]sx?$/,
+            loader: '@svgr/webpack',
+            options: {
+                svgoConfig: {
+                    plugins: [
+                        {
+                            name: 'preset-default',
+                            params: {
+                                overrides: {
+                                    cleanupIds: false,
+                                    convertShapeToPath: false,
+                                    collapseGroups: false,
+                                    removeUnknownsAndDefaults: {
+                                        keepRoleAttr: true,
                                     },
-                                ],
-                            },
-                            prettier: false,
-                            svgProps: {
+                                    removeEmptyContainers: false,
+                                },
                             },
                         },
-                    },
-                ],
+                    ],
+                },
+                prettier: false,
+                svgProps: {
+                },
             },
-        );
-
+        });
         return config;
     }
 }
