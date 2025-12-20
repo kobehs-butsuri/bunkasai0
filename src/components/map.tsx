@@ -13,22 +13,22 @@ export function MapSVG({ layer = 0 }: MapProps) {
         <>
             <div className={"w-full"} >
                 { layer === 0 && (
-                    <MapGF />
+                    <MapGF className={"w-full"} />
                 )}
                 { layer === 1 && (
-                    <Map1F />
+                    <Map1F className={"w-full"} />
                 )}
                 { layer === 2 && (
-                    <Map2F />
+                    <Map2F className={"w-full"} />
                 )}
                 { layer === 3 && (
-                    <Map3F />
+                    <Map3F className={"w-full"} />
                 )}
                 { layer === 4 && (
-                    <Map4F />
+                    <Map4F className={"w-full"} />
                 )}
                 { layer === 5 && (
-                    <Map5F />
+                    <Map5F className={"w-full"} />
                 )}
             </div>
         </>
