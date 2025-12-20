@@ -4,6 +4,7 @@
 const nextConfig = {
     output: 'export',
     trailingSlash: true,
+    turbopack: {},
     webpack(config) {
         const fileLoaderRule = config.module.rules.find((rule) =>
             rule.test?.test?.('.svg'),
