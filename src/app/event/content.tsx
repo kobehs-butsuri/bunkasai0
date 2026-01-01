@@ -88,7 +88,7 @@ export default function EventsPage() {
                 <div className="space-y-6">
                     {/* Search input */}
                     <div>
-                        <label className="block text-sm font-bold mb-2">イベント名で検索</label>
+                        <label className="block text-sm font-bold mb-2">イベント名</label>
                         <input
                             type="text"
                             placeholder="イベント名を入力..."
@@ -101,7 +101,7 @@ export default function EventsPage() {
                     {/* Filter selects */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
-                            <label className="block text-sm font-bold mb-2">主催団体で絞込</label>
+                            <label className="block text-sm font-bold mb-2">主催団体</label>
                             <select
                                 value={filterOrganization}
                                 onChange={(e) => setFilterOrganization(e.target.value)}
@@ -117,7 +117,7 @@ export default function EventsPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold mb-2">カテゴリで絞込</label>
+                            <label className="block text-sm font-bold mb-2">カテゴリ</label>
                             <select
                                 value={filterCategory}
                                 onChange={(e) => setFilterCategory(e.target.value)}
@@ -130,7 +130,7 @@ export default function EventsPage() {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-bold mb-2">日程で絞込</label>
+                            <label className="block text-sm font-bold mb-2">日程</label>
                             <select
                                 value={filterDay}
                                 onChange={(e) => setFilterDay(e.target.value)}

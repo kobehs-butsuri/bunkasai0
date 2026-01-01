@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
+import mapDataJson from "@/data/map.json"
 import {Info, Performance, Day} from "@/data/types"
 import {useSetPageTitle} from "@/hooks/page-title-context";
 
@@ -47,6 +48,8 @@ export default function Timetable() {
         }
     }
 
+    const mapData = mapDataJson as Record<string, string>;
+
     return (
         <div>
             {/* Day tabs */}
@@ -56,7 +59,7 @@ export default function Timetable() {
                         <button
                             key={day.id}
                             onClick={() => setSelectedDay(index)}
-                            className={`px-6 py-2 font-bold transition-all flex-shrink-0 ${
+                            className={`px-6 py-2 font-bold transition-all shrink-0 ${
                                 selectedDay === index
                                     ? "bg-primary text-background"
                                     : "bg-card border border-accent-light text-foreground hover:bg-accent-light"
@@ -131,7 +134,7 @@ export default function Timetable() {
                                 key={`header-${location}`}
                                 className="top-0 z-10 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm text-center"
                             >
-                                {location}
+                                {mapData[location]}
                             </div>
                         ))}
 

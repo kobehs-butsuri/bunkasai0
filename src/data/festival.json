@@ -24,12 +24,12 @@
           "dayId": "day-1",
           "info": [
             {
-              "location": "場所A",
+              "location": "koudou",
               "startTime": "09:00",
               "endTime": "09:45"
             },
             {
-              "location": "場所B",
+              "location": "stairs_honkan_1_takaradsuka",
               "startTime": "10:00",
               "endTime": "11:00"
             }
@@ -39,7 +39,7 @@
           "dayId": "day-2",
           "info": [
             {
-              "location": "場所B",
+              "location": "stairs_honkan_1_takaradsuka",
               "startTime": "10:00",
               "endTime": "11:00"
             }
@@ -57,7 +57,7 @@
           "dayId": "day-1",
           "info": [
             {
-              "location": "場所B",
+              "location": "stairs_honkan_1_takaradsuka",
               "startTime": "09:00",
               "endTime": "09:45"
             }
@@ -67,7 +67,7 @@
           "dayId": "day-2",
           "info": [
             {
-              "location": "場所B",
+              "location": "stairs_honkan_1_takaradsuka",
               "startTime": "09:00",
               "endTime": "09:30"
             }
@@ -85,7 +85,7 @@
           "dayId": "day-1",
           "info": [
             {
-              "location": "場所A",
+              "location": "koudou",
               "startTime": "10:30",
               "endTime": "11:00"
             }
@@ -95,7 +95,7 @@
           "dayId": "day-2",
           "info": [
             {
-              "location": "場所A",
+              "location": "koudou",
               "startTime": "10:15",
               "endTime": "11:00"
             }
@@ -113,7 +113,7 @@
           "dayId": "day-1",
           "info": [
             {
-              "location": "場所C",
+              "location": "sichoukaku",
               "startTime": "14:00",
               "endTime": "15:00"
             }
@@ -131,7 +131,7 @@
           "dayId": "day-2",
           "info": [
             {
-              "location": "場所A",
+              "location": "koudou",
               "startTime": "13:00",
               "endTime": "14:30"
             }
@@ -149,7 +149,7 @@
           "dayId": "day-1",
           "info": [
             {
-              "location": "場所B",
+              "location": "stairs_honkan_1_takaradsuka",
               "startTime": "15:30",
               "endTime": "16:30"
             }
@@ -159,7 +159,7 @@
           "dayId": "day-2",
           "info": [
             {
-              "location": "場所B",
+              "location": "stairs_honkan_1_takaradsuka",
               "startTime": "14:00",
               "endTime": "15:00"
             }

@@ -83,7 +83,6 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                     {isPerformance && schedules && schedules.length > 0 && (
                         <>
                             <div>
-                                <h3 className="font-bold text-lg mb-2">日時・場所</h3>
                                 {(() => {
                                     const times = schedules.map(s => s.info.map(info => `${info.startTime} - ${info.endTime}`).flat().join(', '))
                                     const allSame = times.every(t => t === times[0])
@@ -96,13 +95,16 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                                         const day = festivalData.festival.days.find(d => d.id === schedule.dayId)
                                         if (!day) return null
                                         return (
-                                            <p className="text-lg" key={schedule.dayId}>
-                                                <span className="font-bold">{day.name}: </span>
+                                            <p className="text-lg my-4" key={schedule.dayId}>
+                                                <span className="font-bold text-2xl">{day.name}<br/></span>
                                                 {schedule.info.map((info, idx) =>
                                                     (
                                                         <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
-                                                            {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{mapData[info.location]}</span>
-                                                        </span>))}
+                                                            {idx !== 0 && (<br/>)}{info.startTime} - {info.endTime} <span className="font-bold">@{mapData[info.location]}</span>
+                                                            <Link href={`/map?id=${info.location}`} className="ml-4 text-primary underline">マップを見る</Link>
+                                                        </span>
+                                                    )
+                                                )}
                                             </p>
                                         )
                                     }).flat()
@@ -120,20 +122,21 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                     )}
 
                     <div>
-                        <h3 className="font-bold text-lg mb-2">詳細</h3>
-                        <p className="text-lg text-muted-foreground leading-relaxed">{event.description}</p>
+                        <p className="text-lg leading-relaxed">{event.description}</p>
                     </div>
                 </div>
             </div>
 
             {/* Navigation */}
             <div className="flex gap-4 mx-10">
-                <Link
-                    href="/map"
-                    className="flex-1 bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center"
-                >
-                    マップを見る
-                </Link>
+                {!isPerformance && roomId && (
+                    <Link
+                        href={`/map?id=${roomId}`}
+                        className="flex-1 bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center"
+                    >
+                        マップを見る
+                    </Link>
+                )}
                 {isPerformance && (
                     <Link
                         href="/timetable"

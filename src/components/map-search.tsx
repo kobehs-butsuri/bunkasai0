@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from "react"
-import { Search, X } from "lucide-react"
+import { Search, X, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface SearchResult {
@@ -11,10 +11,12 @@ interface SearchResult {
 
 interface MapSearchProps {
     onSelectRoom: (roomId: string) => void
+    onRemoveSelect: () => void
     roomLabels: Record<string, string>
+    pinnedRoomId: string | null
 }
 
-export function MapSearch({ onSelectRoom, roomLabels }: MapSearchProps) {
+export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoomId }: MapSearchProps) {
     const [query, setQuery] = useState("")
     const [results, setResults] = useState<SearchResult[]>([])
     const [isOpen, setIsOpen] = useState(false)
@@ -39,9 +41,20 @@ export function MapSearch({ onSelectRoom, roomLabels }: MapSearchProps) {
             }
         })
 
-        setResults(matches.slice(0, 10)) // 最大10件
+        setResults(matches)
         setSelectedIndex(-1)
     }, [query, roomLabels])
+
+    useEffect(() => {
+        if (pinnedRoomId) {
+            const label = roomLabels[pinnedRoomId]
+            if (label) {
+                setQuery(label)
+            }
+        } else {
+            setQuery("")
+        }
+    }, [pinnedRoomId, roomLabels])
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -62,7 +75,8 @@ export function MapSearch({ onSelectRoom, roomLabels }: MapSearchProps) {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "ArrowDown") {
             e.preventDefault()
-            setSelectedIndex(prev => (prev < results.length - 1 ? prev + 1 : prev))
+            const maxIndex = Math.min(results.length - 1, 9)
+            setSelectedIndex(prev => (prev < maxIndex ? prev + 1 : prev))
         } else if (e.key === "ArrowUp") {
             e.preventDefault()
             setSelectedIndex(prev => (prev > 0 ? prev - 1 : -1))
@@ -84,59 +98,63 @@ export function MapSearch({ onSelectRoom, roomLabels }: MapSearchProps) {
     }
 
     return (
-        <div className="relative w-full max-w-md">
-            <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-                <input
-                    ref={inputRef}
-                    type="text"
-                    value={query}
-                    onChange={(e) => {
-                        setQuery(e.target.value)
-                        setIsOpen(true)
-                    }}
-                    onFocus={() => setIsOpen(true)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="教室名・部屋名で検索..."
-                    className="w-full pl-10 pr-10 py-2 bg-card border border-accent-light rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                {query && (
-                    <Button
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-                        onClick={() => {
-                            setQuery("")
-                            setResults([])
-                            setIsOpen(false)
+        <>
+            <div className="relative w-full max-w-md">
+                <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={query}
+                        onChange={(e) => {
+                            setQuery(e.target.value)
+                            setIsOpen(true)
                         }}
+                        onFocus={() => setIsOpen(true)}
+                        onKeyDown={handleKeyDown}
+                        placeholder="場所を検索..."
+                        className="w-full pl-10 pr-10 py-2 bg-card border border-accent-light rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    />
+                    {query && (
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+                            onClick={() => {
+                                setQuery("")
+                                setResults([])
+                                setIsOpen(false)
+                                onRemoveSelect()
+                            }}
+                        >
+                            <X className="h-4 w-4" />
+                        </Button>
+                    )}
+                </div>
+
+                {isOpen && results.length > 0 && (
+                    <div
+                        ref={dropdownRef}
+                        className="absolute top-full mt-2 w-full bg-card border border-accent-light rounded-md shadow-lg z-50 max-h-80 overflow-y-auto"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onTouchStart={(e) => e.stopPropagation()}
                     >
-                        <X className="h-4 w-4" />
-                    </Button>
+                        {results.map((result, index) => (
+                            <button
+                                key={result.id}
+                                onClick={() => handleSelect(result.id)}
+                                onMouseEnter={() => setSelectedIndex(index)}
+                                className={`w-full text-left px-4 py-3 hover:bg-accent-light transition-colors border-b border-accent-light ${
+                                    index === selectedIndex ? "bg-accent-light" : ""
+                                }`}
+                            >
+                                <div className="font-medium">{result.label}</div>
+                                <div className="text-sm text-muted-foreground">{result.id}</div>
+                            </button>
+                        ))}
+                    </div>
                 )}
             </div>
-
-            {isOpen && results.length > 0 && (
-                <div
-                    ref={dropdownRef}
-                    className="absolute top-full mt-2 w-full bg-card border border-accent-light rounded-md shadow-lg max-h-80 overflow-y-auto z-50"
-                    onMouseDown={(e) => e.stopPropagation()}
-                    onTouchStart={(e) => e.stopPropagation()}
-                >
-                    {results.map((result, index) => (
-                        <button
-                            key={result.id}
-                            onClick={() => handleSelect(result.id)}
-                            className={`w-full text-left px-4 py-3 hover:bg-accent-light transition-colors border-b border-accent-light last:border-b-0 ${
-                                index === selectedIndex ? "bg-accent-light" : ""
-                            }`}
-                        >
-                            <div className="font-medium">{result.label}</div>
-                            <div className="text-sm text-muted-foreground">{result.id}</div>
-                        </button>
-                    ))}
-                </div>
-            )}
-        </div>
+        </>
     )
 }

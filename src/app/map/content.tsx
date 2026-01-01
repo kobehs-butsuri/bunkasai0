@@ -221,6 +221,20 @@ function MapContent() {
         zoomToRoomCached(roomId)
     }, [zoomToRoomCached])
 
+    const clearUrlParams = useCallback(() => {
+        if (typeof window !== 'undefined') {
+            const url = new URL(window.location.href)
+            url.searchParams.delete('id')
+            window.history.replaceState({}, '', url.pathname)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!pinnedRoomId && hasProcessedInitialRoom.current) {
+            clearUrlParams()
+        }
+    }, [pinnedRoomId, clearUrlParams])
+
     // キャッシュ構築のuseEffect
     useEffect(() => {
         if (!isInitialized) return
@@ -262,12 +276,6 @@ function MapContent() {
         if (hasProcessedInitialRoom.current) return
 
         if (pinnedRoomId === initialRoomId) return
-
-        const exhibition = getExhibitionByRoomId(initialRoomId)
-        if (!exhibition) {
-            console.warn(`Initial room ${initialRoomId} not found in exhibitions`)
-            return
-        }
 
         if (!roomLayerCache.has(initialRoomId)) {
             console.warn(`Initial room ${initialRoomId} not found in cache`)
@@ -670,7 +678,13 @@ function MapContent() {
             }>
                 <MapSearch
                     onSelectRoom={handleSearchSelect}
+                    onRemoveSelect={() => {
+                        setPinnedRoomId(null)
+                        setPinnedRoomMapPosition(null)
+                        clearUrlParams()
+                    }}
                     roomLabels={roomLabels}
+                    pinnedRoomId={pinnedRoomId}
                 />
             </div>
 
@@ -741,21 +755,6 @@ function MapContent() {
                     )}
                 </div>
 
-                {pinnedRoomId && (
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                            setPinnedRoomId(null)
-                            setPinnedRoomMapPosition(null)
-                        }}
-                        className="absolute bottom-4 left-4 z-10 gap-2"
-                    >
-                        <X className="h-4 w-4" />
-                        ピンを削除
-                    </Button>
-                )}
-
                 <div className="absolute inset-0 bg-background/75 bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
                      style={{
                          opacity: showScrollOverlay === 0 ? 0 : 1,
@@ -807,6 +806,7 @@ function MapContent() {
                             onClick: () => {
                                 setPinnedRoomId(null)
                                 setPinnedRoomMapPosition(null)
+                                clearUrlParams()
                                 setActiveLayer(0)
                             },
                         },
@@ -816,6 +816,7 @@ function MapContent() {
                             onClick: () => {
                                 setPinnedRoomId(null)
                                 setPinnedRoomMapPosition(null)
+                                clearUrlParams()
                                 setActiveLayer(1)
                             },
                         },
@@ -825,6 +826,7 @@ function MapContent() {
                             onClick: () => {
                                 setPinnedRoomId(null)
                                 setPinnedRoomMapPosition(null)
+                                clearUrlParams()
                                 setActiveLayer(2)
                             },
                         },
@@ -834,6 +836,7 @@ function MapContent() {
                             onClick: () => {
                                 setPinnedRoomId(null)
                                 setPinnedRoomMapPosition(null)
+                                clearUrlParams()
                                 setActiveLayer(3)
                             },
                         },
@@ -843,6 +846,7 @@ function MapContent() {
                             onClick: () => {
                                 setPinnedRoomId(null)
                                 setPinnedRoomMapPosition(null)
+                                clearUrlParams()
                                 setActiveLayer(4)
                             },
                         },
@@ -852,6 +856,7 @@ function MapContent() {
                             onClick: () => {
                                 setPinnedRoomId(null)
                                 setPinnedRoomMapPosition(null)
+                                clearUrlParams()
                                 setActiveLayer(5)
                             },
                         },
@@ -861,7 +866,7 @@ function MapContent() {
 
             {!isMobile && hoveredRoomId && hoveredExhibition && (
                 <div
-                    className="fixed p-6 bg-card border border-accent-light z-50 pointer-events-none"
+                    className="fixed p-6 bg-card border border-accent-light z-60 pointer-events-none"
                     style={{
                         left: `${mousePos.x}px`,
                         top: `${mousePos.y - 20}px`,
@@ -890,7 +895,7 @@ function MapContent() {
             )}
 
             <div
-                className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 transition-opacity
+                className={`fixed inset-0 backdrop-blur-xs bg-black/75 flex items-center justify-center z-60 p-4 transition-opacity
                 ${showPopup && selectedExhibition
                     ? 'opacity-100'
                     : 'opacity-0 pointer-events-none'}`}
