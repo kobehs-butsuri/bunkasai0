@@ -155,22 +155,36 @@ export default function EventsPage() {
                         <Link
                             key={event.id}
                             href={`/event/${event.id}`}
-                            className="bg-card border border-accent-light p-8 hover:border-primary transition-colors"
+                            className="bg-card border border-accent-light hover:border-primary transition-colors relative overflow-hidden block"
                         >
-                            <div className="flex items-start justify-between mb-4">
-                                <h3 className="text-xl font-bold text-primary">{event.name}</h3>
-                                <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold shrink-0 ml-2">
-                                    {event.category === 'performance' ? '舞台' : '展示'}
-                                </span>
-                            </div>
-                            <div className="space-y-3 text-sm">
-                                <p>
-                                    <span className="font-bold">By:</span> {event.organization}
-                                </p>
-                                <p>
-                                    {getScheduleInfo(event)}
-                                </p>
-                                <p className="text-muted-foreground mt-4">{event.description}</p>
+                            {/* 背景画像 - 右寄せ */}
+                            {event.images && event.images.length > 0 && (
+                                <div className="absolute top-0 right-0 w-50 h-full overflow-hidden">
+                                    <img
+                                        src={`/image/${event.images[0]}`}
+                                        alt=""
+                                        className="w-full h-full object-cover object-center opacity-30"
+                                    />
+                                </div>
+                            )}
+
+                            {/* コンテンツ - 前面に表示 */}
+                            <div className="p-8 relative z-10">
+                                <div className="flex items-start justify-between mb-4">
+                                    <h3 className="text-xl font-bold text-primary">{event.name}</h3>
+                                    <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold shrink-0 ml-2">
+                                        {event.category === 'performance' ? '舞台' : '展示'}
+                                    </span>
+                                </div>
+                                <div className="space-y-3 text-sm">
+                                    <p>
+                                        <span className="font-bold">By:</span> {event.organization}
+                                    </p>
+                                    <p>
+                                        {getScheduleInfo(event)}
+                                    </p>
+                                    <p className="text-muted-foreground mt-4">{event.description}</p>
+                                </div>
                             </div>
                         </Link>
                     ))

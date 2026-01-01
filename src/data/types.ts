@@ -15,6 +15,7 @@ export interface Performance {
     organization: string
     description: string
     schedules: Schedule[]
+    images?: string[]
 }
 
 export interface Day {
@@ -29,6 +30,7 @@ export interface Exhibition {
     organization: string
     description: string
     roomId: string
+    images?: string[]
 }
 
 export type UnifiedEvent = (Performance & { category: 'performance' }) | (Exhibition & { category: 'exhibition' })

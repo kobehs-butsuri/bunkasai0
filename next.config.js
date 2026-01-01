@@ -4,9 +4,11 @@
 const nextConfig = {
     output: 'export',
     trailingSlash: true,
+    skipTrailingSlashRedirect: true,
     turbopack: {},
     images: {
-        disableStaticImages: true,
+        disableStaticImages: false,
+        unoptimized: true
     },
     webpack: (config) => {
         config.module.rules.push({

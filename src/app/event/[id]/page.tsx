@@ -4,6 +4,7 @@ import mapDataJson from "@/data/map.json"
 import {Performance, Exhibition, UnifiedEvent} from "@/data/types";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
+import { ImageGallery } from "@/components/image-garally";
 
 interface EventDetailPageProps {
     params: Promise<{ id: string }>
@@ -61,7 +62,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     const mapData = mapDataJson as Record<string, string>;
 
     return (
-        <div className="pt-28 pb-28 max-w-3xl mx-auto">
+        <div className="pt-28 pb-28 max-w-3xl md:max-w-7xl mx-auto">
             {/* Back link */}
             <Link href="/event" className="text-primary underline mb-8 inline-block hover:opacity-75 mx-10">
                 ← イベント一覧
@@ -98,12 +99,14 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                                             <p className="text-lg my-4" key={schedule.dayId}>
                                                 <span className="font-bold text-2xl">{day.name}<br/></span>
                                                 {schedule.info.map((info, idx) =>
-                                                    (
-                                                        <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
-                                                            {idx !== 0 && (<br/>)}{info.startTime} - {info.endTime} <span className="font-bold">@{mapData[info.location]}</span>
-                                                            <Link href={`/map?id=${info.location}`} className="ml-4 text-primary underline">マップを見る</Link>
-                                                        </span>
-                                                    )
+                                                        (
+                                                            <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
+                                            {idx !== 0 && (<br/>)}{info.startTime} - {info.endTime}
+                                                                <Link href={`/map?id=${info.location}`} className="ml-4 text-primary underline">
+                                                <span className="font-bold">@{mapData[info.location]}</span>
+                                            </Link>
+                                        </span>
+                                                        )
                                                 )}
                                             </p>
                                         )
@@ -121,8 +124,24 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                         </div>
                     )}
 
-                    <div>
-                        <p className="text-lg leading-relaxed">{event.description}</p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className="flex-1">
+                            <p className="text-lg leading-relaxed">{event.description}</p>
+                        </div>
+                        {event.images && event.images.length > 0 && (
+                            <div className="w-full md:w-80 rounded-2xl overflow-hidden shrink-0">
+                                <ImageGallery
+                                    images={event.images}
+                                    aspectRatio="square"
+                                    className="md:hidden"
+                                />
+                                <ImageGallery
+                                    images={event.images}
+                                    aspectRatio="portrait"
+                                    className="hidden md:block"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

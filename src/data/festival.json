@@ -19,6 +19,10 @@
       "name": "舞台1",
       "organization": "A部",
       "description": "詳細1",
+      "images": [
+        "perf-001-1.jpg",
+        "perf-001-2.jpg"
+      ],
       "schedules": [
         {
           "dayId": "day-1",
@@ -174,7 +178,10 @@
       "name": "展示1",
       "organization": "G部",
       "description": "詳細7",
-      "roomId": "_39"
+      "roomId": "_39",
+      "images": [
+        "exh-001-1.jpg"
+      ]
     },
     {
       "id": "exh-002",
