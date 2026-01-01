@@ -5,8 +5,12 @@ export const metadata : Metadata = {
     title: "校内マップ",
 }
 
-export default function Map() {
+type Props = {
+    searchParams: { id?: string }
+}
+
+export default function Map({ searchParams }: Props) {
     return (
-        <Content/>
+        <Content initialRoomId={searchParams.id} />
     )
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, Map, CalendarClock, Search } from "lucide-react"
+import { Home, Map, CalendarClock, Binoculars, Search } from "lucide-react"
 
 export function Toolbar() {
     const pathname = usePathname()
@@ -10,8 +10,9 @@ export function Toolbar() {
     const items = [
         { href: "/", label: "Home", icon: Home },
         { href: "/timetable", label: "Schedule", icon: CalendarClock },
+        { href: "/discover", label: "Discover", icon: Binoculars },
         { href: "/map", label: "Map", icon: Map },
-        { href: "/event", label: "Find", icon: Search }
+        { href: "/event", label: "Events", icon: Search }
     ]
 
     return (
@@ -27,7 +28,7 @@ export function Toolbar() {
                                 href={item.href}
                                 className={`flex flex-col items-center justify-center gap-1 px-3 py-3 transition-colors h-full
                                 ${
-                                    isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:text-foreground"
+                                    isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
                                 }`}>
                                 <Icon className="h-5 w-5" />
                                 <span className="text-xs font-medium">{item.label}</span>

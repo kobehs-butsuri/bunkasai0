@@ -6,9 +6,12 @@ import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
 import useMobile from "@/hooks/use-mobile"
 import {useSetPageTitle} from "@/hooks/page-title-context";
-import {Maximize, Minimize} from "lucide-react";
+import {Maximize, Minimize, X} from "lucide-react";
 import {ActionMenuButton} from "@/components/action-menu";
 import {Button} from "@/components/ui/button";
+import { MapSearch } from "@/components/map-search"
+import roomLabelsData from "@/data/map.json"
+import { MapPin } from "lucide-react"
 
 interface Exhibition {
     id: string
@@ -19,7 +22,11 @@ interface Exhibition {
     roomId: string
 }
 
-export default function Map() {
+interface ContentProps {
+    initialRoomId?: string
+}
+
+export default function Content({ initialRoomId }: ContentProps) {
     useSetPageTitle("校内マップ")
 
     const [hoveredRoomId, setHoveredRoomId] = useState<string | null>(null)
@@ -50,6 +57,11 @@ export default function Map() {
     const [activeLayer, setActiveLayer] = useState(0)
 
     const exhibitions = festivalData.exhibitions as Exhibition[]
+
+    const [roomLayerCache, setRoomLayerCache] = useState<Map<string, number>>(new Map())
+    const [pinnedRoomId, setPinnedRoomId] = useState<string | null>(null)
+    const roomLabels = roomLabelsData as Record<string, string>
+    const [pinnedRoomMapPosition, setPinnedRoomMapPosition] = useState<{ x: number; y: number } | null>(null)
 
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const runTimeoutOnce = () => {
@@ -88,6 +100,125 @@ export default function Map() {
         const constrainedY = Math.max(bottom, Math.min(top, y))
         return { x: constrainedX, y: constrainedY }
     }
+
+    useEffect(() => {
+        if (!isInitialized) return
+
+        const buildCache = async () => {
+            const cache = new Map<string, number>()
+
+            for (let layer = 0; layer <= 5; layer++) {
+                setActiveLayer(layer)
+                await new Promise(resolve => setTimeout(resolve, 100))
+
+                const elements = mapRef.current?.querySelectorAll('[id]')
+                elements?.forEach(el => {
+                    const id = el.id
+                    if (id && !cache.has(id)) {
+                        cache.set(id, layer)
+                    }
+                })
+            }
+
+            setRoomLayerCache(cache)
+            setActiveLayer(0)
+        }
+
+        buildCache()
+
+    }, [initialRoomId, isInitialized, roomLayerCache.size])
+
+    const zoomToRoomCached = useCallback(async (roomId: string) => {
+        if (!mapRef.current || !containerRef.current) return
+
+        const targetLayer = roomLayerCache.get(roomId)
+        if (targetLayer === undefined) {
+            console.error(`Room ${roomId} not found`)
+            return
+        }
+
+        // レイヤーを切り替え
+        if (activeLayer !== targetLayer) {
+            setActiveLayer(targetLayer)
+            await new Promise(resolve => setTimeout(resolve, 200))
+        }
+
+        const roomElement = document.getElementById(roomId)
+        if (!roomElement) {
+            console.error(`Room element ${roomId} not found in DOM`)
+            return
+        }
+
+        const container = containerRef.current
+        const containerRect = container.getBoundingClientRect()
+
+        // ピンの位置を取得（コンテナ基準）
+        const roomRect = roomElement.getBoundingClientRect()
+        const pinX = roomRect.left + roomRect.width / 2 - containerRect.left
+        const pinY = roomRect.top + roomRect.height / 2 - containerRect.top
+
+        // ピンの位置のマップ上での座標（スケール1.0基準）
+        const pinMapX = (pinX - position.x) / scale
+        const pinMapY = (pinY - position.y) / scale
+
+        // ピンの位置を保存
+        setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
+
+        // 部屋のサイズから目標スケールを計算
+        const currentRoomWidth = roomRect.width
+        const currentRoomHeight = roomRect.height
+        const originalRoomWidth = currentRoomWidth / scale
+        const originalRoomHeight = currentRoomHeight / scale
+
+        const targetScale = Math.min(
+            (containerRect.width * 0.4) / originalRoomWidth,
+            (containerRect.height * 0.4) / originalRoomHeight,
+            3
+        )
+
+        // ピンの位置（部屋の中心）がコンテナの中心に来るように位置を計算
+        const newX = containerRect.width / 2 - pinMapX * targetScale
+        const newY = containerRect.height / 2 - pinMapY * targetScale
+
+        // 新しいスケールでの制約を計算
+        const map = mapRef.current
+        const mapRect = map.getBoundingClientRect()
+
+        const mapWidthOriginal = mapRect.width / scale
+        const mapHeightOriginal = mapRect.height / scale
+
+        const newMapWidth = mapWidthOriginal * targetScale
+        const newMapHeight = mapHeightOriginal * targetScale
+
+        const left = containerRect.width / 2
+        const top = containerRect.height / 2
+        const bottom = -newMapHeight + containerRect.height / 2
+        const right = -newMapWidth + containerRect.width / 2
+
+        const constrainedX = Math.max(right, Math.min(left, newX))
+        const constrainedY = Math.max(bottom, Math.min(top, newY))
+
+        const constrained = { x: constrainedX, y: constrainedY }
+
+        // アニメーション付きで移動
+        if (mapRef.current) {
+            mapRef.current.style.transition = 'transform 0.5s ease-in-out'
+        }
+
+        setScale(targetScale)
+        setPosition(constrained)
+
+        setTimeout(() => {
+            if (mapRef.current) {
+                mapRef.current.style.transition = ''
+            }
+        }, 500)
+    }, [roomLayerCache, activeLayer, scale, position])
+
+    const handleSearchSelect = useCallback((roomId: string) => {
+        setPinnedRoomId(roomId)
+        zoomToRoomCached(roomId)
+    }, [zoomToRoomCached])
 
     useEffect(() => {
         constrainPosition(0, 0)
@@ -143,7 +274,7 @@ export default function Map() {
             setPosition(constrained)
             setIsScreenModeChanged(false)
         }
-    }, [isFullscreen, isInitialized, isScreenModeChanged, position.x, position.y, scale])
+    }, [handleSearchSelect, initialRoomId, isFullscreen, isInitialized, isScreenModeChanged, position.x, position.y, scale])
 
     useEffect(() => {
         const handleGlobalMouseUp = () => {
@@ -471,6 +602,19 @@ export default function Map() {
 
     return (
         <>
+            <div className={
+                isFullscreen
+                    ? "fixed top-4 left-1/2 -translate-x-1/2 z-60 px-4 w-full max-w-2xl"
+                    : (isMobile
+                        ? "w-full px-4 py-3 bg-card border-b border-accent-light"
+                        : "max-w-7xl mx-auto px-4 py-3 bg-card border-b border-accent-light")
+            }>
+                <MapSearch
+                    onSelectRoom={handleSearchSelect}
+                    roomLabels={roomLabels}
+                />
+            </div>
+
             <div
                 className={
                     isFullscreen
@@ -501,18 +645,89 @@ export default function Map() {
                         userSelect: 'none',
                         transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
                         transformOrigin: '0 0',
-                        transition: (isDragging ? "None" : "")}}
+                        transition: (isDragging ? "None" : "")
+                    }}
                 >
                     <MapSVG layer={activeLayer} />
+
+                    {pinnedRoomId && pinnedRoomMapPosition && (
+                        <div
+                            className="absolute pointer-events-none z-20"
+                            style={{
+                                left: `${pinnedRoomMapPosition.x}px`,
+                                top: `${pinnedRoomMapPosition.y}px`,
+                                transform: `translate(-50%, -100%) scale(${1 / scale})`,
+                                transformOrigin: 'center bottom',
+                            }}
+                        >
+                            <MapPin
+                                className="h-8 w-8 text-red-500 drop-shadow-lg"
+                                fill="currentColor"
+                                style={{
+                                    filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
+                                }}
+                            />
+                            <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                                <div className="bg-card border border-accent-light px-3 py-1 rounded shadow-lg text-xs">
+                                    <span className="font-medium">
+                                        {roomLabels[pinnedRoomId]}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {pinnedRoomId && (
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                            setPinnedRoomId(null)
+                            setPinnedRoomMapPosition(null)
+                        }}
+                        className="absolute top-4 left-4 z-10 gap-2"
+                    >
+                        <X className="h-4 w-4" />
+                        ピンを削除
+                    </Button>
+                )}
+
+                <div className="absolute inset-0 bg-background/75 bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
+                     style={{
+                         opacity: showScrollOverlay === 0 ? 0 : 1,
+                     }}>
+                    <div className="flex items-center gap-3">
+                        {
+                            showScrollOverlay === 1 && (
+                                <>
+                                    <span className="font-medium">Zoom: </span>
+                                    <kbd className="px-3 py-2 border-2 bg-border rounded font-mono text-sm font-semibold">Ctrl</kbd>
+                                    <span className="text-lg">+</span>
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                    </svg>
+                                </>
+                            )
+                        }
+                        {
+                            showScrollOverlay === 2 && (
+                                <>
+                                    <span className="font-medium">Zoom and Pan: </span>
+                                    <span className="text-lg">Use 2 fingers</span>
+                                </>
+                            )
+                        }
+                    </div>
                 </div>
 
                 <Button variant="outline" size="icon" aria-label={isFullscreen ? "通常表示" : "全画面表示"}
-                    onClick={() => {
-                        setIsScreenModeChanged(true)
-                        setIsFullscreen(!isFullscreen)
-                    }}
-                    className="absolute top-4 right-4 z-10"
-                    title={isFullscreen ? "通常表示" : "全画面表示"}
+                        onClick={() => {
+                            setIsScreenModeChanged(true)
+                            setIsFullscreen(!isFullscreen)
+                        }}
+                        className="absolute top-4 right-4 z-10"
+                        title={isFullscreen ? "通常表示" : "全画面表示"}
                 >
                     {isFullscreen ? (
                         <Minimize className={"h-5 w-5"}/>
@@ -566,34 +781,6 @@ export default function Map() {
                             },
                         },
                     ]} buttonLabel={"Layers"}/>
-                </div>
-
-                <div className="absolute inset-0 bg-background/[.75] bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
-                     style={{
-                         opacity: showScrollOverlay === 0 ? 0 : 1,
-                     }}>
-                    <div className="flex items-center gap-3">
-                        {
-                            showScrollOverlay === 1 && (
-                                <>
-                                    <span className="font-medium">Zoom: </span>
-                                    <kbd className="px-3 py-2 border-2 bg-border rounded font-mono text-sm font-semibold">Ctrl</kbd>
-                                    <span className="text-lg">+</span>
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                                    </svg>
-                                </>
-                            )
-                        }
-                        {
-                            showScrollOverlay === 2 && (
-                                <>
-                                    <span className="font-medium">Zoom and Pan: </span>
-                                    <span className="text-lg">Use 2 fingers</span>
-                                </>
-                            )
-                        }
-                    </div>
                 </div>
             </div>
 

@@ -1,18 +1,18 @@
 import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import {PageTitleProvider} from "@/hooks/page-title-context"
-import Heading from "@/components/heading";
-import { Noto_Sans_JP } from "next/font/google";
-import {Toolbar} from "@/components/tool-bar";
+import Header from "@/components/header"
+import Footer from "@/components/footer"
+import { PageTitleProvider } from "@/hooks/page-title-context"
+import Heading from "@/components/heading"
+import { Noto_Sans_JP } from "next/font/google"
+import { Toolbar } from "@/components/tool-bar"
 
 const noto = Noto_Sans_JP({
     weight: ["400", "700"],
     style: "normal",
     subsets: ["latin"],
-});
+})
 
 export const metadata: Metadata = {
     title: {
@@ -45,20 +45,20 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja">
-        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${noto.className}`}>
-            <PageTitleProvider>
-                <Header/>
-                <main className="mt-40 w-full bg-background flex-grow mb-16">
-                    <div className={"px-8"}>
-                        <Heading />
-                    </div>
-                    {children}
-                </main>
-                <Footer/>
-            </PageTitleProvider>
-            <div className="z-10">
-                <Toolbar/>
-            </div>
+        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] overflow-x-hidden mr-0 ${noto.className}`}>
+        <PageTitleProvider>
+            <Header/>
+            <main className="mt-40 w-full bg-background grow mb-16">
+                <div className={"px-8"}>
+                    <Heading />
+                </div>
+                {children}
+            </main>
+            <Footer/>
+        </PageTitleProvider>
+        <div className="z-10">
+            <Toolbar/>
+        </div>
         </body>
         </html>
     )

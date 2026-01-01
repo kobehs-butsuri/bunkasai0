@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
+import mapDataJson from "@/data/map.json"
 import {Performance, Exhibition, UnifiedEvent, Day} from "@/data/types";
 import {useSetPageTitle} from "@/hooks/page-title-context";
 
@@ -32,6 +33,7 @@ export default function EventsPage() {
     const [filterCategory, setFilterCategory] = useState("")
 
     const organizations = [...new Set(allEvents.map((e) => e.organization))].sort()
+    const mapData = mapDataJson as Record<string, string>;
 
     const filteredEvents = allEvents.filter((event) => {
         const matchesSearch =
@@ -66,7 +68,7 @@ export default function EventsPage() {
                     {schedule.info.map((info, idx) =>
                         (
                             <span key={`${event.id}-${schedule.dayId}-${idx}-time-pos`}>
-                                                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{info.location}</span>
+                                                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{mapData[info.location]}</span>
                                                             </span>
                         )
                     )}<br/>
@@ -157,7 +159,7 @@ export default function EventsPage() {
                         >
                             <div className="flex items-start justify-between mb-4">
                                 <h3 className="text-xl font-bold text-primary">{event.name}</h3>
-                                <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold flex-shrink-0 ml-2">
+                                <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold shrink-0 ml-2">
                                     {event.category === 'performance' ? '舞台' : '展示'}
                                 </span>
                             </div>

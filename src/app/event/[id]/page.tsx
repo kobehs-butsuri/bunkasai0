@@ -1,5 +1,6 @@
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
+import mapDataJson from "@/data/map.json"
 import {Performance, Exhibition, UnifiedEvent} from "@/data/types";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
@@ -57,6 +58,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     const isPerformance = event.category === 'performance'
     const schedules = isPerformance ? (event as Performance).schedules : undefined
     const roomId = !isPerformance ? (event as Exhibition).roomId : undefined
+    const mapData = mapDataJson as Record<string, string>;
 
     return (
         <div className="pt-28 pb-28 max-w-3xl mx-auto">
@@ -72,7 +74,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                     <div>
                         <p className="text-lg">{event.organization}</p>
                     </div>
-                    <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold flex-shrink-0">
+                    <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold shrink-0">
                         {isPerformance ? '舞台' : '展示'}
                     </span>
                 </div>
@@ -99,7 +101,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                                                 {schedule.info.map((info, idx) =>
                                                     (
                                                         <span key={`${id}-${schedule.dayId}-${idx}-time-pos`}>
-                                                            {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{info.location}</span>
+                                                            {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{mapData[info.location]}</span>
                                                         </span>))}
                                             </p>
                                         )
@@ -112,7 +114,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                     {!isPerformance && roomId && (
                         <div>
                             <h3 className="font-bold text-lg mb-2">場所</h3>
-                            <p className="text-lg">{roomId}</p>
+                            <p className="text-lg">{mapData[roomId]}</p>
                             <p className="text-sm text-muted-foreground font-bold mt-1">常設展示</p>
                         </div>
                     )}
