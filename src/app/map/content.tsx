@@ -1,6 +1,6 @@
 "use client"
 
-import React, {useCallback, useEffect, useRef, useState} from "react"
+import React, {Suspense, useCallback, useEffect, useRef, useState} from "react"
 import Link from "next/link"
 import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
@@ -12,6 +12,7 @@ import {Button} from "@/components/ui/button";
 import { MapSearch } from "@/components/map-search"
 import roomLabelsData from "@/data/map.json"
 import { MapPin } from "lucide-react"
+import {useSearchParams} from "next/dist/client/components/navigation";
 
 interface Exhibition {
     id: string
@@ -22,13 +23,17 @@ interface Exhibition {
     roomId: string
 }
 
-interface ContentProps {
-    initialRoomId?: string
+export default function Content() {
+    return (
+        <Suspense>
+            <MapContent/>
+        </Suspense>
+    )
 }
-
-export default function Content({ initialRoomId }: ContentProps) {
+function MapContent() {
     useSetPageTitle("校内マップ")
-
+    const searchParams = useSearchParams()
+    const initialRoomId = searchParams.get('id') || undefined
     const [hoveredRoomId, setHoveredRoomId] = useState<string | null>(null)
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
     const [showPopup, setShowPopup] = useState(false)
@@ -58,6 +63,7 @@ export default function Content({ initialRoomId }: ContentProps) {
 
     const exhibitions = festivalData.exhibitions as Exhibition[]
 
+    const [isLoadingCache, setIsLoadingCache] = useState(true)
     const [roomLayerCache, setRoomLayerCache] = useState<Map<string, number>>(new Map())
     const [pinnedRoomId, setPinnedRoomId] = useState<string | null>(null)
     const roomLabels = roomLabelsData as Record<string, string>
@@ -101,51 +107,44 @@ export default function Content({ initialRoomId }: ContentProps) {
         return { x: constrainedX, y: constrainedY }
     }
 
-    useEffect(() => {
-        if (!isInitialized) return
-
-        const buildCache = async () => {
-            const cache = new Map<string, number>()
-
-            for (let layer = 0; layer <= 5; layer++) {
-                setActiveLayer(layer)
-                await new Promise(resolve => setTimeout(resolve, 100))
-
-                const elements = mapRef.current?.querySelectorAll('[id]')
-                elements?.forEach(el => {
-                    const id = el.id
-                    if (id && !cache.has(id)) {
-                        cache.set(id, layer)
-                    }
-                })
-            }
-
-            setRoomLayerCache(cache)
-            setActiveLayer(0)
-        }
-
-        buildCache()
-
-    }, [initialRoomId, isInitialized, roomLayerCache.size])
-
     const zoomToRoomCached = useCallback(async (roomId: string) => {
         if (!mapRef.current || !containerRef.current) return
 
         const targetLayer = roomLayerCache.get(roomId)
         if (targetLayer === undefined) {
-            console.error(`Room ${roomId} not found`)
+            console.error(`Room ${roomId} not found in cache`)
             return
         }
 
-        // レイヤーを切り替え
         if (activeLayer !== targetLayer) {
             setActiveLayer(targetLayer)
-            await new Promise(resolve => setTimeout(resolve, 200))
         }
 
-        const roomElement = document.getElementById(roomId)
+        const waitForElement = async (id: string, timeout = 3000): Promise<HTMLElement | null> => {
+            const startTime = Date.now()
+
+            let element = document.getElementById(id)
+            if (element) return element
+
+            return new Promise((resolve) => {
+                const checkInterval = setInterval(() => {
+                    element = document.getElementById(id)
+
+                    if (element) {
+                        clearInterval(checkInterval)
+                        resolve(element)
+                    } else if (Date.now() - startTime > timeout) {
+                        clearInterval(checkInterval)
+                        resolve(null)
+                    }
+                }, 50)
+            })
+        }
+
+        const roomElement = await waitForElement(roomId)
+
         if (!roomElement) {
-            console.error(`Room element ${roomId} not found in DOM`)
+            console.error(`Room element ${roomId} not found in DOM after waiting`)
             return
         }
 
@@ -215,10 +214,70 @@ export default function Content({ initialRoomId }: ContentProps) {
         }, 500)
     }, [roomLayerCache, activeLayer, scale, position])
 
+
+    // handleSearchSelectを定義（zoomToRoomCachedの後）
     const handleSearchSelect = useCallback((roomId: string) => {
         setPinnedRoomId(roomId)
         zoomToRoomCached(roomId)
     }, [zoomToRoomCached])
+
+    // キャッシュ構築のuseEffect
+    useEffect(() => {
+        if (!isInitialized) return
+        if (roomLayerCache.size > 0) return
+
+        const buildCache = async () => {
+
+            const cache = new Map<string, number>()
+
+            for (let layer = 0; layer <= 5; layer++) {
+                setActiveLayer(layer)
+                await new Promise(resolve => setTimeout(resolve, 100))
+
+                const elements = mapRef.current?.querySelectorAll('[id]')
+                elements?.forEach(el => {
+                    const id = el.id
+                    if (id && !cache.has(id)) {
+                        cache.set(id, layer)
+                    }
+                })
+            }
+
+            setRoomLayerCache(cache)
+            setActiveLayer(0)
+
+            await new Promise(resolve => setTimeout(resolve, 100))
+            setIsLoadingCache(false)
+        }
+
+        buildCache()
+    }, [isInitialized, roomLayerCache.size])
+
+    const hasProcessedInitialRoom = useRef(false)
+    // initialRoomIdを処理する新しいuseEffect
+    useEffect(() => {
+        if (!isInitialized || roomLayerCache.size === 0 || !initialRoomId) return
+
+        // 既に処理済みの場合はスキップ
+        if (hasProcessedInitialRoom.current) return
+
+        if (pinnedRoomId === initialRoomId) return
+
+        const exhibition = getExhibitionByRoomId(initialRoomId)
+        if (!exhibition) {
+            console.warn(`Initial room ${initialRoomId} not found in exhibitions`)
+            return
+        }
+
+        if (!roomLayerCache.has(initialRoomId)) {
+            console.warn(`Initial room ${initialRoomId} not found in cache`)
+            return
+        }
+
+        console.log('Processing initialRoomId:', initialRoomId)
+        hasProcessedInitialRoom.current = true
+        handleSearchSelect(initialRoomId)
+    }, [isInitialized, roomLayerCache, initialRoomId, getExhibitionByRoomId, handleSearchSelect, pinnedRoomId])
 
     useEffect(() => {
         constrainPosition(0, 0)
@@ -638,6 +697,16 @@ export default function Content({ initialRoomId }: ContentProps) {
                     cursor: !isMobile && hoveredRoomId && hoveredExhibition ? "pointer" : (isDragging ? 'grabbing' : 'default'),
                 }}
             >
+                {/* ローディングオーバーレイを追加 */}
+                {isLoadingCache && (
+                    <div className="absolute inset-0 bg-card/90 backdrop-blur-sm flex items-center justify-center z-50">
+                        <div className="flex flex-col items-center gap-4">
+                            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                            <p className="text-lg font-medium">マップを読み込んでいます...</p>
+                        </div>
+                    </div>
+                )}
+
                 <div
                     ref={mapRef}
                     className="w-full transition-all"
@@ -645,7 +714,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                         userSelect: 'none',
                         transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
                         transformOrigin: '0 0',
-                        transition: (isDragging ? "None" : "")
+                        transition: (isDragging ? "None" : ""),
+                        opacity: isLoadingCache ? 0.3 : 1,
                     }}
                 >
                     <MapSVG layer={activeLayer} />
@@ -667,13 +737,6 @@ export default function Content({ initialRoomId }: ContentProps) {
                                     filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))',
                                 }}
                             />
-                            <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                <div className="bg-card border border-accent-light px-3 py-1 rounded shadow-lg text-xs">
-                                    <span className="font-medium">
-                                        {roomLabels[pinnedRoomId]}
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                     )}
                 </div>
@@ -686,7 +749,7 @@ export default function Content({ initialRoomId }: ContentProps) {
                             setPinnedRoomId(null)
                             setPinnedRoomMapPosition(null)
                         }}
-                        className="absolute top-4 left-4 z-10 gap-2"
+                        className="absolute bottom-4 left-4 z-10 gap-2"
                     >
                         <X className="h-4 w-4" />
                         ピンを削除
@@ -726,7 +789,7 @@ export default function Content({ initialRoomId }: ContentProps) {
                             setIsScreenModeChanged(true)
                             setIsFullscreen(!isFullscreen)
                         }}
-                        className="absolute top-4 right-4 z-10"
+                        className="absolute bottom-16 right-4 z-10"
                         title={isFullscreen ? "通常表示" : "全画面表示"}
                 >
                     {isFullscreen ? (
@@ -742,6 +805,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                             label: "本館地階",
                             icon: <><code>G</code></>,
                             onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
                                 setActiveLayer(0)
                             },
                         },
@@ -749,6 +814,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                             label: "本館1階",
                             icon: <><code>1</code></>,
                             onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
                                 setActiveLayer(1)
                             },
                         },
@@ -756,6 +823,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                             label: "本館2階(別館1階)",
                             icon: <><code>2</code></>,
                             onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
                                 setActiveLayer(2)
                             },
                         },
@@ -763,6 +832,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                             label: "本館3階(別館2階)",
                             icon: <><code>3</code></>,
                             onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
                                 setActiveLayer(3)
                             },
                         },
@@ -770,6 +841,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                             label: "本館4階(別館3階)",
                             icon: <><code>4</code></>,
                             onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
                                 setActiveLayer(4)
                             },
                         },
@@ -777,6 +850,8 @@ export default function Content({ initialRoomId }: ContentProps) {
                             label: "別館4階",
                             icon: <><code>5</code></>,
                             onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
                                 setActiveLayer(5)
                             },
                         },
