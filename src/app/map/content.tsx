@@ -713,7 +713,7 @@ function MapContent() {
             >
                 {/* ローディングオーバーレイを追加 */}
                 {isLoadingCache && (
-                    <div className="absolute inset-0 bg-card/90 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="absolute inset-0 bg-card/90 backdrop-blur-sm flex items-center justify-center z-10">
                         <div className="flex flex-col items-center gap-4">
                             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                             <p className="text-lg font-medium">マップを読み込んでいます...</p>

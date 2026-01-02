@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="ja">
-        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] overflow-x-hidden mr-0 ${noto.className}`}>
+        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${noto.className}`}>
         <PageTitleProvider>
             <Header/>
             <main className="mt-40 w-full bg-background grow mb-16">
@@ -56,7 +56,7 @@ export default function RootLayout({
             </main>
             <Footer/>
         </PageTitleProvider>
-        <div className="z-10">
+        <div className="z-50">
             <Toolbar/>
         </div>
         </body>
