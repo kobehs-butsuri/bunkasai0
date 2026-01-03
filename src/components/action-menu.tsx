@@ -14,11 +14,12 @@ interface MenuItemType {
 }
 
 interface ActionMenuButtonProps {
+    index: number
     items: MenuItemType[]
     buttonLabel?: string
 }
 
-export function ActionMenuButton({
+export function ActionMenuButton({       index,
                                          items,
                                          buttonLabel = "メニュー",
                                      }: ActionMenuButtonProps) {
@@ -26,8 +27,11 @@ export function ActionMenuButton({
     const [open, setOpen] = useState(false)
 
     const menuButton = (
-        <Button variant="outline" size="icon" aria-label={buttonLabel}>
-            <Layers className="h-5 w-5" />
+        <Button variant="outline" size="default" aria-label={buttonLabel}>
+            <div className={"flex gap-1 items-center"}>
+                {items[index].label}
+                <Layers className="h-5 w-5" />
+            </div>
         </Button>
     )
 

@@ -4,6 +4,8 @@ import ParallaxContainer from "@/components/parallax-container"
 import GoogleMap from "@/components/google-map";
 import {useEffect, useState} from "react";
 import useMobile from "@/hooks/use-mobile";
+import Link from "next/link";
+import {ChevronRight} from "lucide-react";
 
 export function AccessTransportation() {
     return (
@@ -40,11 +42,14 @@ export function AccessBanner() {
                 <div>
                     <div className="pb-8">
                         <div className="pt-8">
-                            <h3
-                                className="text-4xl font-bold mb-4 tracking-tight text-balance"
-                                style={{letterSpacing: "0.05em"}}>
-                                アクセス
-                            </h3>
+                                <h3
+                                    className="text-4xl font-bold mb-4 tracking-tight text-balance"
+                                    style={{letterSpacing: "0.05em"}}>
+                                    <Link href="/access" className={"flex items-center"}>
+                                        <span className={"text-4xl"}>アクセス</span>
+                                        <ChevronRight size={36} />
+                                    </Link>
+                                </h3>
                         </div>
                         <AccessTransportation/>
                     </div>
@@ -60,9 +65,12 @@ export function AccessBanner() {
                         <div className="p-8">
                             <div className="mb-12 pt-8">
                                 <h3
-                                    className="text-4xl font-bold mb-4 tracking-tight text-balance"
+                                    className="font-bold mb-4 tracking-tight text-balance"
                                     style={{letterSpacing: "0.05em"}}>
-                                    アクセス
+                                    <Link href="/access" className={"flex items-center"}>
+                                        <span className={"text-4xl"}>アクセス</span>
+                                        <ChevronRight size={36} />
+                                    </Link>
                                 </h3>
                             </div>
                             <AccessTransportation/>

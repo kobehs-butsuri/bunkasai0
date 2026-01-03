@@ -111,7 +111,7 @@ export default function NewsPage() {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.4 }}
                         >
-                            <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto">
+                            <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-hidden">
                                 <div className="space-y-0">
                                     {newsWithId.map((item, index) => (
                                         <motion.button
@@ -156,7 +156,7 @@ export default function NewsPage() {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: -20 }}
                                         transition={{ duration: 0.3 }}
-                                        className="bg-card border border-accent-light p-8 md:p-12"
+                                        className="bg-card border border-accent-light p-8 md:p-12 h-full"
                                     >
                                         <motion.div
                                             className="mb-8 pb-6 border-b border-accent-light"

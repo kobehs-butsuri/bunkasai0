@@ -6,7 +6,7 @@ import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
 import useMobile from "@/hooks/use-mobile"
 import {useSetPageTitle} from "@/hooks/page-title-context";
-import {Maximize, Minimize, X} from "lucide-react";
+import {Maximize, Minimize} from "lucide-react";
 import {ActionMenuButton} from "@/components/action-menu";
 import {Button} from "@/components/ui/button";
 import { MapSearch } from "@/components/map-search"
@@ -799,7 +799,7 @@ function MapContent() {
                 </Button>
 
                 <div className="absolute bottom-4 right-4 z-10">
-                    <ActionMenuButton items={[
+                    <ActionMenuButton index={activeLayer} items={[
                         {
                             label: "本館地階",
                             icon: <><code>G</code></>,

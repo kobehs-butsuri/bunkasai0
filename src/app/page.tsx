@@ -23,10 +23,10 @@ export default function Home() {
             <ParallaxContainer offset={scrollY * 0.1}>
                 <Hero scrollY={scrollY} />
             </ParallaxContainer>
+            <LatestNews />
             <ParallaxContainer offset={scrollY * 0.1}>
                 <AccessBanner/>
             </ParallaxContainer>
-            <LatestNews />
         </div>
     )
 }
