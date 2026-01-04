@@ -45,7 +45,7 @@ export default function EventsPage() {
     })
     const [isExplicitAllOrg, setIsExplicitAllOrg] = useState(true)
     const [isExplicitAllCategory, setIsExplicitAllCategory] = useState(true)
-    const [, setIsExplicitAllDay] = useState(true)
+    const [isExplicitAllDay, setIsExplicitAllDay] = useState(true)
 
     useEffect(() => {
         const isDesktop = window.innerWidth >= 768
@@ -77,9 +77,10 @@ export default function EventsPage() {
         currentFilters: string[],
         setter: (val: string[]) => void,
         allValues: string[],
-        explicitAllSetter: (val: boolean) => void
+        explicitAllSetter: (val: boolean) => void,
+        isExplicitAll: boolean
     ) => {
-        if (currentFilters.length === allValues.length) {
+        if (currentFilters.length === allValues.length && isExplicitAll) {
             setter([value])
             explicitAllSetter(false)
         } else if (currentFilters.includes(value)) {
@@ -225,7 +226,7 @@ export default function EventsPage() {
                                                         {organizations.map((org) => (
                                                             <button
                                                                 key={org}
-                                                                onClick={() => toggleFilter(org, filterOrganizations, setFilterOrganizations, organizations, setIsExplicitAllOrg)}
+                                                                onClick={() => toggleFilter(org, filterOrganizations, setFilterOrganizations, organizations, setIsExplicitAllOrg, isExplicitAllOrg)}
                                                                 className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center justify-start gap-1.5 ${
                                                                     filterOrganizations.includes(org) && !isExplicitAllOrg
                                                                         ? 'bg-primary text-background'
@@ -304,7 +305,7 @@ export default function EventsPage() {
                                                             <span>すべて</span>
                                                         </button>
                                                         <button
-                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory)}
+                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory, isExplicitAllCategory)}
                                                             className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
                                                                 filterCategories.includes('performance') && !isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
@@ -325,7 +326,7 @@ export default function EventsPage() {
                                                             <span>舞台</span>
                                                         </button>
                                                         <button
-                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory)}
+                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory, isExplicitAllCategory)}
                                                             className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
                                                                 filterCategories.includes('exhibition') && !isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
@@ -381,12 +382,33 @@ export default function EventsPage() {
                                             >
                                                 <div className="space-y-2 pl-2">
                                                     <div className="flex flex-wrap gap-2">
+                                                        <button
+                                                            onClick={() => selectAll(days.map(d => d.id), filterDays, setFilterDays, setIsExplicitAllDay)}
+                                                            className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                isAllSelected(filterDays, days.map(d => d.id)) && isExplicitAllDay
+                                                                    ? 'bg-primary text-background'
+                                                                    : 'bg-input border-border text-foreground hover:border-primary'
+                                                            }`}
+                                                        >
+                                                            <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                {isAllSelected(filterDays, days.map(d => d.id)) ? (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                            <span>すべて</span>
+                                                        </button>
                                                         {days.map((day) => (
                                                             <button
                                                                 key={day.id}
-                                                                onClick={() => toggleFilter(day.id, filterDays, setFilterDays, days.map(d => d.id), setIsExplicitAllDay)}
+                                                                onClick={() => toggleFilter(day.id, filterDays, setFilterDays, days.map(d => d.id), setIsExplicitAllDay, isExplicitAllDay)}
                                                                 className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
-                                                                    filterDays.includes(day.id)
+                                                                    filterDays.includes(day.id) && !isExplicitAllDay
                                                                         ? 'bg-primary text-background'
                                                                         : 'bg-input border-border text-foreground hover:border-primary'
                                                                 }`}
