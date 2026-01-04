@@ -1,21 +1,19 @@
-// components/logo.tsx
+import EmblemSVG from "@/components/logos/emblem.svg"
+import LogoSVG from "@/components/logos/logo.svg"
+
 interface LogoProps {
     size?: number
     className?: string
 }
 
-export default function Logo({ size = 20, className = "" }: LogoProps) {
+export function Emblem({ size = 20, className = "" }: LogoProps) {
     return (
-        <svg
-            className={className}
-            height={size}
-            viewBox="0 0 95 20"
-            fill="currentColor"
-        >
-            <circle r="10" cx="10" cy="10"/>
-            <circle r="10" cx="35" cy="10"/>
-            <circle r="10" cx="60" cy="10"/>
-            <circle r="10" cx="85" cy="10"/>
-        </svg>
+            <EmblemSVG className={className} height={size} />
+    )
+}
+
+export function Logo({ size = 20, className = "" }: LogoProps) {
+    return (
+        <LogoSVG className={className} height={size} />
     )
 }

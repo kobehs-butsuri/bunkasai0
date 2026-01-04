@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import {useState, useMemo, useEffect} from "react"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
 import mapDataJson from "@/data/map.json"
@@ -28,28 +28,62 @@ export default function EventsPage() {
         return [...perfEvents, ...exhEvents]
     }, [performances, exhibitions])
 
-    const [searchTerm, setSearchTerm] = useState("")
-    const [filterOrganization, setFilterOrganization] = useState("")
-    const [filterDay, setFilterDay] = useState("")
-    const [filterCategory, setFilterCategory] = useState("")
-
     const organizations = [...new Set(allEvents.map((e) => e.organization))].sort()
-    const mapData = mapDataJson as Record<string, string>;
+    const mapData = mapDataJson as Record<string, string | { label: string; keywords?: string[] }>;
+    const getLabel = (roomId: string): string => {
+        const data = mapData[roomId];
+        return typeof data === "string" ? data : data.label;
+    };
+    const [searchTerm, setSearchTerm] = useState("")
+    const [filterOrganizations, setFilterOrganizations] = useState<string[]>(organizations)
+    const [filterCategories, setFilterCategories] = useState<string[]>(['performance', 'exhibition'])
+    const [filterDays, setFilterDays] = useState<string[]>(days.map(d => d.id))
+    const [openSections, setOpenSections] = useState<{[key: string]: boolean}>({
+        organization: false,
+        category: false,
+        day: false
+    })
+
+    useEffect(() => {
+        const isDesktop = window.innerWidth >= 768
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setOpenSections({
+            organization: isDesktop,
+            category: isDesktop,
+            day: isDesktop
+        })
+    }, [])
+
 
     const filteredEvents = allEvents.filter((event) => {
         const matchesSearch =
             event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             event.description.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesOrg = !filterOrganization || event.organization === filterOrganization
-        const matchesCategory = !filterCategory || event.category === filterCategory
+        const matchesOrg = filterOrganizations.includes(event.organization)
+        const matchesCategory = filterCategories.includes(event.category)
 
-        // 舞台の場合は日程フィルタを適用
-        const matchesDay = !filterDay ||
-            (event.category === 'performance' && event.schedules?.some(s => s.dayId === filterDay)) ||
-            event.category === 'exhibition' // 展示は日程フィルタ無視
+        const matchesDay =
+            (event.category === 'performance' && event.schedules?.some(s => filterDays.includes(s.dayId))) ||
+            event.category === 'exhibition'
 
         return matchesSearch && matchesOrg && matchesDay && matchesCategory
     })
+
+    const toggleFilter = (value: string, currentFilters: string[], setter: (val: string[]) => void, allValues: string[]) => {
+        if (currentFilters.length === allValues.length) {
+            setter([value])
+        } else if (currentFilters.includes(value)) {
+            const newFilters = currentFilters.filter(f => f !== value)
+            if (newFilters.length > 0) {
+                setter(newFilters)
+            }
+        } else {
+            setter([...currentFilters, value])
+        }
+    }
+    const toggleSection = (section: string) => {
+        setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
+    }
 
     // スケジュール情報を取得するヘルパー関数
     const getScheduleInfo = (event: UnifiedEvent) => {
@@ -69,7 +103,7 @@ export default function EventsPage() {
                     {schedule.info.map((info, idx) =>
                         (
                             <span key={`${event.id}-${schedule.dayId}-${idx}-time-pos`}>
-                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{mapData[info.location]}</span>
+                                {idx !== 0 && ", "}{info.startTime} - {info.endTime} <span className="font-bold">@{getLabel(info.location)}</span>
                             </span>
                         )
                     )}<br/>
@@ -82,7 +116,7 @@ export default function EventsPage() {
 
     return (
         <div className="w-full">
-            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-x-1">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-1">
                 {/* 絞り込みサイドバー */}
                 <motion.div
                     className="w-full md:w-80 shrink-0 bg-card"
@@ -94,7 +128,6 @@ export default function EventsPage() {
                         <div className="p-8 flex-1 overflow-y-auto">
                             <h2 className="text-lg font-bold mb-6">絞り込み</h2>
                             <div className="space-y-6">
-                                {/* Search input */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -106,66 +139,228 @@ export default function EventsPage() {
                                         placeholder="イベント名を入力..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full bg-input border border-border px-4 py-3 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                                        className="w-full bg-input border border-border px-4 py-3 align-middle text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                                     />
                                 </motion.div>
 
-                                {/* Filter selects */}
+                                {/* 主催団体 */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2 }}
                                 >
-                                    <label className="block text-sm font-bold mb-2">主催団体</label>
-                                    <select
-                                        value={filterOrganization}
-                                        onChange={(e) => setFilterOrganization(e.target.value)}
-                                        className="w-full bg-input border border-border px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                                    <button
+                                        onClick={() => toggleSection('organization')}
+                                        className="w-full flex items-center justify-between text-sm font-bold mb-2 hover:text-primary transition-colors"
                                     >
-                                        <option value="">全て表示</option>
-                                        {organizations.map((org) => (
-                                            <option key={org} value={org}>
-                                                {org}
-                                            </option>
-                                        ))}
-                                    </select>
+                                        <div className="flex items-center gap-2">
+                                            <span>主催団体</span>
+                                            {filterOrganizations.length !== organizations.length && (
+                                                <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                            )}
+                                        </div>
+                                        <span className="text-lg">{openSections.organization ? '−' : '+'}</span>
+                                    </button>
+                                    <AnimatePresence>
+                                        {openSections.organization && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="space-y-2 pl-2">
+                                                    <button
+                                                        onClick={() => setFilterOrganizations(organizations)}
+                                                        disabled={filterOrganizations.length === organizations.length}
+                                                        className={`text-xs hover:underline mb-2 transition-colors ${
+                                                            filterOrganizations.length === organizations.length
+                                                                ? 'text-muted-foreground cursor-not-allowed'
+                                                                : 'text-primary'
+                                                        }`}
+                                                    >
+                                                        すべて選択
+                                                    </button>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {organizations.map((org) => (
+                                                            <button
+                                                                key={org}
+                                                                onClick={() => toggleFilter(org, filterOrganizations, setFilterOrganizations, organizations)}
+                                                                className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center justify-start gap-1.5 ${
+                                                                    filterOrganizations.includes(org)
+                                                                        ? 'bg-primary text-background'
+                                                                        : 'bg-input border-border text-foreground hover:border-primary'
+                                                                }`}
+                                                            >
+                                                                <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                    {filterOrganizations.includes(org) ? (
+                                                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                        </svg>
+                                                                    ) : (
+                                                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                        </svg>
+                                                                    )}
+                                                                </span>
+                                                                <span>{org}</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </motion.div>
 
+                                {/* カテゴリ */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.3 }}
                                 >
-                                    <label className="block text-sm font-bold mb-2">カテゴリ</label>
-                                    <select
-                                        value={filterCategory}
-                                        onChange={(e) => setFilterCategory(e.target.value)}
-                                        className="w-full bg-input border border-border px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                                    <button
+                                        onClick={() => toggleSection('category')}
+                                        className="w-full flex items-center justify-between text-sm font-bold mb-2 hover:text-primary transition-colors"
                                     >
-                                        <option value="">全て表示</option>
-                                        <option value="performance">舞台</option>
-                                        <option value="exhibition">展示</option>
-                                    </select>
+                                        <div className="flex items-center gap-2">
+                                            <span>カテゴリ</span>
+                                            {filterCategories.length !== 2 && (
+                                                <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                            )}
+                                        </div>
+                                        <span className="text-lg">{openSections.category ? '−' : '+'}</span>
+                                    </button>
+                                    <AnimatePresence>
+                                        {openSections.category && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="space-y-2 pl-2">
+                                                    <button
+                                                        onClick={() => setFilterCategories(['performance', 'exhibition'])}
+                                                        disabled={filterCategories.length === 2}
+                                                        className={`text-xs hover:underline mb-2 transition-colors ${
+                                                            filterCategories.length === 2
+                                                                ? 'text-muted-foreground cursor-not-allowed'
+                                                                : 'text-primary'
+                                                        }`}
+                                                    >
+                                                        すべて選択
+                                                    </button>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        <button
+                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition'])}
+                                                            className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                filterCategories.includes('performance')
+                                                                    ? 'bg-primary text-background'
+                                                                    : 'bg-input border-border text-foreground hover:border-primary'
+                                                            }`}
+                                                        >
+                                                            <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                {filterCategories.includes('performance') ? (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                            <span>舞台</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition'])}
+                                                            className={`px-3 py-1.5 text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                filterCategories.includes('exhibition')
+                                                                    ? 'bg-primary text-background'
+                                                                    : 'bg-input border border-border text-foreground hover:border-primary'
+                                                            }`}
+                                                        >
+                                                            <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                {filterCategories.includes('exhibition') ? (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                            <span>展示</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </motion.div>
 
+                                {/* 日程 */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.4 }}
                                 >
-                                    <label className="block text-sm font-bold mb-2">日程</label>
-                                    <select
-                                        value={filterDay}
-                                        onChange={(e) => setFilterDay(e.target.value)}
-                                        className="w-full bg-input border border-border px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                                    <button
+                                        onClick={() => toggleSection('day')}
+                                        className="w-full flex items-center justify-between text-sm font-bold mb-2 hover:text-primary transition-colors"
                                     >
-                                        <option value="">全て表示</option>
-                                        {days.map((day) => (
-                                            <option key={day.id} value={day.id}>
-                                                {day.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                        <div className="flex items-center gap-2">
+                                            <span>日程</span>
+                                            {filterDays.length !== days.length && (
+                                                <span className="w-2 h-2 rounded-full bg-primary"></span>
+                                            )}
+                                        </div>
+                                        <span className="text-lg">{openSections.day ? '−' : '+'}</span>
+                                    </button>
+                                    <AnimatePresence>
+                                        {openSections.day && (
+                                            <motion.div
+                                                initial={{ height: 0, opacity: 0 }}
+                                                animate={{ height: 'auto', opacity: 1 }}
+                                                exit={{ height: 0, opacity: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="space-y-2 pl-2">
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {days.map((day) => (
+                                                            <button
+                                                                key={day.id}
+                                                                onClick={() => toggleFilter(day.id, filterDays, setFilterDays, days.map(d => d.id))}
+                                                                className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                    filterDays.includes(day.id)
+                                                                        ? 'bg-primary text-background'
+                                                                        : 'bg-input border-border text-foreground hover:border-primary'
+                                                                }`}
+                                                            >
+                                                                <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                    {filterDays.includes(day.id) ? (
+                                                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                        </svg>
+                                                                    ) : (
+                                                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                        </svg>
+                                                                    )}
+                                                                </span>
+                                                                <span>{day.name}</span>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </motion.div>
                             </div>
                         </div>

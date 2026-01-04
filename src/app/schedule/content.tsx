@@ -13,7 +13,7 @@ const START_HOUR = 9
 const END_HOUR = 17
 
 export default function Timetable() {
-    useSetPageTitle("タイムテーブル")
+    useSetPageTitle("スケジュール")
 
     const [selectedDay, setSelectedDay] = useState(0)
     const [direction, setDirection] = useState(0)
@@ -55,7 +55,11 @@ export default function Timetable() {
         setSelectedDay(index)
     }
 
-    const mapData = mapDataJson as Record<string, string>;
+    const mapData = mapDataJson as Record<string, string | { label: string; keywords?: string[] }>;
+    const getLabel = (roomId: string): string => {
+        const data = mapData[roomId];
+        return typeof data === "string" ? data : data.label;
+    };
 
     const slideVariants = {
         enter: (direction: number) => ({
@@ -76,12 +80,12 @@ export default function Timetable() {
         <div>
             {/* Day tabs */}
             <motion.div
-                className="mb-8 max-w-7xl mx-auto"
+                className="mb-8 mx-auto flex flex-col items-center justify-center"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
             >
-                <div className="flex gap-4 border-b border-accent-light pb-4 overflow-x-auto">
+                <div className="flex gap-4 border-b border-accent-light pb-4">
                     {days.map((day, index) => (
                         <motion.button
                             key={day.id}
@@ -193,7 +197,7 @@ export default function Timetable() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.3, delay: index * 0.05 }}
                                 >
-                                    {mapData[location]}
+                                    {getLabel(location)}
                                 </motion.div>
                             ))}
 

@@ -4,6 +4,8 @@ import {Performance, Exhibition, UnifiedEvent} from "@/data/types";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import { Content } from "./content";
+import Footer from "@/components/footer";
+import type React from "react";
 
 interface EventDetailPageProps {
     params: Promise<{ id: string }>
@@ -57,16 +59,19 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     const isPerformance = event.category === 'performance'
     const schedules = isPerformance ? (event as Performance).schedules : undefined
     const roomId = !isPerformance ? (event as Exhibition).roomId : undefined
-    const mapData = mapDataJson as Record<string, string>;
+    const mapData = mapDataJson as Record<string, string | { label: string; keywords?: string[] }>;
 
     return (
-        <Content
-            event={event}
-            isPerformance={isPerformance}
-            schedules={schedules}
-            roomId={roomId}
-            mapData={mapData}
-            festivalDays={festivalData.festival.days}
-        />
+        <>
+            <Content
+                event={event}
+                isPerformance={isPerformance}
+                schedules={schedules}
+                roomId={roomId}
+                mapData={mapData}
+                festivalDays={festivalData.festival.days}
+            />
+            <Footer/>
+        </>
     )
 }

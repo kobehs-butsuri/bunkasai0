@@ -10,7 +10,7 @@ interface EventDetailContentProps {
     isPerformance: boolean
     schedules?: Performance['schedules']
     roomId?: string
-    mapData: Record<string, string>
+    mapData: Record<string, string | { label: string; keywords?: string[] }>
     festivalDays: Day[]
 }
 
@@ -22,6 +22,10 @@ export function Content({
                                         mapData,
                                         festivalDays
                                     }: EventDetailContentProps) {
+    const getLabel = (roomId: string): string => {
+        const data = mapData[roomId];
+        return typeof data === "string" ? data : data.label;
+    };
 
     const getScheduleInfo = () => {
         if (!schedules || schedules.length === 0) return null
@@ -44,7 +48,7 @@ export function Content({
                             <span key={`${event.id}-${schedule.dayId}-${idx}-time-pos`}>
                                 {idx !== 0 && (<br/>)}{info.startTime} - {info.endTime}
                                 <Link href={`/map?id=${info.location}`} className="ml-4 text-primary underline">
-                                    <span className="font-bold">@{mapData[info.location]}</span>
+                                    <span className="font-bold">@{getLabel(info.location)}</span>
                                 </Link>
                             </span>
                         )
@@ -107,7 +111,7 @@ export function Content({
                             transition={{ duration: 0.3, delay: 0.3 }}
                         >
                             <h3 className="font-bold text-lg mb-2">場所</h3>
-                            <p className="text-lg">{mapData[roomId]}</p>
+                            <p className="text-lg">{getLabel(roomId)}</p>
                             <p className="text-sm text-muted-foreground font-bold mt-1">常設展示</p>
                         </motion.div>
                     )}

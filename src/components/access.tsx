@@ -61,7 +61,7 @@ export function AccessBanner() {
             }
             {!useMobile() &&(
                 <div className="grid grid-cols-2 gap-12">
-                    <ParallaxContainer offset={scrollY * 0.6}>
+                    <ParallaxContainer offset={scrollY * 0.6 - 500}>
                         <div className="p-8">
                             <div className="mb-12 pt-8">
                                 <h3
@@ -77,7 +77,7 @@ export function AccessBanner() {
                         </div>
                     </ParallaxContainer>
 
-                    <ParallaxContainer offset={scrollY * 0.6}>
+                    <ParallaxContainer offset={scrollY * 0.6 - 500}>
                         <div className="pb-20">
                             <GoogleMap/>
                         </div>

@@ -31,7 +31,7 @@ export default function Access() {
                         <div className="space-y-6 text-foreground/80 leading-relaxed">
                             <div>
                                 <p className="font-semibold text-foreground mb-2">会場名</p>
-                                <p>神戸高校</p>
+                                <p>兵庫県立神戸高等学校</p>
                             </div>
                             <div>
                                 <p className="font-semibold text-foreground mb-2">住所</p>
