@@ -165,10 +165,10 @@ export function Content({
                 )}
                 {isPerformance && (
                     <Link
-                        href="/timetable"
+                        href="/schedule"
                         className="flex-1 bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
                     >
-                        タイムテーブルを見る
+                        スケジュールを見る
                     </Link>
                 )}
             </motion.div>

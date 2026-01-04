@@ -43,6 +43,9 @@ export default function EventsPage() {
         category: false,
         day: false
     })
+    const [isExplicitAllOrg, setIsExplicitAllOrg] = useState(true)
+    const [isExplicitAllCategory, setIsExplicitAllCategory] = useState(true)
+    const [, setIsExplicitAllDay] = useState(true)
 
     useEffect(() => {
         const isDesktop = window.innerWidth >= 768
@@ -69,17 +72,43 @@ export default function EventsPage() {
         return matchesSearch && matchesOrg && matchesDay && matchesCategory
     })
 
-    const toggleFilter = (value: string, currentFilters: string[], setter: (val: string[]) => void, allValues: string[]) => {
+    const toggleFilter = (
+        value: string,
+        currentFilters: string[],
+        setter: (val: string[]) => void,
+        allValues: string[],
+        explicitAllSetter: (val: boolean) => void
+    ) => {
         if (currentFilters.length === allValues.length) {
             setter([value])
+            explicitAllSetter(false)
         } else if (currentFilters.includes(value)) {
             const newFilters = currentFilters.filter(f => f !== value)
             if (newFilters.length > 0) {
                 setter(newFilters)
+                explicitAllSetter(false)
             }
         } else {
-            setter([...currentFilters, value])
+            const newFilters = [...currentFilters, value]
+            setter(newFilters)
+            if (newFilters.length === allValues.length) {
+                explicitAllSetter(false)
+            }
         }
+    }
+
+    const selectAll = (
+        allValues: string[],
+        currentFilters: string[],
+        setter: (val: string[]) => void,
+        explicitAllSetter: (val: boolean) => void
+    ) => {
+        setter(allValues)
+        explicitAllSetter(true)
+    }
+
+    const isAllSelected = (currentFilters: string[], allValues: string[]) => {
+        return currentFilters.length === allValues.length
     }
     const toggleSection = (section: string) => {
         setOpenSections(prev => ({ ...prev, [section]: !prev[section] }))
@@ -124,7 +153,7 @@ export default function EventsPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                 >
-                    <div className="sticky top-28 flex flex-col">
+                    <div className="sticky top-28 flex flex-col max-h-[calc(100vh-7rem)]">
                         <div className="p-8 flex-1 overflow-y-auto">
                             <h2 className="text-lg font-bold mb-6">絞り込み</h2>
                             <div className="space-y-6">
@@ -171,24 +200,34 @@ export default function EventsPage() {
                                                 className="overflow-hidden"
                                             >
                                                 <div className="space-y-2 pl-2">
-                                                    <button
-                                                        onClick={() => setFilterOrganizations(organizations)}
-                                                        disabled={filterOrganizations.length === organizations.length}
-                                                        className={`text-xs hover:underline mb-2 transition-colors ${
-                                                            filterOrganizations.length === organizations.length
-                                                                ? 'text-muted-foreground cursor-not-allowed'
-                                                                : 'text-primary'
-                                                        }`}
-                                                    >
-                                                        すべて選択
-                                                    </button>
                                                     <div className="flex flex-wrap gap-2">
+                                                        <button
+                                                            onClick={() => selectAll(organizations, filterOrganizations, setFilterOrganizations, setIsExplicitAllOrg)}
+                                                            className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center justify-start gap-1.5 ${
+                                                                isAllSelected(filterOrganizations, organizations) && isExplicitAllOrg
+                                                                    ? 'bg-primary text-background'
+                                                                    : 'bg-input border-border text-foreground hover:border-primary'
+                                                            }`}
+                                                        >
+                                                            <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                {isAllSelected(filterOrganizations, organizations) ? (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                            <span>すべて</span>
+                                                        </button>
                                                         {organizations.map((org) => (
                                                             <button
                                                                 key={org}
-                                                                onClick={() => toggleFilter(org, filterOrganizations, setFilterOrganizations, organizations)}
+                                                                onClick={() => toggleFilter(org, filterOrganizations, setFilterOrganizations, organizations, setIsExplicitAllOrg)}
                                                                 className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center justify-start gap-1.5 ${
-                                                                    filterOrganizations.includes(org)
+                                                                    filterOrganizations.includes(org) && !isExplicitAllOrg
                                                                         ? 'bg-primary text-background'
                                                                         : 'bg-input border-border text-foreground hover:border-primary'
                                                                 }`}
@@ -242,22 +281,32 @@ export default function EventsPage() {
                                                 className="overflow-hidden"
                                             >
                                                 <div className="space-y-2 pl-2">
-                                                    <button
-                                                        onClick={() => setFilterCategories(['performance', 'exhibition'])}
-                                                        disabled={filterCategories.length === 2}
-                                                        className={`text-xs hover:underline mb-2 transition-colors ${
-                                                            filterCategories.length === 2
-                                                                ? 'text-muted-foreground cursor-not-allowed'
-                                                                : 'text-primary'
-                                                        }`}
-                                                    >
-                                                        すべて選択
-                                                    </button>
                                                     <div className="flex flex-wrap gap-2">
                                                         <button
-                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition'])}
+                                                            onClick={() => selectAll(['performance', 'exhibition'], filterCategories, setFilterCategories, setIsExplicitAllCategory)}
                                                             className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
-                                                                filterCategories.includes('performance')
+                                                                isAllSelected(filterCategories, ['performance', 'exhibition']) && isExplicitAllCategory
+                                                                    ? 'bg-primary text-background'
+                                                                    : 'bg-input border-border text-foreground hover:border-primary'
+                                                            }`}
+                                                        >
+                                                            <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                {isAllSelected(filterCategories, ['performance', 'exhibition']) ? (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                            <span>すべて</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory)}
+                                                            className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                filterCategories.includes('performance') && !isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
                                                                     : 'bg-input border-border text-foreground hover:border-primary'
                                                             }`}
@@ -276,11 +325,11 @@ export default function EventsPage() {
                                                             <span>舞台</span>
                                                         </button>
                                                         <button
-                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition'])}
-                                                            className={`px-3 py-1.5 text-sm rounded transition-all flex items-center gap-1.5 ${
-                                                                filterCategories.includes('exhibition')
+                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory)}
+                                                            className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                filterCategories.includes('exhibition') && !isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
-                                                                    : 'bg-input border border-border text-foreground hover:border-primary'
+                                                                    : 'bg-input border-border text-foreground hover:border-primary'
                                                             }`}
                                                         >
                                                             <span className="w-3 h-3 flex items-center justify-center shrink-0">
@@ -335,7 +384,7 @@ export default function EventsPage() {
                                                         {days.map((day) => (
                                                             <button
                                                                 key={day.id}
-                                                                onClick={() => toggleFilter(day.id, filterDays, setFilterDays, days.map(d => d.id))}
+                                                                onClick={() => toggleFilter(day.id, filterDays, setFilterDays, days.map(d => d.id), setIsExplicitAllDay)}
                                                                 className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
                                                                     filterDays.includes(day.id)
                                                                         ? 'bg-primary text-background'
