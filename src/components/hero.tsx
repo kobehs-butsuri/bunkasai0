@@ -1,6 +1,6 @@
 "use client"
 
-import Logo from "@/components/logo";
+import {Logo} from "@/components/logo";
 import Link from "next/link";
 
 interface HeroProps {
@@ -31,7 +31,7 @@ export default function Hero({ scrollY }: HeroProps) {
             {/* Content */}
             <div className="relative z-10 text-center max-w-4xl mx-auto px-8">
                 <h1
-                    className="text-6xl md:text-8xl font-bold text-foreground mb-6 tracking-tighter"
+                    className="text-6xl md:text-8xl font-bold text-foreground mb-6 tracking-tighter justify-center"
                     style={{ letterSpacing: "-0.02em" }}
                 >
                   <span
@@ -40,7 +40,7 @@ export default function Hero({ scrollY }: HeroProps) {
                           display: "block",
                       }}
                   >
-                    <Logo size={60} />
+                    <Logo className="w-full h-full" />
                   </span>
                 </h1>
 

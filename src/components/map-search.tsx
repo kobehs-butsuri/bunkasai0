@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from "react"
-import { Search, X, List } from "lucide-react"
+import { Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface SearchResult {
@@ -9,10 +9,15 @@ interface SearchResult {
     label: string
 }
 
+interface RoomData {
+    label: string
+    keywords?: string[]
+}
+
 interface MapSearchProps {
     onSelectRoom: (roomId: string) => void
     onRemoveSelect: () => void
-    roomLabels: Record<string, string>
+    roomLabels: Record<string, string | RoomData>
     pinnedRoomId: string | null
 }
 
@@ -24,6 +29,53 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
     const inputRef = useRef<HTMLInputElement>(null)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
+    const toHalfWidth = (str: string): string => {
+        return str.replace(/[Ａ-Ｚａ-ｚ０-９]/g, (s) => {
+            return String.fromCharCode(s.charCodeAt(0) - 0xFEE0)
+        }).replace(/[^\x00-\x7F]/g, (s) => {
+            // 全角記号の一部を半角に変換
+            const map: Record<string, string> = {
+                '−': '-',
+                '－': '-',
+                '‐': '-',
+                'ー': '-',
+                '　': ' ',
+                '！': '!',
+                '＂': '"',
+                '＃': '#',
+                '＄': '$',
+                '％': '%',
+                '＆': '&',
+                '＇': "'",
+                '（': '(',
+                '）': ')',
+                '＊': '*',
+                '＋': '+',
+                '，': ',',
+                '．': '.',
+                '／': '/',
+                '：': ':',
+                '；': ';',
+                '＜': '<',
+                '＝': '=',
+                '＞': '>',
+                '？': '?',
+                '＠': '@',
+                '［': '[',
+                '＼': '\\',
+                '］': ']',
+                '＾': '^',
+                '＿': '_',
+                '｀': '`',
+                '｛': '{',
+                '｜': '|',
+                '｝': '}',
+                '～': '~'
+            }
+            return map[s] || s
+        })
+    }
+
     useEffect(() => {
         if (query.trim() === "") {
             setResults([])
@@ -31,12 +83,27 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
             return
         }
 
-        const searchQuery = query.toLowerCase()
+        const searchTerms = toHalfWidth(query.toLowerCase())
+            .split(/\s+/)
+            .filter(term => term.length > 0)
+
         const matches: SearchResult[] = []
 
-        // roomLabelsから検索
-        Object.entries(roomLabels).forEach(([id, label]) => {
-            if (label.toLowerCase().includes(searchQuery) || id.toLowerCase().includes(searchQuery)) {
+        Object.entries(roomLabels).forEach(([id, data]) => {
+            const label = typeof data === "string" ? data : data.label
+            const keywords = typeof data === "string" ? [] : (data.keywords || [])
+
+            const normalizedLabel = toHalfWidth(label.toLowerCase())
+            const normalizedId = toHalfWidth(id.toLowerCase())
+            const normalizedKeywords = keywords.map(k => toHalfWidth(k.toLowerCase()))
+
+            const matchesAllTerms = searchTerms.every(term => {
+                return normalizedLabel.includes(term) ||
+                    normalizedId.includes(term) ||
+                    normalizedKeywords.some(k => k.includes(term))
+            })
+
+            if (matchesAllTerms) {
                 matches.push({ id, label })
             }
         })
@@ -47,7 +114,8 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
 
     useEffect(() => {
         if (pinnedRoomId) {
-            const label = roomLabels[pinnedRoomId]
+            const data = roomLabels[pinnedRoomId]
+            const label = typeof data === "string" ? data : data?.label
             if (label) {
                 setQuery(label)
             }

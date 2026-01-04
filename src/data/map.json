@@ -1,146 +1,461 @@
 {
-  "GF": "地階",
-  "_1F": "1階",
-  "_2F": "2階",
-  "_3F": "3階",
-  "_4F": "4階",
-  "_5F": "5階",
-  "honkan_G": "本館地階",
-  "honkan_1": "本館1階",
-  "honkan_2": "本館2階",
-  "honkan_3": "本館3階",
-  "honkan_4": "本館4階",
-  "koudou_1": "講堂棟1階",
-  "koudou_2": "講堂棟2階",
-  "geijutsu_1": "芸術館1階",
-  "geijutsu_2": "芸術館2階",
-  "kagaku_1": "科学館1階",
-  "kagaku_2": "科学館2階",
-  "kagaku_3": "科学館3階",
-  "kagaku_4": "科学館4階",
-  "_11": "1-1",
-  "_12": "1-2",
-  "_13": "1-3",
-  "_14": "1-4",
-  "_15": "1-5",
-  "_16": "1-6",
-  "_17": "1-7",
-  "_18": "1-8",
-  "_19": "1-9",
-  "_21": "2-1",
-  "_22": "2-2",
-  "_23": "2-3",
-  "_24": "2-4",
-  "_25": "2-5",
-  "_26": "2-6",
-  "_27": "2-7",
-  "_28": "2-8",
-  "_29": "2-9",
-  "_31": "3-1",
-  "_32": "3-2",
-  "_33": "3-3",
-  "_34": "3-4",
-  "_35": "3-5",
-  "_36": "3-6",
-  "_37": "3-7",
-  "_38": "3-8",
-  "_39": "3-9",
-  "LL": "LL教室",
-  "tamokuteki": "多目的教室",
-  "gakushuu_A": "学習室A",
-  "gakushuu_B": "学習室B",
-  "gakushuu_C": "学習室C",
-  "sichoukaku": "視聴覚教室",
-  "chigaku": "地学教室",
-  "katei": "家庭教室",
-  "hihuku": "被服教室",
-  "shokumotsu": "食物教室",
-  "tougei": "陶芸教室",
-  "seibutsu": "生物教室",
-  "kagaku_zikken_1": "化学実験室1",
-  "kagaku_zikken_2": "化学実験室2",
-  "butsuri": "物理教室",
-  "computer": "コンピューター教室",
-  "rika_kougi": "理科講義室",
-  "taiiku_junbi": "体育準備室",
-  "eigo_junbi": "英語準備室",
-  "chireki_koumin_junbi": "地歴準備室・公民準備室",
-  "kokugo_junbi": "国語準備室",
-  "suugaku_junbi": "数学準備室",
-  "chigaku_junbi": "地学準備室",
-  "hihuku_junbi": "被服準備室",
-  "shokumotsu_junbi": "食物準備室",
-  "seibutsu_junbi": "生物準備室",
-  "kagaku_junbi": "化学準備室",
-  "butsuri_junbi": "物理準備室",
-  "computer_junbi": "コンピューター準備室",
-  "shokudou": "食堂",
-  "housou": "放送室",
-  "koumuin": "校務員室",
-  "chuubou": "厨房",
-  "kousaku": "工作室",
-  "jichikai": "自治会室",
-  "kouchou": "校長室",
-  "shokuin": "職員室",
-  "hoken": "保健室",
-  "kaigi": "会議室",
-  "jimu": "事務室",
-  "higashikobe": "東神戸資料室",
-  "koushihenshuu": "校史編集室",
-  "koushikinen": "校史記念室",
-  "sinrosiryou": "進路資料室",
-  "sinrosidou": "進路指導室",
-  "sahou": "作法室",
-  "koudou": "講堂",
-  "EV_honkan_G": "本館地階",
-  "EV_honkan_1": "本館1階",
-  "EV_honkan_2": "本館2階",
-  "EV_honkan_3": "本館3階",
-  "EV_honkan_4": "本館4階",
-  "EV_koudou_1": "講堂棟1階",
-  "EV_koudou_2": "講堂棟2階",
-  "EV_kagaku_1": "科学館1階",
-  "EV_kagaku_2": "科学館2階",
-  "EV_kagaku_3": "科学館3階",
-  "EV_kagaku_4": "科学館4階",
-  "stairs_honkan_G_W": "本館地階西側",
-  "stairs_honkan_G_E": "本館地階東側",
-  "stairs_honkan_G_out": "本館地階外",
-  "stairs_honkan_1_W": "本館1階西側",
-  "stairs_honkan_1_E": "本館1階東側",
-  "stairs_honkan_1_takaradsuka": "本館1階宝塚",
-  "stairs_honkan_1_out": "本館1階外",
-  "stairs_honkan_2_W": "本館2階西側",
-  "stairs_honkan_2_E": "本館2階東側",
-  "stairs_honkan_2_takaradsuka": "本館2階宝塚",
-  "stairs_honkan_3_W": "本館3階西側",
-  "stairs_honkan_3_E": "本館3階東側",
-  "stairs_honkan_4_W": "本館4階西側",
-  "stairs_honkan_4_E": "本館4階東側",
-  "stairs_koudou_1": "講堂棟1階",
-  "stairs_koudou_1_out": "講堂棟1階外",
-  "stairs_koudou_2": "講堂棟2階",
-  "stairs_koudou_2_out": "講堂棟2階外",
-  "stairs_kagaku_1": "科学館1階",
-  "stairs_kagaku_2": "科学館2階",
-  "stairs_kagaku_3": "科学館3階",
-  "stairs_kagaku_4": "科学館4階",
-  "stairs_out_1": "外1階",
-  "stairs_out_2": "外2階",
-  "WC_honkan_G_W": "本館地階西側",
-  "WC_honkan_G_E": "本館地階東側",
-  "WC_honkan_1_W": "本館1階西側",
-  "WC_honkan_1_E": "本館1階東側",
-  "WC_m_honkan_2": "本館2階男子",
-  "WC_f_honkan_2": "本館2階女子",
-  "WC_f_honkan_3": "本館3階女子",
-  "WC_m_honkan_3": "本館3階男子",
-  "WC_m_honkan_4": "本館4階男子",
-  "WC_f_honkan_4": "本館4階女子",
-  "WC_f_koudou": "講堂棟1階女子",
-  "WC_m_koudou": "講堂棟1階男子",
-  "WC_kagaku_1": "科学館1階",
-  "WC_kagaku_2": "科学館2階",
-  "WC_kagaku_3": "科学館3階",
-  "WC_kagaku_4": "科学館4階"
+  "GF": {
+    "label": "地階"
+  },
+  "_1F": {
+    "label": "1階"
+  },
+  "_2F": {
+    "label": "2階"
+  },
+  "_3F": {
+    "label": "3階"
+  },
+  "_4F": {
+    "label": "4階"
+  },
+  "_5F": {
+    "label": "5階"
+  },
+  "honkan_G": {
+    "label": "本館地階"
+  },
+  "honkan_1": {
+    "label": "本館1階"
+  },
+  "honkan_2": {
+    "label": "本館2階"
+  },
+  "honkan_3": {
+    "label": "本館3階"
+  },
+  "honkan_4": {
+    "label": "本館4階"
+  },
+  "koudou_1": {
+    "label": "講堂棟1階"
+  },
+  "koudou_2": {
+    "label": "講堂棟2階"
+  },
+  "geijutsu_1": {
+    "label": "芸術館1階"
+  },
+  "geijutsu_2": {
+    "label": "芸術館2階"
+  },
+  "kagaku_1": {
+    "label": "科学館1階"
+  },
+  "kagaku_2": {
+    "label": "科学館2階"
+  },
+  "kagaku_3": {
+    "label": "科学館3階"
+  },
+  "kagaku_4": {
+    "label": "科学館4階"
+  },
+  "_11": {
+    "label": "1-1",
+    "keywords": ["1年1組"]
+  },
+  "_12": {
+    "label": "1-2",
+    "keywords": ["1年2組"]
+  },
+  "_13": {
+    "label": "1-3",
+    "keywords": ["1年3組"]
+  },
+  "_14": {
+    "label": "1-4",
+    "keywords": ["1年4組"]
+  },
+  "_15": {
+    "label": "1-5",
+    "keywords": ["1年5組"]
+  },
+  "_16": {
+    "label": "1-6",
+    "keywords": ["1年6組"]
+  },
+  "_17": {
+    "label": "1-7",
+    "keywords": ["1年7組"]
+  },
+  "_18": {
+    "label": "1-8",
+    "keywords": ["1年8組"]
+  },
+  "_19": {
+    "label": "1-9",
+    "keywords": ["1年9組"]
+  },
+  "_21": {
+    "label": "2-1",
+    "keywords": ["2年1組"]
+  },
+  "_22": {
+    "label": "2-2",
+    "keywords": ["2年2組"]
+  },
+  "_23": {
+    "label": "2-3",
+    "keywords": ["2年3組"]
+  },
+  "_24": {
+    "label": "2-4",
+    "keywords": ["2年4組"]
+  },
+  "_25": {
+    "label": "2-5",
+    "keywords": ["2年5組"]
+  },
+  "_26": {
+    "label": "2-6",
+    "keywords": ["2年6組"]
+  },
+  "_27": {
+    "label": "2-7",
+    "keywords": ["2年7組"]
+  },
+  "_28": {
+    "label": "2-8",
+    "keywords": ["2年8組"]
+  },
+  "_29": {
+    "label": "2-9",
+    "keywords": ["2年9組"]
+  },
+  "_31": {
+    "label": "3-1",
+    "keywords": ["3年1組"]
+  },
+  "_32": {
+    "label": "3-2",
+    "keywords": ["3年2組"]
+  },
+  "_33": {
+    "label": "3-3",
+    "keywords": ["3年3組"]
+  },
+  "_34": {
+    "label": "3-4",
+    "keywords": ["3年4組"]
+  },
+  "_35": {
+    "label": "3-5",
+    "keywords": ["3年5組"]
+  },
+  "_36": {
+    "label": "3-6",
+    "keywords": ["3年6組"]
+  },
+  "_37": {
+    "label": "3-7",
+    "keywords": ["3年7組"]
+  },
+  "_38": {
+    "label": "3-8",
+    "keywords": ["3年8組"]
+  },
+  "_39": {
+    "label": "3-9",
+    "keywords": ["3年9組"]
+  },
+  "LL": {
+    "label": "LL教室"
+  },
+  "tamokuteki": {
+    "label": "多目的教室"
+  },
+  "gakushuu_A": {
+    "label": "学習室A"
+  },
+  "gakushuu_B": {
+    "label": "学習室B"
+  },
+  "gakushuu_C": {
+    "label": "学習室C"
+  },
+  "sichoukaku": {
+    "label": "視聴覚教室"
+  },
+  "chigaku": {
+    "label": "地学教室"
+  },
+  "katei": {
+    "label": "家庭教室"
+  },
+  "hihuku": {
+    "label": "被服教室"
+  },
+  "shokumotsu": {
+    "label": "食物教室"
+  },
+  "tougei": {
+    "label": "陶芸教室"
+  },
+  "seibutsu": {
+    "label": "生物教室"
+  },
+  "kagaku_zikken_1": {
+    "label": "化学実験室1"
+  },
+  "kagaku_zikken_2": {
+    "label": "化学実験室2"
+  },
+  "butsuri": {
+    "label": "物理教室"
+  },
+  "computer": {
+    "label": "コンピューター教室"
+  },
+  "rika_kougi": {
+    "label": "理科講義室"
+  },
+  "taiiku_junbi": {
+    "label": "体育準備室"
+  },
+  "eigo_junbi": {
+    "label": "英語準備室"
+  },
+  "chireki_koumin_junbi": {
+    "label": "地歴準備室・公民準備室"
+  },
+  "kokugo_junbi": {
+    "label": "国語準備室"
+  },
+  "suugaku_junbi": {
+    "label": "数学準備室"
+  },
+  "chigaku_junbi": {
+    "label": "地学準備室"
+  },
+  "hihuku_junbi": {
+    "label": "被服準備室"
+  },
+  "shokumotsu_junbi": {
+    "label": "食物準備室"
+  },
+  "seibutsu_junbi": {
+    "label": "生物準備室"
+  },
+  "kagaku_junbi": {
+    "label": "化学準備室"
+  },
+  "butsuri_junbi": {
+    "label": "物理準備室"
+  },
+  "computer_junbi": {
+    "label": "コンピューター準備室"
+  },
+  "shokudou": {
+    "label": "食堂"
+  },
+  "housou": {
+    "label": "放送室"
+  },
+  "koumuin": {
+    "label": "校務員室"
+  },
+  "chuubou": {
+    "label": "厨房"
+  },
+  "kousaku": {
+    "label": "工作室"
+  },
+  "jichikai": {
+    "label": "自治会室"
+  },
+  "kouchou": {
+    "label": "校長室"
+  },
+  "shokuin": {
+    "label": "職員室"
+  },
+  "hoken": {
+    "label": "保健室"
+  },
+  "kaigi": {
+    "label": "会議室"
+  },
+  "jimu": {
+    "label": "事務室"
+  },
+  "higashikobe": {
+    "label": "東神戸資料室"
+  },
+  "koushihenshuu": {
+    "label": "校史編集室"
+  },
+  "koushikinen": {
+    "label": "校史記念室"
+  },
+  "sinrosiryou": {
+    "label": "進路資料室"
+  },
+  "sinrosidou": {
+    "label": "進路指導室"
+  },
+  "sahou": {
+    "label": "作法室"
+  },
+  "koudou": {
+    "label": "講堂"
+  },
+  "EV_honkan_G": {
+    "label": "本館エレベーター地階"
+  },
+  "EV_honkan_1": {
+    "label": "本館エレベーター1階"
+  },
+  "EV_honkan_2": {
+    "label": "本館エレベーター2階"
+  },
+  "EV_honkan_3": {
+    "label": "本館エレベーター3階"
+  },
+  "EV_honkan_4": {
+    "label": "本館エレベーター4階"
+  },
+  "EV_koudou_1": {
+    "label": "講堂棟エレベーター1階"
+  },
+  "EV_koudou_2": {
+    "label": "講堂棟エレベーター2階"
+  },
+  "EV_kagaku_1": {
+    "label": "科学館エレベーター1階"
+  },
+  "EV_kagaku_2": {
+    "label": "科学館エレベーター2階"
+  },
+  "EV_kagaku_3": {
+    "label": "科学館エレベーター3階"
+  },
+  "EV_kagaku_4": {
+    "label": "科学館エレベーター4階"
+  },
+  "stairs_honkan_G_W": {
+    "label": "本館地階西側階段"
+  },
+  "stairs_honkan_G_E": {
+    "label": "本館地階東側階段"
+  },
+  "stairs_honkan_G_out": {
+    "label": "本館地階外階段"
+  },
+  "stairs_honkan_1_W": {
+    "label": "本館1階西側階段"
+  },
+  "stairs_honkan_1_E": {
+    "label": "本館1階東側階段"
+  },
+  "stairs_honkan_1_takaradsuka": {
+    "label": "本館1階宝塚階段"
+  },
+  "stairs_honkan_1_out": {
+    "label": "本館1階外階段"
+  },
+  "stairs_honkan_2_W": {
+    "label": "本館2階西側階段"
+  },
+  "stairs_honkan_2_E": {
+    "label": "本館2階東側階段"
+  },
+  "stairs_honkan_2_takaradsuka": {
+    "label": "本館2階宝塚階段"
+  },
+  "stairs_honkan_3_W": {
+    "label": "本館3階西側階段"
+  },
+  "stairs_honkan_3_E": {
+    "label": "本館3階東側階段"
+  },
+  "stairs_honkan_4_W": {
+    "label": "本館4階西側階段"
+  },
+  "stairs_honkan_4_E": {
+    "label": "本館4階東側階段"
+  },
+  "stairs_koudou_1": {
+    "label": "講堂棟1階階段"
+  },
+  "stairs_koudou_1_out": {
+    "label": "講堂棟1階外階段"
+  },
+  "stairs_koudou_2": {
+    "label": "講堂棟2階階段"
+  },
+  "stairs_koudou_2_out": {
+    "label": "講堂棟2階外階段"
+  },
+  "stairs_kagaku_1": {
+    "label": "科学館1階階段"
+  },
+  "stairs_kagaku_2": {
+    "label": "科学館2階階段"
+  },
+  "stairs_kagaku_3": {
+    "label": "科学館3階階段"
+  },
+  "stairs_kagaku_4": {
+    "label": "科学館4階階段"
+  },
+  "stairs_out_1": {
+    "label": "外1階階段"
+  },
+  "stairs_out_2": {
+    "label": "外2階階段"
+  },
+  "WC_honkan_G_W": {
+    "label": "本館地階西側トイレ"
+  },
+  "WC_honkan_G_E": {
+    "label": "本館地階東側トイレ"
+  },
+  "WC_honkan_1_W": {
+    "label": "本館1階西側トイレ"
+  },
+  "WC_honkan_1_E": {
+    "label": "本館1階東側トイレ"
+  },
+  "WC_m_honkan_2": {
+    "label": "本館2階男子トイレ"
+  },
+  "WC_f_honkan_2": {
+    "label": "本館2階女子トイレ"
+  },
+  "WC_f_honkan_3": {
+    "label": "本館3階女子トイレ"
+  },
+  "WC_m_honkan_3": {
+    "label": "本館3階男子トイレ"
+  },
+  "WC_m_honkan_4": {
+    "label": "本館4階男子トイレ"
+  },
+  "WC_f_honkan_4": {
+    "label": "本館4階女子トイレ"
+  },
+  "WC_f_koudou": {
+    "label": "講堂棟1階女子トイレ"
+  },
+  "WC_m_koudou": {
+    "label": "講堂棟1階男子トイレ"
+  },
+  "WC_kagaku_1": {
+    "label": "科学館1階トイレ"
+  },
+  "WC_kagaku_2": {
+    "label": "科学館2階トイレ"
+  },
+  "WC_kagaku_3": {
+    "label": "科学館3階トイレ"
+  },
+  "WC_kagaku_4": {
+    "label": "科学館4階トイレ"
+  }
 }

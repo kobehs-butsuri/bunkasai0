@@ -2,7 +2,6 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 import Header from "@/components/header"
-import Footer from "@/components/footer"
 import { PageTitleProvider } from "@/hooks/page-title-context"
 import Heading from "@/components/heading"
 import { Noto_Sans_JP } from "next/font/google"
@@ -48,13 +47,12 @@ export default function RootLayout({
         <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${noto.className}`}>
         <PageTitleProvider>
             <Header/>
-            <main className="mt-40 w-full bg-background grow mb-16">
+            <main className="mt-16 md:mt-20 w-full bg-background grow">
                 <div className={"px-8"}>
                     <Heading />
                 </div>
                 {children}
             </main>
-            <Footer/>
         </PageTitleProvider>
         <div className="z-50">
             <Toolbar/>

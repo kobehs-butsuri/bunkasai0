@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import Logo from "@/components/logo";
+import {Emblem, Logo} from "@/components/logo";
 
 export default function Footer() {
     return (
@@ -9,8 +9,13 @@ export default function Footer() {
             <div className="relative z-10 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 pb-12 border-t-2 border-background border-opacity-20">
                     <div className="pt-12">
-                        <Logo size={24} className="mb-6" />
-                        <p className="opacity-80 leading-relaxed">神戸高校</p>
+                        <p className="text-primary-foreground leading-relaxed text-2xl">BOth</p>
+                        <div className={"flex gap-4"}>
+                            <Emblem size={80} />
+                            <Logo size={80} />
+                        </div>
+                        <p className={"text-primary-foreground leading-relaxed"}>兵庫県立神戸高等学校</p>
+                        <p className={"text-primary-foreground leading-relaxed"}>兵庫県神戸市灘区城の下通1丁目5-1</p>
                     </div>
 
                     <div>

@@ -5,10 +5,7 @@ import Link from "next/link"
 import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
 import useMobile from "@/hooks/use-mobile"
-import {useSetPageTitle} from "@/hooks/page-title-context";
-import {Maximize, Minimize} from "lucide-react";
 import {ActionMenuButton} from "@/components/action-menu";
-import {Button} from "@/components/ui/button";
 import { MapSearch } from "@/components/map-search"
 import roomLabelsData from "@/data/map.json"
 import { MapPin } from "lucide-react"
@@ -31,7 +28,6 @@ export default function Content() {
     )
 }
 function MapContent() {
-    useSetPageTitle("校内マップ")
     const searchParams = useSearchParams()
     const initialRoomId = searchParams.get('id') || undefined
     const [hoveredRoomId, setHoveredRoomId] = useState<string | null>(null)
@@ -40,10 +36,7 @@ function MapContent() {
     const [selectedRoomId, setSelectedRoomId] = useState<string | null>(null)
     const isMobile = useMobile()
 
-    const [isFullscreen, setIsFullscreen] = useState(false)
-
     const [scale, setScale] = useState(1)
-    const [showScrollOverlay, setShowScrollOverlay] = useState(0)
     const [position, setPosition] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
@@ -66,20 +59,8 @@ function MapContent() {
     const [isLoadingCache, setIsLoadingCache] = useState(true)
     const [roomLayerCache, setRoomLayerCache] = useState<Map<string, number>>(new Map())
     const [pinnedRoomId, setPinnedRoomId] = useState<string | null>(null)
-    const roomLabels = roomLabelsData as Record<string, string>
+    const roomLabels = roomLabelsData as Record<string, string | { label: string; keywords?: string[] }>
     const [pinnedRoomMapPosition, setPinnedRoomMapPosition] = useState<{ x: number; y: number } | null>(null)
-
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const runTimeoutOnce = () => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-
-        timeoutRef.current = setTimeout(() => {
-            setShowScrollOverlay(0);
-            timeoutRef.current = null;
-        }, 1500);
-    };
 
     const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
         return exhibitions.find(exh => exh.roomId === roomId)
@@ -169,11 +150,11 @@ function MapContent() {
         const originalRoomWidth = currentRoomWidth / scale
         const originalRoomHeight = currentRoomHeight / scale
 
-        const targetScale = Math.min(
+        const targetScale = Math.max(1, Math.min(
             (containerRect.width * 0.4) / originalRoomWidth,
             (containerRect.height * 0.4) / originalRoomHeight,
             3
-        )
+        ))
 
         // ピンの位置（部屋の中心）がコンテナの中心に来るように位置を計算
         const newX = containerRect.width / 2 - pinMapX * targetScale
@@ -341,7 +322,7 @@ function MapContent() {
             setPosition(constrained)
             setIsScreenModeChanged(false)
         }
-    }, [handleSearchSelect, initialRoomId, isFullscreen, isInitialized, isScreenModeChanged, position.x, position.y, scale])
+    }, [handleSearchSelect, initialRoomId, isInitialized, isScreenModeChanged, position.x, position.y, scale])
 
     useEffect(() => {
         const handleGlobalMouseUp = () => {
@@ -359,7 +340,6 @@ function MapContent() {
     }, [isMobile, isDragging])
 
     const handleRoomClick = useCallback((roomId: string) => {
-        if (showScrollOverlay !== 0) return
         const exhibition = getExhibitionByRoomId(roomId)
         if (!exhibition) return
 
@@ -369,28 +349,21 @@ function MapContent() {
         } else {
             window.location.href = `/event/${exhibition.id}`
         }
-    }, [showScrollOverlay, getExhibitionByRoomId, isMobile])
+    }, [getExhibitionByRoomId, isMobile])
 
     const handleRoomTouch = useCallback((roomId: string) => {
-        if (showScrollOverlay !== 0) return
         const exhibition = getExhibitionByRoomId(roomId)
         if (!exhibition) return
 
         setSelectedRoomId(roomId)
         setShowPopup(true)
-    }, [showScrollOverlay, getExhibitionByRoomId])
+    }, [getExhibitionByRoomId])
 
     useEffect(() => {
         const container = containerRef.current
         if (!container) return
 
         const handleWheel = (e: WheelEvent) => {
-            if (!e.ctrlKey && !e.metaKey && !isFullscreen) {
-                setShowScrollOverlay(1)
-                runTimeoutOnce()
-                return
-            }
-
             e.preventDefault()
 
             const rect = container.getBoundingClientRect()
@@ -401,7 +374,7 @@ function MapContent() {
             const beforeY = (mouseY - position.y) / scale
 
             const delta = e.deltaY > 0 ? 0.9 : 1.1
-            const newScale = Math.max(0.5, Math.min(4, scale * delta))
+            const newScale = Math.max(1, Math.min(4, scale * delta))
 
             const newX = mouseX - beforeX * newScale
             const newY = mouseY - beforeY * newScale
@@ -417,7 +390,7 @@ function MapContent() {
         return () => {
             container.removeEventListener('wheel', handleWheel)
         }
-    }, [scale, position, isFullscreen])
+    }, [scale, position])
 
     const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault()
@@ -553,7 +526,7 @@ function MapContent() {
                 const avgCenterY = centerHistory.reduce((sum, c) => sum + c.y, 0) / centerHistory.length
 
                 const scaleRatio = distance / lastTouchDistance.current
-                const newScale = Math.max(0.5, Math.min(4, initialPinchScale.current * scaleRatio))
+                const newScale = Math.max(1, Math.min(4, initialPinchScale.current * scaleRatio))
 
                 const centerDeltaX = avgCenterX - lastTouchCenter.current.x
                 const centerDeltaY = avgCenterY - lastTouchCenter.current.y
@@ -576,15 +549,8 @@ function MapContent() {
                     e.touches[0].clientY - touchStartPos.y
                 )
                 if (moveDistance > 5) {
-                    if (!isDragging && !isFullscreen) {
-                        setShowScrollOverlay(2)
-                        runTimeoutOnce();
-                        return
-                    }
-                    if (isFullscreen) {
-                        setIsDragging(true)
-                        e.preventDefault();
-                    }
+                    setIsDragging(true)
+                    e.preventDefault();
                     setHasMoved(true)
                     const newX = e.touches[0].clientX - dragStart.x
                     const newY = e.touches[0].clientY - dragStart.y
@@ -650,19 +616,7 @@ function MapContent() {
             container.removeEventListener('touchmove', handleTouchMove)
             container.removeEventListener('touchend', handleTouchEnd)
         }
-    }, [scale, position, isDragging, isFullscreen, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch])
-
-    useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && isFullscreen) {
-                setIsScreenModeChanged(true)
-                setIsFullscreen(false)
-            }
-        }
-
-        window.addEventListener('keydown', handleEscape)
-        return () => window.removeEventListener('keydown', handleEscape)
-    }, [isFullscreen])
+    }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch])
 
     const selectedExhibition = selectedRoomId ? getExhibitionByRoomId(selectedRoomId) : null
     const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
@@ -670,11 +624,9 @@ function MapContent() {
     return (
         <>
             <div className={
-                isFullscreen
-                    ? "fixed top-4 left-1/2 -translate-x-1/2 z-60 px-4 w-full max-w-2xl"
-                    : (isMobile
-                        ? "w-full px-4 py-3 bg-card border-b border-accent-light"
-                        : "max-w-7xl mx-auto px-4 py-3 bg-card border-b border-accent-light")
+                isMobile
+                        ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light"
+                        : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light"
             }>
                 <MapSearch
                     onSelectRoom={handleSearchSelect}
@@ -690,11 +642,9 @@ function MapContent() {
 
             <div
                 className={
-                    isFullscreen
-                        ? "fixed inset-0 z-50 overflow-hidden bg-card"
-                        : (isMobile
-                            ? "w-full h-[60vh] overflow-hidden relative bg-card border-y border-accent-light"
-                            : "max-w-7xl mx-auto h-[60vh] overflow-hidden relative bg-card border-y border-accent-light")
+                        isMobile
+                            ? "w-full h-[calc(100vh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
+                            : "max-w-7xl mx-auto h-[calc(100vh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
                 }
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
@@ -711,9 +661,8 @@ function MapContent() {
                     cursor: !isMobile && hoveredRoomId && hoveredExhibition ? "pointer" : (isDragging ? 'grabbing' : 'default'),
                 }}
             >
-                {/* ローディングオーバーレイを追加 */}
                 {isLoadingCache && (
-                    <div className="absolute inset-0 bg-card/90 backdrop-blur-sm flex items-center justify-center z-10">
+                    <div className="absolute inset-0 bg-card/90 backdrop-blur-sm flex items-center justify-center z-30">
                         <div className="flex flex-col items-center gap-4">
                             <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                             <p className="text-lg font-medium">マップを読み込んでいます...</p>
@@ -755,50 +704,9 @@ function MapContent() {
                     )}
                 </div>
 
-                <div className="absolute inset-0 bg-background/75 bg-opacity-50 flex items-center justify-center z-10 pointer-events-none backdrop-blur-xs transition-opacity"
-                     style={{
-                         opacity: showScrollOverlay === 0 ? 0 : 1,
-                     }}>
-                    <div className="flex items-center gap-3">
-                        {
-                            showScrollOverlay === 1 && (
-                                <>
-                                    <span className="font-medium">Zoom: </span>
-                                    <kbd className="px-3 py-2 border-2 bg-border rounded font-mono text-sm font-semibold">Ctrl</kbd>
-                                    <span className="text-lg">+</span>
-                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                                    </svg>
-                                </>
-                            )
-                        }
-                        {
-                            showScrollOverlay === 2 && (
-                                <>
-                                    <span className="font-medium">Zoom and Pan: </span>
-                                    <span className="text-lg">Use 2 fingers</span>
-                                </>
-                            )
-                        }
-                    </div>
-                </div>
+                <span className={"absolute left-4 top-4 text-4xl text-primary/60 font-bold"}>校内マップ</span>
 
-                <Button variant="outline" size="icon" aria-label={isFullscreen ? "通常表示" : "全画面表示"}
-                        onClick={() => {
-                            setIsScreenModeChanged(true)
-                            setIsFullscreen(!isFullscreen)
-                        }}
-                        className="absolute bottom-16 right-4 z-10"
-                        title={isFullscreen ? "通常表示" : "全画面表示"}
-                >
-                    {isFullscreen ? (
-                        <Minimize className={"h-5 w-5"}/>
-                    ) : (
-                        <Maximize className={"h-5 w-5"}/>
-                    )}
-                </Button>
-
-                <div className="absolute bottom-4 right-4 z-10">
+                <div className={`absolute ${isMobile ? "bottom-24" : "bottom-0"} right-4 z-10`}>
                     <ActionMenuButton index={activeLayer} items={[
                         {
                             label: "本館地階",
