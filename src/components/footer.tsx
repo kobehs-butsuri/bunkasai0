@@ -1,11 +1,12 @@
 "use client"
 
 import Link from "next/link";
+import { SocialIcon } from 'react-social-icons'
 import {Emblem, Logo} from "@/components/logo";
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-foreground text-background py-16 px-8 relative overflow-hidden">
+        <footer className="w-full bg-foreground text-background py-16 px-8 relative overflow-hidden select-none">
             <div className="relative z-10 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 pb-12 border-t-2 border-background border-opacity-20">
                     <div className="pt-12">
@@ -15,7 +16,7 @@ export default function Footer() {
                             <Logo size={80} />
                         </div>
                         <p className={"text-primary-foreground leading-relaxed"}>兵庫県立神戸高等学校</p>
-                        <p className={"text-primary-foreground leading-relaxed"}>兵庫県神戸市灘区城の下通1丁目5-1</p>
+                        <p className={"text-primary-foreground leading-relaxed text-xs"}>神戸市灘区城の下通1丁目5-1</p>
                     </div>
 
                     <div>
@@ -59,6 +60,10 @@ export default function Footer() {
                                 </li>
                             </ul>
                         </div>
+                    </div>
+                    <div className="pt-12 flex md:justify-end">
+                        <SocialIcon url="x.com" href="https://x.com/" bgColor="#0000" fgColor="#fff" />
+                        <SocialIcon url="instagram.com" href="https://instagram.com/" bgColor="#0000" fgColor="#fff" />
                     </div>
                 </div>
             </div>

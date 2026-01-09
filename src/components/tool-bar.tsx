@@ -10,7 +10,7 @@ export function Toolbar() {
     const items = [
         { href: "/", label: "Home", icon: Home },
         { href: "/schedule", label: "Schedule", icon: CalendarClock },
-        { href: "/discover", label: "Discover", icon: Binoculars },
+        { href: "/pickup", label: "Pick Up", icon: Binoculars },
         { href: "/map", label: "Map", icon: Map },
         { href: "/event", label: "Events", icon: Search }
     ]

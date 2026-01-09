@@ -6,6 +6,7 @@ import { PageTitleProvider } from "@/hooks/page-title-context"
 import Heading from "@/components/heading"
 import { Noto_Sans_JP } from "next/font/google"
 import { Toolbar } from "@/components/tool-bar"
+import NextTopLoader from "nextjs-toploader";
 
 const noto = Noto_Sans_JP({
     weight: ["400", "700"],
@@ -45,6 +46,7 @@ export default function RootLayout({
     return (
         <html lang="ja">
         <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${noto.className}`}>
+        <NextTopLoader color="#e94709" />
         <PageTitleProvider>
             <Header/>
             <main className="mt-16 md:mt-20 w-full bg-background grow">

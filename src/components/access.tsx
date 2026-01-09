@@ -12,11 +12,11 @@ export function AccessTransportation() {
         <div className="space-y-4 text-foreground/80">
             <div>
                 <p className="font-semibold text-foreground mb-1">電車</p>
-                <p>阪急神戸本線 王子公園駅から徒歩20分</p>
+                <p>阪急神戸本線 「王子公園」駅から徒歩20分</p>
             </div>
             <div>
                 <p className="font-semibold text-foreground mb-1">バス</p>
-                <p>2系統/18系統/102系統 神戸高校前 停留所から徒歩5分</p>
+                <p>2系統/18系統 「神戸高校前」停留所から徒歩5分</p>
             </div>
         </div>
     )

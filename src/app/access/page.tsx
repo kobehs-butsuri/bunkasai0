@@ -10,7 +10,9 @@ export const metadata : Metadata = {
 export default function Access() {
     return (
         <>
-            <Content/>
+            <div className="mb-20">
+                <Content/>
+            </div>
             <Footer/>
         </>
     )
