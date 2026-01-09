@@ -189,7 +189,7 @@ export default function NewsPage() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.3 }}
-                                        className="bg-card border border-accent-light p-8 md:p-12 flex items-center justify-center min-h-[400px]"
+                                        className="bg-card border border-accent-light p-8 md:p-12 flex items-center justify-center h-full"
                                     >
                                         <div className="text-center">
                                             <h2 className="text-2xl font-bold text-muted-foreground mb-2">

@@ -9,7 +9,7 @@ import {useSetPageTitle} from "@/hooks/page-title-context";
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function EventsPage() {
-    useSetPageTitle("イベント")
+    useSetPageTitle("イベント一覧")
 
     const performances = festivalData.performances as Performance[]
     const exhibitions = festivalData.exhibitions as Exhibition[]
@@ -154,8 +154,8 @@ export default function EventsPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                 >
-                    <div className="sticky top-28 flex flex-col max-h-[calc(100vh-7rem)]">
-                        <div className="p-8 flex-1 overflow-y-auto">
+                    <div className="sticky top-28 flex flex-col md:max-h-[calc(100vh-7rem)]">
+                        <div className="p-8 flex-1 md:overflow-y-auto">
                             <h2 className="text-lg font-bold mb-6">絞り込み</h2>
                             <div className="space-y-6">
                                 <motion.div

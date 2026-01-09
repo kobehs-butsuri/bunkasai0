@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 interface SearchResult {
     id: string
     label: string
+    score: number
 }
 
 interface RoomData {
@@ -76,6 +77,51 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
         })
     }
 
+    const calculateMatchScore = (searchTerms: string[], label: string, id: string, keywords: string[]): number => {
+        const normalizedLabel = toHalfWidth(label.toLowerCase())
+        const normalizedId = toHalfWidth(id.toLowerCase())
+        const normalizedKeywords = keywords.map(k => toHalfWidth(k.toLowerCase()))
+
+        let score = 0
+
+        searchTerms.forEach(term => {
+            // 完全一致（最高スコア）
+            if (normalizedLabel === term) {
+                score += 100
+            } else if (normalizedId === term) {
+                score += 90
+            } else if (normalizedKeywords.some(k => k === term)) {
+                score += 80
+            }
+            // 前方一致
+            else if (normalizedLabel.startsWith(term)) {
+                score += 50
+            } else if (normalizedId.startsWith(term)) {
+                score += 45
+            } else if (normalizedKeywords.some(k => k.startsWith(term))) {
+                score += 40
+            }
+            // 部分一致
+            else if (normalizedLabel.includes(term)) {
+                score += 30
+            } else if (normalizedId.includes(term)) {
+                score += 25
+            } else if (normalizedKeywords.some(k => k.includes(term))) {
+                score += 20
+            }
+        })
+
+        // 一致率ボーナス: 検索語が短いラベルにマッチした場合
+        const labelLength = normalizedLabel.length
+        const totalSearchLength = searchTerms.join('').length
+        if (labelLength > 0) {
+            const matchRatio = totalSearchLength / labelLength
+            score += matchRatio * 10
+        }
+
+        return score
+    }
+
     useEffect(() => {
         if (query.trim() === "") {
             setResults([])
@@ -104,9 +150,13 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
             })
 
             if (matchesAllTerms) {
-                matches.push({ id, label })
+                const score = calculateMatchScore(searchTerms, label, id, keywords)
+                matches.push({ id, label, score })
             }
         })
+
+        // スコアでソート（降順）
+        matches.sort((a, b) => b.score - a.score)
 
         setResults(matches)
         setSelectedIndex(-1)
