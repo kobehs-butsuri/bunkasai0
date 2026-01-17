@@ -22,10 +22,5 @@ export const lineSeedSans = localFont({
             weight: '800',
             style: 'extrabold',
         },
-        {
-            path: './LINESeedSansTH_W_He.woff2',
-            weight: '900',
-            style: 'black',
-        },
     ],
 })
