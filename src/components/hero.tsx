@@ -1,34 +1,159 @@
 "use client"
 
-import {Logo} from "@/components/logo";
+import {AnimatedLogo, Logo} from "@/components/logo";
+import BlueBottom from "@/components/decoration/blue-bottom.svg"
+import RedBottom from "@/components/decoration/red-bottom.svg"
+import BlueTop from "@/components/decoration/blue-top.svg"
+import RedTop from "@/components/decoration/red-top.svg"
+import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect } from "react"
 
 interface HeroProps {
     scrollY: number
 }
 
-export default function Hero({ scrollY }: HeroProps) {
-    return (
-        <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-background">
-            {/* Content */}
-            <div className="relative z-10 text-center max-w-4xl mx-auto px-8">
-                <h1
-                    className="text-6xl md:text-8xl font-bold text-foreground mb-6 tracking-tighter justify-center"
-                    style={{ letterSpacing: "-0.02em" }}
-                >
-                  <span
-                      style={{
-                          transform: `translateY(${scrollY * -0.05}px)`,
-                          display: "block",
-                      }}
-                  >
-                    <Logo className="w-full h-full" />
-                  </span>
-                </h1>
+const INTRO_DURATION = 2.0
+const INTRO_FADE_OUT = 0.6
+const ANIMATION_DURATION = 0.5
+const BLUE_DELAY = 0.1
 
-                <p className="text-lg md:text-xl text-accent-dark leading-relaxed mb-12 max-w-2xl mx-auto">
-                    第130回創立記念祭
-                </p>
-            </div>
+export default function Hero({ scrollY }: HeroProps) {
+    const [showIntro, setShowIntro] = useState<boolean | null>(null)
+
+    useEffect(() => {
+        const hasSeenIntro = sessionStorage.getItem('hasSeenIntro')
+
+        const isExternalReferrer = () => {
+            if (!document.referrer) return true
+
+            try {
+                const referrerUrl = new URL(document.referrer)
+                const currentUrl = new URL(window.location.href)
+                return referrerUrl.hostname !== currentUrl.hostname
+            } catch {
+                return true
+            }
+        }
+
+        const shouldShowIntro = !hasSeenIntro && isExternalReferrer()
+        setShowIntro(shouldShowIntro)
+
+        if (!shouldShowIntro) return
+
+        sessionStorage.setItem('hasSeenIntro', 'true')
+
+        const timer = setTimeout(() => {
+            setShowIntro(false)
+        }, INTRO_DURATION * 1000)
+
+        return () => clearTimeout(timer)
+    }, [])
+
+    useEffect(() => {
+        if (showIntro) {
+            document.documentElement.style.overflow = 'hidden'
+        } else {
+            document.documentElement.style.overflow = ''
+        }
+
+        return () => {
+            document.documentElement.style.overflow = ''
+        }
+    }, [showIntro])
+
+    return (
+        <section
+            className="relative w-full h-[calc(100vh-4rem-4rem)] md:h-[calc(100vh-5rem)] flex flex-col items-center justify-center overflow-hidden"
+            style={{
+                backgroundColor: showIntro === null || showIntro ? '#fcfaed' : undefined,
+                backgroundImage: showIntro === null || showIntro ? undefined : "linear-gradient(45deg, #fdf1db 25%, transparent 25%, transparent 75%, #fdf1db 75%), linear-gradient(45deg, #fdf1db 25%, transparent 25%, transparent 75%, #fdf1db 75%)",
+                backgroundPosition: "0 0, 60px 60px",
+                backgroundSize: "120px 120px",
+                backgroundAttachment: "fixed"
+            }}>
+            {showIntro !== null && (
+                <>
+                    <AnimatePresence>
+                        {showIntro && (
+                            <motion.div
+                                className="absolute inset-0 z-50 flex items-center justify-center bg-[#fcfaed] px-8 py-16"
+                                initial={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: INTRO_FADE_OUT }}
+                            >
+                                <div className="max-w-150 max-h-200 w-full h-full flex items-center justify-center">
+                                    <AnimatedLogo className="w-full h-full object-contain" />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <div className="relative z-10 flex items-center justify-center w-full h-full px-8 py-16">
+                        <div className="absolute w-full h-full overflow-hidden">
+                            <motion.div
+                                className="absolute w-full max-w-200 top-0 left-0"
+                                initial={{ y: "-100%" }}
+                                animate={{ y: showIntro ? "-100%" : 0 }}
+                                transition={{
+                                    duration: ANIMATION_DURATION,
+                                    ease: "easeOut"
+                                }}
+                            >
+                                <RedTop/>
+                            </motion.div>
+
+                            <motion.div
+                                className="absolute w-[70vw] max-w-140 top-0 left-0"
+                                initial={{ y: "-100%" }}
+                                animate={{ y: showIntro ? "-100%" : 0 }}
+                                transition={{
+                                    duration: ANIMATION_DURATION,
+                                    delay: BLUE_DELAY,
+                                    ease: "easeOut"
+                                }}
+                            >
+                                <BlueTop/>
+                            </motion.div>
+
+                            <motion.div
+                                className="absolute w-full max-w-200 bottom-0 right-0"
+                                initial={{ y: "100%" }}
+                                animate={{ y: showIntro ? "100%" : 0 }}
+                                transition={{
+                                    duration: ANIMATION_DURATION,
+                                    ease: "easeOut"
+                                }}
+                            >
+                                <RedBottom/>
+                            </motion.div>
+
+                            <motion.div
+                                className="absolute w-[70vw] max-w-140 bottom-0 right-0"
+                                initial={{ y: "100%" }}
+                                animate={{ y: showIntro ? "100%" : 0 }}
+                                transition={{
+                                    duration: ANIMATION_DURATION,
+                                    delay: BLUE_DELAY,
+                                    ease: "easeOut"
+                                }}
+                            >
+                                <BlueBottom/>
+                            </motion.div>
+                        </div>
+                        <span
+                            className="max-w-150 max-h-200 w-full h-full flex items-center justify-center"
+                            style={{
+                                transform: `translateY(${scrollY * -0.05}px)`
+                            }}
+                        >
+                            <Logo className="w-full h-full object-contain" />
+                        </span>
+                        <span className="absolute top-4 left-8 font-bold text-background" style={{ fontSize: 'clamp(2rem, 8vw, 4rem)' }}>
+                            5.2-5.3
+                        </span>
+                    </div>
+                </>
+            )}
         </section>
     )
 }

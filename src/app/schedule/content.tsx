@@ -63,163 +63,185 @@ export default function Timetable() {
 
     const slideVariants = {
         enter: (direction: number) => ({
-            x: direction > 0 ? 1000 : -1000,
-            opacity: 0
+            x: direction > 0 ? 500 : -500,
+            opacity: 0.5,
+            transition: {
+                duration: 0.15,
+                ease: [0, 0, 0.2, 1] as const
+            }
         }),
         center: {
             x: 0,
-            opacity: 1
+            opacity: 1,
+            transition: {
+                duration: 0.15,
+                ease: [0, 0, 0.2, 1] as const
+            }
         },
         exit: (direction: number) => ({
-            x: direction < 0 ? 1000 : -1000,
-            opacity: 0
+            x: direction < 0 ? 500 : -500,
+            opacity: 0.5,
+            transition: {
+                duration: 0.15,
+                ease: [0.4, 0, 1, 1] as const
+            }
         })
     }
 
     return (
-        <div>
-            {/* Day tabs */}
-            <motion.div
-                className="mb-8 mx-auto flex flex-col items-center justify-center"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-            >
-                <div className="flex gap-4 border-b border-accent-light pb-4">
+        <div className="max-w-7xl mx-auto">
+            {/* Day tabs - 中央揃え */}
+            <div className="flex justify-center mb-0">
+                <div className="inline-flex gap-3">
                     {days.map((day, index) => (
-                        <motion.button
+                        <button
                             key={day.id}
                             onClick={() => handleDayChange(index)}
-                            className={`px-6 py-2 font-bold transition-all shrink-0 ${
+                            className={`relative px-8 py-3 font-bold transition-all border-t border-l border-r border-accent-light rounded-t-2xl ${
                                 selectedDay === index
                                     ? "bg-primary text-background"
-                                    : "bg-card border border-accent-light text-foreground hover:bg-accent-light"
+                                    : "bg-background text-foreground hover:bg-accent-light"
                             }`}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
+                            {/* 左側の凹曲線装飾 */}
+                            <div className="absolute bottom-0 left-0 w-3 h-3 overflow-hidden pointer-events-none transition-all" style={{ transform: 'translateX(-100%)' }}>
+                                <svg viewBox="0 0 12 12" className="w-3 h-3">
+                                    <path
+                                        d="M 12 0 Q 12 12 0 12 L 12 12 Z"
+                                        className={`transition-all ${selectedDay === index ? "fill-primary" : "fill-background"}`}
+                                    />
+                                </svg>
+                            </div>
+                            {/* 右側の凹曲線装飾 */}
+                            <div className="absolute bottom-0 right-0 w-3 h-3 overflow-hidden pointer-events-none transition-all" style={{ transform: 'translateX(100%)' }}>
+                                <svg viewBox="0 0 12 12" className="w-3 h-3">
+                                    <path
+                                        d="M 0 0 Q 0 12 12 12 L 0 12 Z"
+                                        className={`transition-all ${selectedDay === index ? "fill-primary" : "fill-background"}`}
+                                    />
+                                </svg>
+                            </div>
                             {day.name}
                             <br />
                             <span className="text-sm">{day.date}</span>
-                        </motion.button>
+                        </button>
                     ))}
                 </div>
-            </motion.div>
+            </div>
 
-            <div className="overflow-x-auto">
-                <AnimatePresence initial={false} custom={direction} mode="wait">
-                    <motion.div
-                        key={selectedDay}
-                        custom={direction}
-                        variants={slideVariants}
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        transition={{
-                            x: { type: "spring", stiffness: 300, damping: 30 },
-                            opacity: { duration: 0.2 }
-                        }}
-                        className="max-w-7xl min-w-4xl mx-auto bg-card border border-accent-light"
-                    >
-                        <div
-                            className="inline-grid min-w-full"
-                            style={{
-                                gridTemplateColumns: `80px repeat(${locations.length}, 1fr)`,
-                                gridTemplateRows: `auto repeat(${END_HOUR - START_HOUR}, ${HOUR_HEIGHT}px)`,
-                            }}
+            {/* タブビューワーコンテナ */}
+            <div className="bg-card border border-accent-light overflow-hidden border-t-4 border-t-primary">
+                {/* タイムテーブルコンテンツエリア */}
+
+                {/* タイムテーブルコンテンツエリア */}
+                <div className="overflow-x-auto">
+                    <AnimatePresence initial={false} custom={direction} mode="wait">
+                        <motion.div
+                            key={selectedDay}
+                            custom={direction}
+                            variants={slideVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            className="min-w-4xl"
                         >
+                            <div
+                                className="inline-grid min-w-full"
+                                style={{
+                                    gridTemplateColumns: `80px repeat(${locations.length}, 1fr)`,
+                                    gridTemplateRows: `auto repeat(${END_HOUR - START_HOUR}, ${HOUR_HEIGHT}px)`,
+                                }}
+                            >
 
-                            {/* グリッド背景(1時間ごとの区切り線) */}
-                            {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
-                                return Array.from({ length: locations.length }).map((_, locIndex) => (
-                                    <div
-                                        key={`grid-bg-${i}-${locIndex}`}
-                                        className="border-b border-r border-accent-light opacity-30"
-                                        style={{ gridRow: `${i + 2}`, gridColumn: `${locIndex + 2}` }}
-                                    />
-                                ))
-                            })}
+                                {/* グリッド背景(1時間ごとの区切り線) */}
+                                {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
+                                    return Array.from({ length: locations.length }).map((_, locIndex) => (
+                                        <div
+                                            key={`grid-bg-${i}-${locIndex}`}
+                                            className="border-b border-r border-accent-light opacity-30"
+                                            style={{ gridRow: `${i + 2}`, gridColumn: `${locIndex + 2}` }}
+                                        />
+                                    ))
+                                })}
 
-                            {/* イベント */}
-                            {performances.map((performance) => {
-                                const currentDayId = days[selectedDay].id
-                                const schedule = performance.schedules.find(s => s.dayId === currentDayId)
-                                if (!schedule) return null
+                                {/* イベント */}
+                                {performances.map((performance) => {
+                                    const currentDayId = days[selectedDay].id
+                                    const schedule = performance.schedules.find(s => s.dayId === currentDayId)
+                                    if (!schedule) return null
 
-                                return schedule.info.map((info, idx) => {
-                                    const locationIndex = locations.indexOf(info.location)
-                                    if (locationIndex === -1) return null
+                                    return schedule.info.map((info, idx) => {
+                                        const locationIndex = locations.indexOf(info.location)
+                                        if (locationIndex === -1) return null
 
-                                    const position = getGridPosition(locationIndex, info)
+                                        const position = getGridPosition(locationIndex, info)
 
+                                        return (
+                                            <motion.div
+                                                key={`perf-${performance.id}-${currentDayId}-${idx}`}
+                                                initial={{ opacity: 0, scale: 0.8 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                transition={{
+                                                    duration: 0.15,
+                                                    delay: (locationIndex * 0.01)
+                                                }}
+                                                style={position}
+                                            >
+                                                <Link
+                                                    href={`/event/${performance.id}`}
+                                                    className="relative bg-primary bg-opacity-20 border-l-4 border-primary p-2 transition-all hover:bg-opacity-30 cursor-pointer overflow-hidden flex flex-col justify-center items-center text-center text-background h-full group"
+                                                    title={performance.name}
+                                                >
+                                                    <div className="font-bold text-xs leading-tight group-hover:scale-105 transition-transform">
+                                                        {performance.name}
+                                                    </div>
+                                                    <div className="text-xs opacity-75 leading-tight">
+                                                        {info.startTime} - {info.endTime}
+                                                    </div>
+                                                </Link>
+                                            </motion.div>
+                                        )
+                                    })
+                                }).flat()}
+
+                                {/* 時間ヘッダー */}
+                                <div className="sticky left-0 top-0 z-20 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm flex items-center justify-center">
+                                    時間
+                                </div>
+
+                                {/* 場所ヘッダー */}
+                                {locations.map((location, index) => (
+                                    <motion.div
+                                        key={`header-${location}`}
+                                        className="top-0 z-10 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm text-center"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.15, delay: index * 0.01 }}
+                                    >
+                                        {getLabel(location)}
+                                    </motion.div>
+                                ))}
+
+                                {/* 時間行ラベル */}
+                                {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
+                                    const hour = START_HOUR + i
                                     return (
                                         <motion.div
-                                            key={`perf-${performance.id}-${currentDayId}-${idx}`}
-                                            initial={{ opacity: 0, scale: 0.8 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{
-                                                duration: 0.3,
-                                                delay: (locationIndex * 0.05) + (idx * 0.02)
-                                            }}
-                                            style={position}
+                                            key={`time-${hour}`}
+                                            className="sticky left-0 z-10 bg-card border-r border-b border-accent-light px-4 font-bold text-sm flex items-center justify-center"
+                                            style={{ gridRow: `${i + 2}` }}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ duration: 0.3, delay: i * 0.03 }}
                                         >
-                                            <Link
-                                                href={`/event/${performance.id}`}
-                                                className="relative bg-primary bg-opacity-20 border-l-4 border-primary p-2 transition-all hover:bg-opacity-30 cursor-pointer overflow-hidden flex flex-col justify-center items-center text-center text-background h-full group"
-                                                title={performance.name}
-                                            >
-                                                <div className="font-bold text-xs leading-tight group-hover:scale-105 transition-transform">
-                                                    {performance.name}
-                                                </div>
-                                                <div className="text-xs opacity-75 leading-tight">
-                                                    {info.startTime} - {info.endTime}
-                                                </div>
-                                            </Link>
+                                            {String(hour).padStart(2, "0")}:00
                                         </motion.div>
                                     )
-                                })
-                            }).flat()}
-
-                            {/* 時間ヘッダー */}
-                            <div className="sticky left-0 top-0 z-20 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm flex items-center justify-center">
-                                時間
+                                })}
                             </div>
-
-                            {/* 場所ヘッダー */}
-                            {locations.map((location, index) => (
-                                <motion.div
-                                    key={`header-${location}`}
-                                    className="top-0 z-10 bg-card border-r border-b border-accent-light px-4 py-3 font-bold text-sm text-center"
-                                    initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.3, delay: index * 0.05 }}
-                                >
-                                    {getLabel(location)}
-                                </motion.div>
-                            ))}
-
-                            {/* 時間行ラベル */}
-                            {Array.from({ length: END_HOUR - START_HOUR }).map((_, i) => {
-                                const hour = START_HOUR + i
-                                return (
-                                    <motion.div
-                                        key={`time-${hour}`}
-                                        className="sticky left-0 z-10 bg-card border-r border-b border-accent-light px-4 font-bold text-sm flex items-center justify-center"
-                                        style={{ gridRow: `${i + 2}` }}
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.3, delay: i * 0.03 }}
-                                    >
-                                        {String(hour).padStart(2, "0")}:00
-                                    </motion.div>
-                                )
-                            })}
-                        </div>
-                    </motion.div>
-                </AnimatePresence>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
             </div>
         </div>
     )

@@ -1,231 +1,135 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 2389 580" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:1.5;">
-    <g transform="matrix(1,0,0,1,-1622.961963,-2109.310001)">
-        <g id="GF">
+<svg width="100%" height="100%" viewBox="0 0 4961 3508" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:1.5;">
+    <g id="GF">
+        <g>
+            <path d="M1628.596,2171.744L1628.596,2170.133L1861.798,2170.133L1861.798,2115.749C1861.798,2115.304 1862.159,2114.944 1862.604,2114.944L3918.41,2114.944C3918.855,2114.944 3919.216,2115.304 3919.216,2115.749L3919.216,2608.37C3919.216,2608.815 3918.855,2609.176 3918.41,2609.176L1725.529,2609.176C1725.084,2609.176 1724.723,2608.815 1724.723,2608.37L1724.723,2574.594L1628.596,2574.594C1628.151,2574.594 1627.79,2574.234 1627.79,2573.789L1627.79,2170.938C1627.79,2171.383 1628.151,2171.744 1628.596,2171.744Z" style="fill:#f9f7f4;"/>
+            <g id="shokudou">
+                <path d="M2821.27,2318.784L2821.592,2115.25L2958.6,2115.403L2958.6,2318.784L3095.286,2318.784L3095.286,2612.398L2547.254,2612.398L2547.254,2318.784L2821.27,2318.784Z" style="fill:#e0dad3;"/>
+            </g>
+            <rect x="1981.985" y="2607.564" width="1815.579" height="1.611" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+            <path d="M1628.596,2171.744L1628.596,2170.133L1861.798,2170.133L1861.798,2115.749C1861.798,2115.304 1862.159,2114.944 1862.604,2114.944L3918.41,2114.944C3918.855,2114.944 3919.216,2115.304 3919.216,2115.749L3919.216,2608.37C3919.216,2608.815 3918.855,2609.176 3918.41,2609.176L3902.301,2609.176L3902.301,2607.564L3917.604,2607.564L3917.604,2116.555L2145.8,2116.555L1863.41,2116.555L1863.41,2170.938C1863.41,2171.383 1863.049,2171.744 1862.604,2171.744L1629.401,2171.744L1629.401,2572.983L1725.529,2572.983C1725.974,2572.983 1726.335,2573.344 1726.335,2573.789L1726.335,2607.564L1746.324,2607.564L1746.324,2609.176L1725.529,2609.176C1725.084,2609.176 1724.723,2608.815 1724.723,2608.37L1724.723,2574.594L1628.596,2574.594C1628.151,2574.594 1627.79,2574.234 1627.79,2573.789L1627.79,2170.938C1627.79,2171.383 1628.151,2171.744 1628.596,2171.744Z" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+        </g>
+        <g id="honkan_G">
+            <path d="M1725.529,2573.789L1725.8,2428.014L1628.596,2427.956L1725.8,2428.014" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+            <g id="housou">
+                <path d="M1999.223,2427.15L2136.231,2427.372L2136.231,2607.564L1999.223,2607.564L1999.223,2427.15Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <text x="2017.727px" y="2528.685px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">放送室</text>
+            </g>
+            <g id="taiiku_junbi">
+                <path d="M2136.231,2427.15L2273.239,2427.372L2273.239,2607.564L2136.231,2607.564L2136.231,2427.15Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(1,0,0,1,-1541.180527,246.352606)">
+                    <text x="3712.582px" y="2257.333px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">体育</text>
+                    <text x="3695.915px" y="2307.333px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">準備室</text>
+                </g>
+            </g>
+            <text x="2787.937px" y="2525.749px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">食堂</text>
+            <g id="koumuin">
+                <path d="M2273.239,2427.15L2547.254,2427.372L2547.254,2607.564L2273.239,2607.564L2273.239,2427.15Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <text x="2343.58px" y="2528.685px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校務員室</text>
+            </g>
+            <g id="eigo_junbi">
+                <path d="M3095.286,2427.724L3232.294,2427.945L3232.294,2607.564L3095.286,2607.564L3095.286,2427.724Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(1,0,0,1,-582.125409,246.926068)">
+                    <text x="3712.582px" y="2257.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">英語</text>
+                    <text x="3695.915px" y="2307.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">準備室</text>
+                </g>
+            </g>
+            <g id="chireki_koumin_junbi">
+                <path d="M3232.294,2427.15L3506.31,2427.372L3506.31,2607.564L3232.294,2607.564L3232.294,2427.15Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(1,0,0,1,-445.117535,247.147083)">
+                    <text x="3739.419px" y="2256.654px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">地歴・公民</text>
+                    <text x="3764.419px" y="2306.654px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">準備室</text>
+                </g>
+            </g>
+            <g id="_39" serif:id="39">
+                <path d="M3506.31,2426.587L3780.325,2426.809L3780.325,2607.001L3506.31,2607.001L3506.31,2426.587Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(33.333333,0,0,33.333333,3667.406017,2528.732842)">
+                </g>
+                <text x="3619.229px" y="2528.733px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">3-9</text>
+            </g>
             <g>
-                <path d="M1628.596,2171.744L1628.596,2170.133L1861.798,2170.133L1861.798,2115.749C1861.798,2115.304 1862.159,2114.944 1862.604,2114.944L3918.41,2114.944C3918.855,2114.944 3919.216,2115.304 3919.216,2115.749L3919.216,2608.37C3919.216,2608.815 3918.855,2609.176 3918.41,2609.176L1725.529,2609.176C1725.084,2609.176 1724.723,2608.815 1724.723,2608.37L1724.723,2574.594L1628.596,2574.594C1628.151,2574.594 1627.79,2574.234 1627.79,2573.789L1627.79,2170.938C1627.79,2171.383 1628.151,2171.744 1628.596,2171.744Z" style="fill:rgb(249,247,244);"/>
-                <g transform="matrix(2.017111,0,0,2.757294,-935.658093,-4579.645023)">
-                    <g id="shokudou">
-                        <path d="M1862.529,2501.883L1862.689,2428.067L1930.612,2428.122L1930.612,2501.883L1998.375,2501.883L1998.375,2608.37L1726.684,2608.37L1726.684,2501.883L1862.529,2501.883Z" style="fill:rgb(224,218,211);"/>
-                    </g>
-                </g>
-                <rect x="1981.985" y="2607.564" width="1815.579" height="1.611" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                <path d="M1628.596,2171.744L1628.596,2170.133L1861.798,2170.133L1861.798,2115.749C1861.798,2115.304 1862.159,2114.944 1862.604,2114.944L3918.41,2114.944C3918.855,2114.944 3919.216,2115.304 3919.216,2115.749L3919.216,2608.37C3919.216,2608.815 3918.855,2609.176 3918.41,2609.176L3902.301,2609.176L3902.301,2607.564L3917.604,2607.564L3917.604,2116.555L2145.8,2116.555L1863.41,2116.555L1863.41,2170.938C1863.41,2171.383 1863.049,2171.744 1862.604,2171.744L1629.401,2171.744L1629.401,2572.983L1725.529,2572.983C1725.974,2572.983 1726.335,2573.344 1726.335,2573.789L1726.335,2607.564L1746.324,2607.564L1746.324,2609.176L1725.529,2609.176C1725.084,2609.176 1724.723,2608.815 1724.723,2608.37L1724.723,2574.594L1628.596,2574.594C1628.151,2574.594 1627.79,2574.234 1627.79,2573.789L1627.79,2170.938C1627.79,2171.383 1628.151,2171.744 1628.596,2171.744Z" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
+                <path d="M2136.553,2115.749L2420.204,2115.999L2420.204,2318.784L2136.553,2318.784L2136.553,2115.749Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
             </g>
-            <g id="honkan_G">
-                <path d="M1725.529,2573.789L1725.8,2428.014L1628.596,2427.956L1725.8,2428.014" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                <g id="housou" transform="matrix(0.533748,0,0,1,785.71456,-0.805671)">
-                    <g transform="matrix(0.944786,0,0,1,642.213655,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:7.89px;"/>
-                    </g>
-                    <g transform="matrix(1.873543,0,0,1,-4616.228535,247.158278)">
-                        <text x="3695.915px" y="2282.333px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">放送室</text>
-                    </g>
-                </g>
-                <g id="taiiku_junbi" transform="matrix(0.533748,0,0,1,922.722434,-0.805671)">
-                    <g transform="matrix(0.944786,0,0,1,642.213655,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:7.89px;"/>
-                    </g>
-                    <g transform="matrix(1.873543,0,0,1,-4616.228535,247.158278)">
-                        <text x="3712.582px" y="2257.333px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">体育</text>
-                        <text x="3695.915px" y="2307.333px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">準備室</text>
-                    </g>
-                </g>
-                <g transform="matrix(1,0,0,1,-1130.156905,243.703368)">
-                    <text x="3918.094px" y="2282.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">食堂</text>
-                </g>
-                <g id="koumuin" transform="matrix(1,0,0,1,-822.36892,-0.805671)">
-                    <g transform="matrix(1.008556,0,0,1,1354.151368,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:6.22px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-581.803733,247.158278)">
-                        <text x="3747.753px" y="2282.333px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校務員室</text>
-                    </g>
-                </g>
-                <g id="eigo_junbi" transform="matrix(0.5,0,0,0.996821,1958.505774,7.485259)">
-                    <g transform="matrix(1.008556,0,0,1,532.104123,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:7.91px;"/>
-                    </g>
-                    <g transform="matrix(2,0,0,1.003189,-5081.262365,240.204319)">
-                        <text x="3712.582px" y="2257.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">英語</text>
-                        <text x="3695.915px" y="2307.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">準備室</text>
-                    </g>
-                </g>
-                <g id="chireki_koumin_junbi" transform="matrix(0.966252,0,0,1,1044.70916,-0.805671)">
-                    <g transform="matrix(1.043781,0,0,1,461.710224,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:6.22px;"/>
-                    </g>
-                    <g transform="matrix(1.034927,0,0,1,-1541.861508,247.952755)">
-                        <text x="3739.419px" y="2256.654px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">地歴・公民</text>
-                        <text x="3764.419px" y="2306.654px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">準備室</text>
-                    </g>
-                </g>
-                <g id="_39" serif:id="39" transform="matrix(1,0,0,1,-137.32955,-1.368644)">
-                    <g transform="matrix(1.008556,0,0,1,1902.182864,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:6.22px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-33.772237,247.158278)">
-                        <g transform="matrix(33.333333,0,0,33.333333,3838.507804,2282.943208)">
-                        </g>
-                        <text x="3790.331px" y="2282.943px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">3-9</text>
-                    </g>
-                </g>
-                <g transform="matrix(1.044021,0,0,1.125379,333.859212,-616.620748)">
-                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:5.76px;"/>
-                </g>
-                <g transform="matrix(0.468813,0,0,1.125379,1610.712742,-617.426419)">
-                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:7.25px;"/>
-                </g>
-                <g id="chuubou" transform="matrix(1,0,0,1.129844,-548.031496,-628.268889)">
-                    <g transform="matrix(1.008556,0,0,1,1354.151368,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:5.84px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,0.885078,-581.803733,497.78081)">
-                        <text x="3781.086px" y="2294.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">厨房</text>
-                    </g>
-                </g>
-                <g transform="matrix(0.504278,0,0,1.129844,2087.871638,-628.268889)">
-                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:7.14px;"/>
-                </g>
-                <g id="kousaku" transform="matrix(0.5,0,0,1.129844,1958.82745,-628.268889)">
-                    <g transform="matrix(1.008556,0,0,1,532.104123,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:7.14px;"/>
-                    </g>
-                    <g transform="matrix(2,0,0,0.885078,-5081.262365,497.78081)">
-                        <text x="3695.915px" y="2294.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">工作室</text>
-                    </g>
-                </g>
-                <g id="jichikai" transform="matrix(0.5,0,0,1.129844,2095.835324,-628.268889)">
-                    <g transform="matrix(1.008556,0,0,1,532.104123,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:7.14px;"/>
-                    </g>
-                    <g transform="matrix(2,0,0,0.885078,-5081.262365,497.78081)">
-                        <text x="3679.249px" y="2294.046px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">自治会室</text>
-                    </g>
-                </g>
-                <g id="LL" transform="matrix(0.969253,0,0,1.129844,1165.969071,-628.268889)">
-                    <g transform="matrix(1.008556,0,0,1,532.104123,0)">
-                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:5.92px;"/>
-                    </g>
-                    <g transform="matrix(1.031723,0,0,0.885078,-1520.508751,497.78081)">
-                        <text x="3758.335px" y="2294.656px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">LL</text>
-                        <text x="3795.412px" y="2294.656px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">教室</text>
-                    </g>
-                </g>
-                <g id="EV_honkan_G">
-                    <rect x="1628.596" y="2170.938" width="97.204" height="147.04" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    <g transform="matrix(1,0,0,1,-2048.815752,-9.859331)">
-                        <g transform="matrix(33.333333,0,0,33.333333,3748.24666,2266.255922)">
-                        </g>
-                        <text x="3703.781px" y="2266.256px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">EV</text>
-                    </g>
-                </g>
-                <g id="stairs_honkan_G_W">
-                    <g transform="matrix(1,0,0,1,234.070976,-56.059015)">
-                        <rect x="1628.533" y="2171.808" width="136.941" height="202.229" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,0.598898,-1918.865328,929.745539)">
-                        <path d="M3849.94,2317.978L3849.94,2115.749" style="fill:none;stroke:rgb(115,108,97);stroke-width:7.58px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-1918.865328,70)">
-                        <path d="M3781.469,2216.864L3849.94,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-1918.865328,40)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-1918.865328,10)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-1918.865328,-20)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                </g>
-                <g id="WC_honkan_G_W" transform="matrix(0.936772,0,0,1,126.428052,0)">
-                    <g transform="matrix(1,0,0,1,371.07885,-56.059015)">
-                        <rect x="1628.533" y="2171.808" width="146.188" height="202.229" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:6.45px;"/>
-                    </g>
-                    <g transform="matrix(1.067496,0,0,1,-1926.077623,-65.048331)">
-                        <g transform="matrix(33.333333,0,0,33.333333,3773.682253,2293.850422)">
-                        </g>
-                        <text x="3718.148px" y="2293.85px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
-                    </g>
-                </g>
-                <g id="stairs_honkan_G_E">
-                    <g transform="matrix(-1,0,0,1,5544.332979,-56.059015)">
-                        <rect x="1625.923" y="2171.808" width="136.941" height="202.229" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,0.598898,0,929.745539)">
-                        <path d="M3849.94,2317.978L3849.94,2115.749" style="fill:none;stroke:rgb(115,108,97);stroke-width:7.58px;"/>
-                    </g>
-                    <g transform="matrix(0.5,0,0,0.5,1890.734625,1178.431807)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:12.5px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,40)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,10)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,-20)">
-                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                </g>
-                <g id="stairs_honkan_G_out" transform="matrix(1,0,0,1,136.746413,223.311699)">
-                    <g transform="matrix(-1,0,0,1,5544.332979,-56.059015)">
-                        <path d="M1675.729,2372.093L1675.729,2171.808L1762.669,2171.808L1762.669,2372.093" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:6.25px;stroke-linecap:square;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,70)">
-                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,40)">
-                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,10)">
-                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,0,-20)">
-                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                </g>
-                <g id="WC_honkan_G_E">
-                    <g transform="matrix(-1,0,0,1,5407.325105,-56.059015)">
-                        <rect x="1625.923" y="2171.808" width="146.188" height="202.229" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:6.25px;"/>
-                    </g>
-                    <g transform="matrix(1,0,0,1,-42.197509,-65.048331)">
-                        <g transform="matrix(33.333333,0,0,33.333333,3778.306001,2293.850422)">
-                        </g>
-                        <text x="3722.772px" y="2293.85px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
-                    </g>
-                </g>
-                <g transform="matrix(0,-1,1,0,2285.777156,5841.692397)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
-                </g>
-                <g transform="matrix(0,-1,1,0,2464.445124,5841.692397)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
-                </g>
-                <g transform="matrix(0,-1,1,0,2422.579133,5950.864798)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
-                </g>
-                <g transform="matrix(0,-1,1,0,2609.440815,5950.864798)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
-                </g>
-                <g transform="matrix(0,-1,1,0,2579.897111,5840.886725)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
-                </g>
-                <g transform="matrix(0,-1,1,0,940.741099,5840.886725)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
-                </g>
-                <g transform="matrix(0,-1,1,0,940.419423,5950.059127)">
-                    <path d="M3505.083,1133.547L3505.083,1145.133L3487.257,1127.308L3505.083,1109.482L3505.083,1121.068L3540.735,1121.068L3540.735,1109.482L3558.561,1127.308L3540.735,1145.133L3540.735,1133.547L3505.083,1133.547Z" style="fill:rgb(255,0,0);"/>
+            <g>
+                <path d="M2420.204,2114.944L2547.576,2115.193L2547.576,2317.978L2420.204,2317.978L2420.204,2114.944Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
+            </g>
+            <g id="chuubou">
+                <path d="M2547.576,2114.944L2821.592,2115.194L2821.592,2318.784L2547.576,2318.784L2547.576,2114.944Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <text x="2651.251px" y="2228.192px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">厨房</text>
+            </g>
+            <g>
+                <path d="M2958.6,2114.944L3095.608,2115.194L3095.608,2318.784L2958.6,2318.784L2958.6,2114.944Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
+            </g>
+            <g id="kousaku">
+                <path d="M3095.608,2114.944L3232.616,2115.194L3232.616,2318.784L3095.608,2318.784L3095.608,2114.944Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <text x="3114.112px" y="2228.192px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">工作室</text>
+            </g>
+            <g id="jichikai">
+                <path d="M3232.616,2114.944L3369.623,2115.194L3369.623,2318.784L3232.616,2318.784L3232.616,2114.944Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <text x="3234.453px" y="2228.192px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">自治会室</text>
+            </g>
+            <g id="LL">
+                <path d="M3369.623,2114.944L3635.214,2115.194L3635.214,2318.784L3369.623,2318.784L3369.623,2114.944Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(1,0,0,1,-307.787985,-65.854002)">
+                    <text x="3758.335px" y="2294.656px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">LL</text>
+                    <text x="3795.412px" y="2294.656px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">教室</text>
                 </g>
             </g>
-            <g transform="matrix(1,0,0,1,-429.117815,1187.137987)">
-                <text x="4177.72px" y="1497.048px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:50px;">本館</text>
-                <g transform="matrix(50,0,0,50,4347.153227,1497.047506)">
+            <g id="EV_honkan_G">
+                <rect x="1628.596" y="2170.938" width="97.204" height="147.04" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(33.333333,0,0,33.333333,1699.430908,2256.396591)">
                 </g>
-                <text x="4277.72px" y="1497.048px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:50px;">GF</text>
+                <text x="1654.965px" y="2256.397px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">EV</text>
             </g>
+            <g id="stairs_honkan_G_W">
+                <rect x="1862.604" y="2115.749" width="136.941" height="202.229" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M1931.074,2317.978L1931.074,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M1862.604,2286.864L1931.074,2286.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M1862.604,2256.864L1999.545,2256.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M1862.604,2226.864L1999.545,2226.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M1862.604,2196.864L1999.545,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+            </g>
+            <g id="WC_honkan_G_W">
+                <rect x="1999.608" y="2115.749" width="136.945" height="202.229" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(33.333333,0,0,33.333333,2095.815528,2228.802091)">
+                </g>
+                <text x="2040.282px" y="2228.802px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
+            </g>
+            <g id="stairs_honkan_G_E">
+                <rect x="3781.469" y="2115.749" width="136.941" height="202.229" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3849.94,2317.978L3849.94,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3781.469,2286.864L3849.94,2286.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3781.469,2256.864L3918.41,2256.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3781.469,2226.864L3918.41,2226.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3781.469,2196.864L3918.41,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+            </g>
+            <g id="stairs_honkan_G_out">
+                <path d="M4005.351,2539.345L4005.351,2339.061L3918.41,2339.061L3918.41,2539.345" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;stroke-linecap:square;"/>
+                <path d="M3918.41,2508.231L4005.351,2508.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3918.41,2478.231L4005.351,2478.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3918.41,2448.231L4005.351,2448.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M3918.41,2418.231L4005.351,2418.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+            </g>
+            <g id="WC_honkan_G_E">
+                <rect x="3635.214" y="2115.749" width="146.188" height="202.229" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
+                <g transform="matrix(33.333333,0,0,33.333333,3736.108491,2228.802091)">
+                </g>
+                <text x="3680.575px" y="2228.802px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
+            </g>
+            <path d="M3419.324,2336.609L3430.911,2336.609L3413.085,2354.435L3395.259,2336.609L3406.846,2336.609L3406.846,2300.958L3395.259,2300.958L3413.085,2283.132L3430.911,2300.958L3419.324,2300.958L3419.324,2336.609Z" style="fill:#f00;"/>
+            <path d="M3597.992,2336.609L3609.578,2336.609L3591.753,2354.435L3573.927,2336.609L3585.514,2336.609L3585.514,2300.958L3573.927,2300.958L3591.753,2283.132L3609.578,2300.958L3597.992,2300.958L3597.992,2336.609Z" style="fill:#f00;"/>
+            <path d="M3556.126,2445.782L3567.712,2445.782L3549.887,2463.608L3532.061,2445.782L3543.648,2445.782L3543.648,2410.13L3532.061,2410.13L3549.887,2392.304L3567.712,2410.13L3556.126,2410.13L3556.126,2445.782Z" style="fill:#f00;"/>
+            <path d="M3742.987,2445.782L3754.574,2445.782L3736.748,2463.608L3718.922,2445.782L3730.509,2445.782L3730.509,2410.13L3718.922,2410.13L3736.748,2392.304L3754.574,2410.13L3742.987,2410.13L3742.987,2445.782Z" style="fill:#f00;"/>
+            <path d="M3713.444,2335.804L3725.03,2335.804L3707.205,2353.63L3689.379,2335.804L3700.966,2335.804L3700.966,2300.152L3689.379,2300.152L3707.205,2282.326L3725.03,2300.152L3713.444,2300.152L3713.444,2335.804Z" style="fill:#f00;"/>
+            <path d="M2074.288,2335.804L2085.874,2335.804L2068.049,2353.63L2050.223,2335.804L2061.81,2335.804L2061.81,2300.152L2050.223,2300.152L2068.049,2282.326L2085.874,2300.152L2074.288,2300.152L2074.288,2335.804Z" style="fill:#f00;"/>
+            <path d="M2073.966,2444.976L2085.553,2444.976L2067.727,2462.802L2049.901,2444.976L2061.488,2444.976L2061.488,2409.324L2049.901,2409.324L2067.727,2391.499L2085.553,2409.324L2073.966,2409.324L2073.966,2444.976Z" style="fill:#f00;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,-429.117815,1187.137987)">
+            <text x="4177.72px" y="1497.048px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:50px;">本館</text>
+            <g transform="matrix(50,0,0,50,4347.153227,1497.047506)">
+            </g>
+            <text x="4277.72px" y="1497.048px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:50px;">GF</text>
         </g>
     </g>
 </svg>

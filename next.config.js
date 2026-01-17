@@ -37,6 +37,7 @@ const nextConfig = {
                 prettier: false,
                 svgProps: {
                 },
+                ref: true,
             },
         });
         return config;

@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --background: #faf1ef;
+    --background: #fcfaed;
     --foreground: #010212;
     --card: #fefdfb;
     --card-foreground: #1a1410;
@@ -14,7 +14,7 @@
     --primary-foreground: #f5f1ed;
     --secondary: #020025;
     --secondary-foreground: #cbc9ea;
-    --muted: #edd5ce;
+    --muted: #fdf1db;
     --muted-foreground: #574c46;
     --accent: #e94709;
     --accent-foreground: #1a1410;
@@ -94,5 +94,7 @@
     }
     body {
         @apply bg-background text-foreground;
+        overflow-wrap: anywhere;
+        line-break: strict;;
     }
 }

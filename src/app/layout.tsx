@@ -4,15 +4,11 @@ import "./globals.css"
 import Header from "@/components/header"
 import { PageTitleProvider } from "@/hooks/page-title-context"
 import Heading from "@/components/heading"
-import { Noto_Sans_JP } from "next/font/google"
+import { lineSeedSans } from "@/font/localFont"
 import { Toolbar } from "@/components/tool-bar"
 import NextTopLoader from "nextjs-toploader";
 
-const noto = Noto_Sans_JP({
-    weight: ["400", "700"],
-    style: "normal",
-    subsets: ["latin"],
-})
+
 
 export const metadata: Metadata = {
     title: {
@@ -44,8 +40,8 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="ja">
-        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${noto.className}`}>
+        <html lang="ja" className={lineSeedSans.className}>
+        <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${lineSeedSans.className}`}>
         <NextTopLoader color="#e94709" />
         <PageTitleProvider>
             <Header/>

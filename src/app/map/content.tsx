@@ -37,6 +37,7 @@ function MapContent() {
     const isMobile = useMobile()
 
     const [scale, setScale] = useState(1)
+    const [baseScale, setBaseScale] = useState(1)
     const [position, setPosition] = useState({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
@@ -78,10 +79,15 @@ function MapContent() {
         const mapWidth = mapRect.width
         const mapHeight = mapRect.height
 
-        const left = containerRect.width / 2
-        const top = containerRect.height / 2
-        const bottom = -mapHeight + containerRect.height / 2
-        const right = -mapWidth + containerRect.width / 2
+        const MARGIN_RATIO = 0.1
+
+        const marginX = containerRect.width * MARGIN_RATIO
+        const marginY = containerRect.height * MARGIN_RATIO
+
+        const left = marginX
+        const top = marginY
+        const bottom = -mapHeight + containerRect.height - marginY
+        const right = -mapWidth + containerRect.width - marginX
 
         const constrainedX = Math.max(right, Math.min(left, x))
         const constrainedY = Math.max(bottom, Math.min(top, y))
@@ -150,10 +156,10 @@ function MapContent() {
         const originalRoomWidth = currentRoomWidth / scale
         const originalRoomHeight = currentRoomHeight / scale
 
-        const targetScale = Math.max(1, Math.min(
+        const targetScale = Math.max(baseScale, Math.min(
             (containerRect.width * 0.4) / originalRoomWidth,
             (containerRect.height * 0.4) / originalRoomHeight,
-            3
+            baseScale * 3
         ))
 
         // ピンの位置（部屋の中心）がコンテナの中心に来るように位置を計算
@@ -193,7 +199,7 @@ function MapContent() {
                 mapRef.current.style.transition = ''
             }
         }, 500)
-    }, [roomLayerCache, activeLayer, scale, position])
+    }, [roomLayerCache, activeLayer, position.x, position.y, scale, baseScale])
 
 
     // handleSearchSelectを定義（zoomToRoomCachedの後）
@@ -279,15 +285,18 @@ function MapContent() {
         const containerRect = container.getBoundingClientRect()
 
         if (!isInitialized) {
-            const scaledWidth = containerRect.width * scale
-            const scaledHeight = containerRect.height * scale
+            const MARGIN_RATIO = 0.1
+            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
+            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
 
-            const scaleX = scaledWidth / mapRect.width * scale
-            const scaleY = scaledHeight / mapRect.height * scale
-            const newScale = Math.min(scaleX, scaleY) * 0.95
+            const scaleX = effectiveWidth / mapRect.width
+            const scaleY = effectiveHeight / mapRect.height
+            const newScale = Math.max(scaleX, scaleY)
 
-            const centerX = (containerRect.width - mapRect.width / scale * newScale) / 2
-            const centerY = (containerRect.height - mapRect.height / scale * newScale) / 2
+            setBaseScale(newScale)
+
+            const centerX = (containerRect.width - mapRect.width * newScale) / 2
+            const centerY = (containerRect.height - mapRect.height * newScale) / 2
             setScale(newScale)
             setPosition({ x: centerX, y: centerY })
             setIsInitialized(true)
@@ -296,33 +305,56 @@ function MapContent() {
         }
 
         if (isScreenModeChanged) {
+            const currentZoomRatio = scale / baseScale
+
+            const MARGIN_RATIO = 0.1
+            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
+            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+
+            const mapOriginalWidth = mapRect.width / scale
+            const mapOriginalHeight = mapRect.height / scale
+
+            const scaleX = effectiveWidth / mapOriginalWidth
+            const scaleY = effectiveHeight / mapOriginalHeight
+            const newBaseScale = Math.min(scaleX, scaleY)
+
+            const newScale = newBaseScale * currentZoomRatio
+
             const oldContainerCenterX = containerRect.width / 2
             const oldContainerCenterY = containerRect.height / 2
 
-            const scaledMapWidth = mapRect.width * scale
-            const scaledMapHeight = mapRect.height * scale
+            const oldMapCenterX = position.x + (mapRect.width / 2)
+            const oldMapCenterY = position.y + (mapRect.height / 2)
 
-            const mapCenterX = position.x + scaledMapWidth / 2
-            const mapCenterY = position.y + scaledMapHeight / 2
+            const relativeCenterX = oldMapCenterX - oldContainerCenterX
+            const relativeCenterY = oldMapCenterY - oldContainerCenterY
 
-            const relativeX = (mapCenterX - oldContainerCenterX) / containerRect.width
-            const relativeY = (mapCenterY - oldContainerCenterY) / containerRect.height
+            const newMapWidth = mapOriginalWidth * newScale
+            const newMapHeight = mapOriginalHeight * newScale
 
-            const newContainerCenterX = containerRect.width / 2
-            const newContainerCenterY = containerRect.height / 2
+            const newMapCenterX = oldContainerCenterX + relativeCenterX
+            const newMapCenterY = oldContainerCenterY + relativeCenterY
 
-            const newMapCenterX = newContainerCenterX + relativeX * containerRect.width
-            const newMapCenterY = newContainerCenterY + relativeY * containerRect.height
+            const newX = newMapCenterX - newMapWidth / 2
+            const newY = newMapCenterY - newMapHeight / 2
 
-            const newX = newMapCenterX - scaledMapWidth / 2
-            const newY = newMapCenterY - scaledMapHeight / 2
+            const MARGIN_X = containerRect.width * MARGIN_RATIO
+            const MARGIN_Y = containerRect.height * MARGIN_RATIO
 
-            const constrained = constrainPosition(newX, newY)
+            const left = MARGIN_X
+            const top = MARGIN_Y
+            const bottom = -newMapHeight + containerRect.height - MARGIN_Y
+            const right = -newMapWidth + containerRect.width - MARGIN_X
 
-            setPosition(constrained)
+            const constrainedX = Math.max(right, Math.min(left, newX))
+            const constrainedY = Math.max(bottom, Math.min(top, newY))
+
+            setBaseScale(newBaseScale)
+            setScale(newScale)
+            setPosition({ x: constrainedX, y: constrainedY })
             setIsScreenModeChanged(false)
         }
-    }, [handleSearchSelect, initialRoomId, isInitialized, isScreenModeChanged, position.x, position.y, scale])
+    }, [handleSearchSelect, initialRoomId, isInitialized, isScreenModeChanged, position.x, position.y, scale, baseScale])
 
     useEffect(() => {
         const handleGlobalMouseUp = () => {
@@ -374,7 +406,7 @@ function MapContent() {
             const beforeY = (mouseY - position.y) / scale
 
             const delta = e.deltaY > 0 ? 0.9 : 1.1
-            const newScale = Math.max(1, Math.min(4, scale * delta))
+            const newScale = Math.max(baseScale, Math.min(baseScale * 4, scale * delta))
 
             const newX = mouseX - beforeX * newScale
             const newY = mouseY - beforeY * newScale
@@ -390,7 +422,7 @@ function MapContent() {
         return () => {
             container.removeEventListener('wheel', handleWheel)
         }
-    }, [scale, position])
+    }, [scale, position, baseScale])
 
     const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault()
@@ -526,7 +558,7 @@ function MapContent() {
                 const avgCenterY = centerHistory.reduce((sum, c) => sum + c.y, 0) / centerHistory.length
 
                 const scaleRatio = distance / lastTouchDistance.current
-                const newScale = Math.max(1, Math.min(4, initialPinchScale.current * scaleRatio))
+                const newScale = Math.max(baseScale, Math.min(baseScale * 4, initialPinchScale.current * scaleRatio))
 
                 const centerDeltaX = avgCenterX - lastTouchCenter.current.x
                 const centerDeltaY = avgCenterY - lastTouchCenter.current.y
@@ -616,7 +648,7 @@ function MapContent() {
             container.removeEventListener('touchmove', handleTouchMove)
             container.removeEventListener('touchend', handleTouchEnd)
         }
-    }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch])
+    }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch, baseScale])
 
     const selectedExhibition = selectedRoomId ? getExhibitionByRoomId(selectedRoomId) : null
     const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
@@ -672,7 +704,7 @@ function MapContent() {
 
                 <div
                     ref={mapRef}
-                    className="w-full transition-all"
+                    className="transition-all w-fit h-fit"
                     style={{
                         userSelect: 'none',
                         transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
@@ -766,6 +798,16 @@ function MapContent() {
                                 setPinnedRoomMapPosition(null)
                                 clearUrlParams()
                                 setActiveLayer(5)
+                            },
+                        },
+                        {
+                            label: "立体図",
+                            icon: <>3D</>,
+                            onClick: () => {
+                                setPinnedRoomId(null)
+                                setPinnedRoomMapPosition(null)
+                                clearUrlParams()
+                                setActiveLayer(6)
                             },
                         },
                     ]} buttonLabel={"Layers"}/>

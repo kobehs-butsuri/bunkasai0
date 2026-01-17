@@ -71,7 +71,7 @@ export default function Header() {
     return (
         <>
             <motion.header
-                className="fixed top-0 w-full bg-background border-b border-accent-light z-40 backdrop-blur-sm bg-opacity-95 h-16 md:h-20 select-none"
+                className="fixed top-0 w-full bg-background/90 z-40 backdrop-blur-sm bg-opacity-95 h-16 md:h-20 select-none"
             >
                 <div className="relative max-w-7xl mx-auto px-8 h-full flex items-center justify-between">
                     <Link href="/">
@@ -116,9 +116,7 @@ export default function Header() {
                                             ? 'text-primary'
                                             : 'text-foreground hover:text-primary'
                                     }`}>
-                                        <span className={`text-[1rem] leading-tight flex items-center gap-1 ${
-                                            pathname === item.href ? 'font-bold' : 'font-medium'
-                                        }`}>
+                                        <span className={`text-[1rem] leading-tight flex items-center gap-1 font-bold`}>
                                             {item.label}
                                             {item.subItems && (
                                                 <ChevronDown className="w-3 h-3" />
