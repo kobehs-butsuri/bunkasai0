@@ -8,7 +8,7 @@ export default function Footer() {
     return (
         <footer className="w-full bg-foreground text-background py-16 px-8 relative overflow-hidden select-none">
             <div className="relative z-10 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-6 gap-12 mb-16 pb-12 border-t-2 border-background border-opacity-20">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 pb-12 border-t-2 border-background border-opacity-20">
                     <div className="pt-12">
                         <p className="text-primary-foreground leading-relaxed text-2xl">BOth</p>
                         <div className={"flex gap-4"}>
@@ -19,7 +19,7 @@ export default function Footer() {
                         <p className={"text-primary-foreground leading-relaxed text-xs"}>神戸市灘区城の下通1丁目5-1</p>
                     </div>
 
-                    <div>
+                    <div className={"flex-row gap-4"}>
                         <div className="pt-12">
                             <ul className="space-y-2 text-sm opacity-80">
                                 <h4 className="font-bold uppercase tracking-widest mb-4 text-sm opacity-60">Pages</h4>
@@ -35,8 +35,6 @@ export default function Footer() {
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div>
                         <div className="pt-12">
                             <ul className="space-y-2 text-sm opacity-80">
                                 <h4 className="font-bold uppercase tracking-widest mb-4 text-sm opacity-60">イベント</h4>
@@ -67,8 +65,6 @@ export default function Footer() {
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div>
                         <div className="pt-12">
                             <ul className="space-y-2 text-sm opacity-80">
                                 <h4 className="font-bold uppercase tracking-widest mb-4 text-sm opacity-60">情報</h4>
@@ -89,8 +85,6 @@ export default function Footer() {
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div>
                         <div className="pt-12">
                             <ul className="space-y-2 text-sm opacity-80">
                                 <h4 className="font-bold uppercase tracking-widest mb-4 text-sm opacity-60">その他</h4>
