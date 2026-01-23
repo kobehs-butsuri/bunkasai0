@@ -285,18 +285,53 @@ function MapContent() {
         const containerRect = container.getBoundingClientRect()
 
         if (!isInitialized) {
+            const targetElement = document.getElementById("honkan_G")
+
+            if (!targetElement) {
+                console.warn("Target element honkan_G not found, using full map")
+                const MARGIN_RATIO = 0.1
+                const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
+                const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+
+                const scaleX = effectiveWidth / mapRect.width
+                const scaleY = effectiveHeight / mapRect.height
+                const newScale = Math.max(scaleX, scaleY)
+
+                setBaseScale(newScale)
+
+                const centerX = (containerRect.width - mapRect.width * newScale) / 2
+                const centerY = (containerRect.height - mapRect.height * newScale) / 2
+                setScale(newScale)
+                setPosition({ x: centerX, y: centerY })
+                setIsInitialized(true)
+                setIsScreenModeChanged(false)
+                return
+            }
+
+            const targetRect = targetElement.getBoundingClientRect()
+
+            const targetRelativeX = targetRect.left - mapRect.left
+            const targetRelativeY = targetRect.top - mapRect.top
+
             const MARGIN_RATIO = 0.1
             const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
             const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
 
-            const scaleX = effectiveWidth / mapRect.width
-            const scaleY = effectiveHeight / mapRect.height
-            const newScale = Math.max(scaleX, scaleY)
+            const scaleX = effectiveWidth / targetRect.width
+            const scaleY = effectiveHeight / targetRect.height
+            const newScale = Math.min(scaleX, scaleY)
 
             setBaseScale(newScale)
 
-            const centerX = (containerRect.width - mapRect.width * newScale) / 2
-            const centerY = (containerRect.height - mapRect.height * newScale) / 2
+            const targetCenterX = targetRelativeX + targetRect.width / 2
+            const targetCenterY = targetRelativeY + targetRect.height / 2
+
+            const containerCenterX = containerRect.width / 2
+            const containerCenterY = containerRect.height / 2
+
+            const centerX = containerCenterX - targetCenterX * newScale
+            const centerY = containerCenterY - targetCenterY * newScale
+
             setScale(newScale)
             setPosition({ x: centerX, y: centerY })
             setIsInitialized(true)
@@ -675,8 +710,8 @@ function MapContent() {
             <div
                 className={
                         isMobile
-                            ? "w-full h-[calc(100vh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
-                            : "max-w-7xl mx-auto h-[calc(100vh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
+                            ? "w-full h-[calc(100dvh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
+                            : "max-w-7xl mx-auto h-[calc(100dvh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
                 }
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
@@ -735,8 +770,6 @@ function MapContent() {
                         </div>
                     )}
                 </div>
-
-                <span className={"absolute left-4 top-4 text-4xl text-primary/60 font-bold"}>校内マップ</span>
 
                 <div className={`absolute ${isMobile ? "bottom-24" : "bottom-0"} right-4 z-10`}>
                     <ActionMenuButton index={activeLayer} items={[
