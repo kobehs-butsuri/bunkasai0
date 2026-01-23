@@ -1,10 +1,8 @@
 "use client"
 
 import {AnimatedLogo, Logo} from "@/components/logo";
-import BlueBottom from "@/components/decoration/blue-bottom.svg"
-import RedBottom from "@/components/decoration/red-bottom.svg"
-import BlueTop from "@/components/decoration/blue-top.svg"
-import RedTop from "@/components/decoration/red-top.svg"
+import BlueDeco from "@/components/decoration/blue.svg"
+import RedDeco from "@/components/decoration/red.svg"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 
@@ -99,7 +97,7 @@ export default function Hero({ scrollY }: HeroProps) {
                                     ease: "easeOut"
                                 }}
                             >
-                                <RedTop/>
+                                <RedDeco style={{ transform: "rotate(180deg)" }} />
                             </motion.div>
 
                             <motion.div
@@ -112,7 +110,7 @@ export default function Hero({ scrollY }: HeroProps) {
                                     ease: "easeOut"
                                 }}
                             >
-                                <BlueTop/>
+                                <BlueDeco style={{ transform: "rotate(180deg)" }}/>
                             </motion.div>
 
                             <motion.div
@@ -124,7 +122,7 @@ export default function Hero({ scrollY }: HeroProps) {
                                     ease: "easeOut"
                                 }}
                             >
-                                <RedBottom/>
+                                <RedDeco/>
                             </motion.div>
 
                             <motion.div
@@ -137,7 +135,7 @@ export default function Hero({ scrollY }: HeroProps) {
                                     ease: "easeOut"
                                 }}
                             >
-                                <BlueBottom/>
+                                <BlueDeco/>
                             </motion.div>
                         </div>
                         <span

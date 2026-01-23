@@ -25,8 +25,8 @@ export default function Home() {
     return (
         <div>
             <Hero scrollY={scrollY} />
-            <div className="p-20 m-4 bg-muted flex">
-                <div className={"w-fit"}>
+            <div className="m-4 bg-muted flex">
+                <div className={"mx-auto my-20 w-fit"}>
                     <div className={"w-fit mx-auto"}>
                         <p className="text-right">
                             <span className={"text-5xl text-accent-foreground font-bold"}>創立記念祭</span><br/><span className={"text-2xl text-muted-foreground"}>まで</span>
