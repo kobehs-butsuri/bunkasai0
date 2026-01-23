@@ -22,7 +22,6 @@ export default function Access() {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <title>アクセス</title>
             {/* Location Information */}
             <div className="grid md:grid-cols-2 grid-rows-1 gap-12 mb-24 mx-10">
                 <ParallaxContainer offset={scrollY * 0.35}>

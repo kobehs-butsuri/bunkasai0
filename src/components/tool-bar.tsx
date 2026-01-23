@@ -31,7 +31,7 @@ export function Toolbar() {
                                     isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
                                 }`}>
                                 <Icon className="h-5 w-5" />
-                                <span className="text-xs font-medium">{item.label}</span>
+                                <span className="text-[0.7rem] font-medium">{item.label}</span>
                             </Link>
                         </div>
                     )

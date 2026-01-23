@@ -9,6 +9,8 @@ import {Day, Exhibition, Performance, UnifiedEvent} from "@/data/types";
 import {useMemo} from "react";
 import festivalData from "@/data/festival.json";
 import mapDataJson from "@/data/map.json";
+import {Button} from "@/components/ui/button";
+import {ArrowRight} from "lucide-react";
 
 export default function Policy() {
     useSetPageTitle("Pick Up")
@@ -122,6 +124,36 @@ export default function Policy() {
                     </div>
                 </Link>
             )} itemMaxWidth={600}/>
+            <div className="py-10 w-fit mr-0 ml-auto">
+                <Link href={"/garden"}>
+                    <div className="relative flex p-4 pl-10 w-full text-4xl text-accent items-center justify-end overflow-hidden">
+                        園遊会特集
+                        <ArrowRight className={"ml-5"}/>
+                        <div className="absolute bottom-0 left-0 right-0 h-0.5 border-b-2 border-dashed border-accent animate-dash"></div>
+                    </div>
+                </Link>
+
+                <style jsx>
+                    {`
+                        @keyframes dash {
+                            0% {
+                                background-position: 0 0;
+                            }
+                            100% {
+                                background-position: 20px 0;
+                            }
+                        }
+                        
+                        .animate-dash {
+                            background-image: linear-gradient(to right, currentColor 50%, transparent 50%);
+                            background-size: 20px 2px;
+                            background-repeat: repeat-x;
+                            border: none;
+                            animation: dash 0.5s linear infinite;
+                        }
+                    `}
+                </style>
+            </div>
             <TabView tabs={tabs} />
         </div>
     )
