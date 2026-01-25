@@ -3,6 +3,7 @@
 import {AnimatedLogo, Logo} from "@/components/logo";
 import BlueDeco from "@/components/decoration/blue.svg"
 import RedDeco from "@/components/decoration/red.svg"
+import Title from "@/components/logos/title.svg"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 
@@ -146,8 +147,14 @@ export default function Hero({ scrollY }: HeroProps) {
                         >
                             <Logo className="w-full h-full object-contain" />
                         </span>
-                        <span className="absolute top-4 left-8 font-bold text-background" style={{ fontSize: 'clamp(2rem, 8vw, 4rem)' }}>
-                            5.2-5.3
+                        <span className="absolute top-4 left-8 font-bold text-background">
+                            <span style={{ fontSize: 'clamp(2rem, 8vw, 4rem)' }}>5 / 3</span> <span className={"text-xl"}>Sun.</span><br/>
+                            <span className={"text-12"}>一般祭</span>
+                        </span>
+                        <span className="select-none absolute bottom-4 left-8 font-bold mb-24 text-secondary min-w-60 w-[40vw] max-w-90 border-l-4 border-secondary pl-4">
+                            <span className={"text-xl"}>兵庫県立神戸高等学校</span><br/>
+                            <span style={{ fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>第130回</span>
+                            <Title/>
                         </span>
                     </div>
                 </>

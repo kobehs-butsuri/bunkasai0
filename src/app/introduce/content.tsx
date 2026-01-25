@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import ParallaxContainer from "@/components/parallax-container"
-import GoogleMap from "@/components/google-map";
+import AccessMap from "@/components/access-map";
 import {AccessTransportation} from "@/components/access";
 import {useSetPageTitle} from "@/hooks/page-title-context";
 import {Emblem, Logo} from "@/components/logo";

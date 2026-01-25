@@ -1,7 +1,7 @@
 "use client"
 
 import ParallaxContainer from "@/components/parallax-container"
-import GoogleMap from "@/components/google-map";
+import AccessMap from "@/components/access-map";
 import {useEffect, useState} from "react";
 import useMobile from "@/hooks/use-mobile";
 import Link from "next/link";
@@ -54,7 +54,7 @@ export function AccessBanner() {
                         <AccessTransportation/>
                     </div>
                     <div className="pb-20">
-                        <GoogleMap/>
+                        <AccessMap/>
                     </div>
                 </div>
                 )
@@ -79,7 +79,7 @@ export function AccessBanner() {
 
                     <ParallaxContainer offset={scrollY * 0.6 - 500}>
                         <div className="pb-20">
-                            <GoogleMap/>
+                            <AccessMap/>
                         </div>
                     </ParallaxContainer>
                 </div>

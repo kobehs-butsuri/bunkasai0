@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import ParallaxContainer from "@/components/parallax-container"
-import GoogleMap from "@/components/google-map";
+import AccessMap from "@/components/access-map";
 import {AccessTransportation} from "@/components/access";
 import {useSetPageTitle} from "@/hooks/page-title-context";
 
@@ -52,23 +52,25 @@ export default function Access() {
                 </ParallaxContainer>
             </div>
 
-            {/* Map Placeholder */}
-            <ParallaxContainer offset={scrollY * 0.25}>
-                <GoogleMap/>
-            </ParallaxContainer>
+            <div className={"grid md:grid-cols-2 grid-rows-1 gap-12 mb-24 mx-10"}>
+                {/* Map Placeholder */}
+                <ParallaxContainer offset={scrollY * 0.25}>
+                    <AccessMap/>
+                </ParallaxContainer>
 
-            {/* Additional Information */}
-            <ParallaxContainer offset={scrollY * 0.2}>
-                <div className="border-l-4 border-primary mt-20 pl-8 mx-10">
-                    <h2 className="text-2xl font-bold text-foreground mb-4">注意事項</h2>
-                    <ul className="space-y-3 text-foreground/80">
-                        <li>注意書き1</li>
-                        <li>注意書き2</li>
-                        <li>注意書き3</li>
-                        <li>注意書き4</li>
-                    </ul>
-                </div>
-            </ParallaxContainer>
+                {/* Additional Information */}
+                <ParallaxContainer offset={scrollY * 0.2}>
+                    <div className="border-l-4 border-primary pl-8 mx-10">
+                        <h2 className="text-2xl font-bold text-foreground mb-4">注意事項</h2>
+                        <ul className="space-y-3 text-foreground/80">
+                            <li>注意書き1</li>
+                            <li>注意書き2</li>
+                            <li>注意書き3</li>
+                            <li>注意書き4</li>
+                        </ul>
+                    </div>
+                </ParallaxContainer>
+            </div>
         </div>
     )
 }
