@@ -106,10 +106,13 @@ export default function Footer() {
                             </ul>
                         </div>
                     </div>
-                    <div className="pt-12 flex md:justify-end">
-                        <SocialIcon url="x.com" href="https://x.com/" bgColor="#0000" fgColor="#fff" />
-                        <SocialIcon url="instagram.com" href="https://instagram.com/" bgColor="#0000" fgColor="#fff" />
-                    </div>
+                    {/*(
+                        <div className="pt-12 flex md:justify-end">
+                            <SocialIcon url="x.com" href="https://x.com/" bgColor="#0000" fgColor="#fff"/>
+                            <SocialIcon url="instagram.com" href="https://instagram.com/" bgColor="#0000"
+                                        fgColor="#fff"/>
+                        </div>
+                    )*/}
                 </div>
             </div>
         </footer>
