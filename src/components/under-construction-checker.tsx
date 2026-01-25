@@ -1,11 +1,12 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Link from "next/link";
 import Footer from "@/components/footer";
 
 const underConstructionPages = [
+    '/access',
     '/contact',
     '/event',
     '/faq',
