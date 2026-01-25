@@ -34,3 +34,11 @@ export interface Exhibition {
 }
 
 export type UnifiedEvent = (Performance & { category: 'performance' }) | (Exhibition & { category: 'exhibition' })
+
+export interface FestivalData {
+    festival: {
+        days: Day[]
+    }
+    performances: Performance[]
+    exhibitions: Exhibition[]
+}

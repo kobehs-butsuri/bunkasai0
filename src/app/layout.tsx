@@ -7,6 +7,7 @@ import Heading from "@/components/heading"
 import { lineSeedSans } from "@/font/localFont"
 import { Toolbar } from "@/components/tool-bar"
 import NextTopLoader from "nextjs-toploader";
+import UnderConstructionChecker from "@/components/under-construction-checker";
 
 
 
@@ -49,7 +50,9 @@ export default function RootLayout({
                 <div className={"px-8 max-w-7xl mx-auto"}>
                     <Heading />
                 </div>
-                {children}
+                <UnderConstructionChecker>
+                    {children}
+                </UnderConstructionChecker>
             </main>
         </PageTitleProvider>
         <div className="z-50">
