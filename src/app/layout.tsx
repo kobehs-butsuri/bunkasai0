@@ -50,9 +50,7 @@ export default function RootLayout({
                 <div className={"px-8 max-w-7xl mx-auto"}>
                     <Heading />
                 </div>
-                <UnderConstructionChecker>
-                    {children}
-                </UnderConstructionChecker>
+                {children}
             </main>
         </PageTitleProvider>
         <div className="z-50">
