@@ -3,16 +3,18 @@
     "days": [
       {
         "id": "day-1",
-        "date": "2024-01-01",
-        "name": "1日目"
+        "date": "2026年5月02日",
+        "name": "校内祭"
       },
       {
         "id": "day-2",
-        "date": "2024-01-02",
-        "name": "2日目"
+        "date": "2026年5月03日",
+        "name": "一般祭"
       }
     ]
   },
-  "performances": [],
-  "exhibitions": []
+  "performances": [
+  ],
+  "exhibitions": [
+  ]
 }
