@@ -47,10 +47,12 @@ export default function RootLayout({
         <PageTitleProvider>
             <Header/>
             <main className="mt-16 md:mt-20 w-full bg-background grow">
-                <div className={"px-8 max-w-7xl mx-auto"}>
-                    <Heading />
-                </div>
-                {children}
+                <UnderConstructionChecker>
+                    <div className={"px-8 max-w-7xl mx-auto"}>
+                        <Heading />
+                    </div>
+                    {children}
+                </UnderConstructionChecker>
             </main>
         </PageTitleProvider>
         <div className="z-50">

@@ -11,7 +11,7 @@ interface HeroProps {
     scrollY: number
 }
 
-const INTRO_DURATION = 2.0
+const INTRO_DURATION = 5.0
 const INTRO_FADE_OUT = 0.6
 const ANIMATION_DURATION = 0.5
 const BLUE_DELAY = 0.1
@@ -34,7 +34,7 @@ export default function Hero({ scrollY }: HeroProps) {
             }
         }
 
-        const shouldShowIntro = !hasSeenIntro && isExternalReferrer()
+        const shouldShowIntro = /*!hasSeenIntro && isExternalReferrer()*/ true
         setShowIntro(shouldShowIntro)
 
         if (!shouldShowIntro) return
@@ -64,7 +64,7 @@ export default function Hero({ scrollY }: HeroProps) {
         <section
             className="relative w-full h-[calc(100vh-4rem-4rem)] md:h-[calc(100vh-5rem)] flex flex-col items-center justify-center overflow-hidden"
             style={{
-                backgroundColor: showIntro === null || showIntro ? '#fcfaed' : undefined,
+                backgroundColor: showIntro === null || showIntro ? '#e94709' : undefined,
                 backgroundImage: showIntro === null || showIntro ? undefined : "linear-gradient(45deg, #fdf1db 25%, transparent 25%, transparent 75%, #fdf1db 75%), linear-gradient(45deg, #fdf1db 25%, transparent 25%, transparent 75%, #fdf1db 75%)",
                 backgroundPosition: "0 0, 60px 60px",
                 backgroundSize: "120px 120px",
@@ -75,7 +75,7 @@ export default function Hero({ scrollY }: HeroProps) {
                     <AnimatePresence>
                         {showIntro && (
                             <motion.div
-                                className="absolute inset-0 z-50 flex items-center justify-center bg-[#fcfaed] px-8 py-16"
+                                className="absolute inset-0 z-50 flex items-center justify-center bg-[#e94709] px-8 py-16"
                                 initial={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: INTRO_FADE_OUT }}
