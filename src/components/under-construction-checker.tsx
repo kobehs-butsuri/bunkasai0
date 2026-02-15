@@ -66,7 +66,7 @@ export default function UnderConstructionChecker({ children }: { children: React
         return isUnderConstruction(pathname);
     }, [pathname]);
 
-    if (process.env.NODE_ENV != "development" && showUnderConstruction) {
+    if (process.env.NEXT_PUBLIC_ENV != "development" && showUnderConstruction) {
         return <UnderConstructionContent />;
     }
 
