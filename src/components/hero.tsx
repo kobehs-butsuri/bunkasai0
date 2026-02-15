@@ -34,7 +34,7 @@ export default function Hero({ scrollY }: HeroProps) {
             }
         }
 
-        const shouldShowIntro = /*!hasSeenIntro && isExternalReferrer()*/ true
+        const shouldShowIntro = !hasSeenIntro && isExternalReferrer()
         setShowIntro(shouldShowIntro)
 
         if (!shouldShowIntro) return
