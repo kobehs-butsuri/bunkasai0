@@ -38,7 +38,7 @@ export default function Access() {
                             </div>
                             <div>
                                 <p className="font-semibold text-foreground mb-2">開催日時</p>
-                                <p>2026/XX/XX</p>
+                                <p>2026/05/03 (一般祭)</p>
                             </div>
                         </div>
                     </div>
