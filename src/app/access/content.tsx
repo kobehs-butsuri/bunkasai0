@@ -62,11 +62,10 @@ export default function Access() {
                 <ParallaxContainer offset={scrollY * 0.2}>
                     <div className="border-l-4 border-primary pl-8 mx-10">
                         <h2 className="text-2xl font-bold text-foreground mb-4">注意事項</h2>
-                        <ul className="space-y-3 text-foreground/80">
-                            <li>注意書き1</li>
-                            <li>注意書き2</li>
-                            <li>注意書き3</li>
-                            <li>注意書き4</li>
+                        <ul className="space-y-3 text-foreground/80 list-disc list-inside">
+                            <li>学校の駐車場はご利用になれませんので、お車でのご来場や送迎はお控えください。特に正門前までの送迎は他の来場者との接触の危険を伴いますので、ご遠慮いただきますようお願いします。</li>
+                            <li>学校周辺は坂道が多く、特に鉄道路線の各最寄り駅からは20分以上の徒歩が見込まれます。ご注意ください。</li>
+                            <li>市バス18/102系統の「摩耶ケーブル下」停留所も本来は最寄りの1つですが、その駅から最も近い門は当日施錠されますので、やや遠回りとなります。「神戸高校前」停留所での下車を推奨します。</li>
                         </ul>
                     </div>
                 </ParallaxContainer>

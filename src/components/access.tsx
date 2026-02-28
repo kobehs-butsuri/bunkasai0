@@ -11,12 +11,16 @@ export function AccessTransportation() {
     return (
         <div className="space-y-4 text-foreground/80">
             <div>
-                <p className="font-semibold text-foreground mb-1">電車</p>
-                <p>阪急神戸本線 「王子公園」駅から徒歩20分</p>
+                <p className="font-semibold text-foreground mb-1">バス</p>
+                <p>神戸市営バス 2/18/102系統 「神戸高校前」停留所から徒歩5分</p>
             </div>
             <div>
-                <p className="font-semibold text-foreground mb-1">バス</p>
-                <p>2系統/18系統 「神戸高校前」停留所から徒歩5分</p>
+                <p className="font-semibold text-foreground mb-1">電車</p>
+                <p>阪急神戸本線 「王子公園」駅から徒歩20分</p>
+                <p>JR神戸線 「灘」駅から徒歩29分</p>
+                <p>JR神戸線 「摩耶」駅から徒歩30分</p>
+                <p>阪神本線 「岩屋」駅から徒歩35分</p>
+                <p>阪神本線 「西灘」駅から徒歩35分</p>
             </div>
         </div>
     )
