@@ -1,8 +1,10 @@
 "use client"
 
 import Link from "next/link";
-import { SocialIcon } from 'react-social-icons'
+import Instagram from '@/components/decoration/instagram.svg'
+import Line from '@/components/decoration/line.svg'
 import {Emblem, Logo} from "@/components/logo";
+import useMobile from "@/hooks/use-mobile";
 
 export default function Footer() {
     return (
@@ -18,6 +20,12 @@ export default function Footer() {
                         <p className={"text-primary-foreground leading-relaxed"}>兵庫県立神戸高等学校</p>
                         <p className={"text-primary-foreground leading-relaxed text-xs"}>神戸市灘区城の下通1丁目5-1</p>
                     </div>
+                    {useMobile() && (
+                        <div className="pt-12 flex gap-2 md:justify-end h-fit">
+                            <Link href="https://lin.ee/Rw1wF2U" className={"p-2"}><Line height={40}/></Link>
+                            <Link href="https://instagram.com/kobe.souritsukinen.sai_130" className={"p-2"}><Instagram
+                                height={40}/></Link>
+                        </div>)}
 
                     <div className={"flex-row gap-4"}>
                         <div className="pt-12">
@@ -106,13 +114,12 @@ export default function Footer() {
                             </ul>
                         </div>
                     </div>
-                    {/*(
-                        <div className="pt-12 flex md:justify-end">
-                            <SocialIcon url="x.com" href="https://x.com/" bgColor="#0000" fgColor="#fff"/>
-                            <SocialIcon url="instagram.com" href="https://instagram.com/" bgColor="#0000"
-                                        fgColor="#fff"/>
-                        </div>
-                    )*/}
+                    {!useMobile() && (
+                        <div className="pt-12 flex gap-2 md:justify-end h-fit">
+                            <Link href="https://lin.ee/Rw1wF2U" className={"p-2"}><Line height={40}/></Link>
+                            <Link href="https://instagram.com/kobe.souritsukinen.sai_130" className={"p-2"}><Instagram
+                                height={40}/></Link>
+                        </div>)}
                 </div>
             </div>
         </footer>

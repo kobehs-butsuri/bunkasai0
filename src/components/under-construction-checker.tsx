@@ -12,7 +12,6 @@ const underConstructionPages = [
     '/faq',
     '/greeting',
     '/map',
-    '/news',
     '/pickup',
     '/schedule',
 ];

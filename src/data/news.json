@@ -1,34 +1,10 @@
 {
   "news": [
     {
-      "title": "ニュースA",
-      "date": "2026-01-01",
-      "category": "カテゴリー1",
-      "content": "<p>AAAAAAAAA<strong>AAAAAAAAA</strong>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p><p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>"
-    },
-    {
-      "title": "ニュースB",
-      "date": "2026-04-01",
-      "category": "カテゴリー2",
-      "content": "<p>BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB</p><ul><li>BBBBB</li><li>BBBBBB</li><li>BBBBBBB</li><li>BBBB</li><li>BBB</li></ul><p>BBBBBBBBBBBBBBBBBBB</p>"
-    },
-    {
-      "title": "ニュースC",
-      "date": "2026-04-01",
-      "category": "カテゴリー1",
-      "content": "<p>CCCCCCCCCCCCCCCCCCC</p><p><strong>CCCCCCCC</strong>CCCCCCCCCCCC</p><p>CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</p>"
-    },
-    {
-      "title": "ニュースD",
-      "date": "2026-04-01",
-      "category": "カテゴリー2",
-      "content": "<p>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</p><ol><li>DDDDDDDDDDDDDDDDDDDDD</li><li>DDDDDDDDDDDDDDDDD</li><li>DDDDDDDDDDDDDDDDDDDDDD</li><li>DDDDD</li><li>DDDDDDDDDDD</li></ol><p>DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</p>"
-    },
-    {
-      "title": "ニュースE",
-      "date": "2026-04-15",
-      "category": "カテゴリー1",
-      "content": "<p>EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE<strong>EEEEE</strong>EEEEEEEEEEE</p><p>EEEEEEEEEEEEEEEEEEEE</p>"
+      "title": "ウェブサイト開設のご案内",
+      "date": "2026-03-01",
+      "category": "総合",
+      "content": "<p>本日(2026年3月1日)、当ウェブサイトを公開しました。</p>"
     }
   ]
 }

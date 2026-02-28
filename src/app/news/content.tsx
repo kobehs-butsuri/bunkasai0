@@ -103,7 +103,7 @@ export default function NewsPage() {
             <div className="w-full">
                 <div className="max-w-7xl mx-auto">
                     {/* Desktop: Two Column Layout */}
-                    <div className="hidden md:flex md:gap-1">
+                    <div className="hidden md:flex md:gap-1 min-h-120">
                         {/* Left: News List */}
                         <motion.div
                             className="md:w-96 shrink-0 bg-card"
@@ -111,7 +111,7 @@ export default function NewsPage() {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.4 }}
                         >
-                            <div className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-hidden">
+                            <div className="sticky top-20 max-h-[calc(100vh-8rem)] overflow-y-hidden">
                                 <div className="space-y-0">
                                     {newsWithId.map((item, index) => (
                                         <motion.button
