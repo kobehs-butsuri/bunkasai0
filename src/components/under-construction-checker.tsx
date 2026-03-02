@@ -14,6 +14,7 @@ const underConstructionPages = [
     '/map',
     '/pickup',
     '/schedule',
+    '/garden'
 ];
 
 function isUnderConstruction(pathname: string): boolean {
