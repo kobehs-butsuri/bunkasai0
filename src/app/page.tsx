@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import Hero from "@/components/hero"
-import ParallaxContainer from "@/components/parallax-container"
 import {AccessBanner} from "@/components/access";
 import LatestNews from "@/components/latest-news";
 import Footer from "@/components/footer";
@@ -43,9 +42,7 @@ export default function Home() {
                 </div>
             </div>
             <LatestNews />
-            <ParallaxContainer offset={scrollY * 0.1}>
-                <AccessBanner/>
-            </ParallaxContainer>
+            <AccessBanner/>
             <Footer/>
         </div>
     )

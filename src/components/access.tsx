@@ -1,8 +1,6 @@
 "use client"
 
-import ParallaxContainer from "@/components/parallax-container"
 import AccessMap from "@/components/access-map";
-import {useEffect, useState} from "react";
 import useMobile from "@/hooks/use-mobile";
 import Link from "next/link";
 import {ChevronRight} from "lucide-react";
@@ -27,17 +25,6 @@ export function AccessTransportation() {
 }
 
 export function AccessBanner() {
-    const [scrollY, setScrollY] = useState(0)
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY)
-        }
-
-        window.addEventListener("scroll", handleScroll)
-        return () => window.removeEventListener("scroll", handleScroll)
-    }, [])
-
     return (
         <div className="bg-muted pl-5 pr-5 md:m-20 overflow-hidden">
         <div className="w-full">
@@ -65,27 +52,23 @@ export function AccessBanner() {
             }
             {!useMobile() &&(
                 <div className="grid grid-cols-2 gap-12">
-                    <ParallaxContainer offset={scrollY * 0.6 - 500}>
-                        <div className="p-8">
-                            <div className="mb-12 pt-8">
-                                <h3
-                                    className="font-bold mb-4 tracking-tight text-balance"
-                                    style={{letterSpacing: "0.05em"}}>
-                                    <Link href="/access" className={"flex items-center"}>
-                                        <span className={"text-4xl"}>アクセス</span>
-                                        <ChevronRight size={36} />
-                                    </Link>
-                                </h3>
-                            </div>
-                            <AccessTransportation/>
+                    <div className="p-8">
+                        <div className="mb-12 pt-8">
+                            <h3
+                                className="font-bold mb-4 tracking-tight text-balance"
+                                style={{letterSpacing: "0.05em"}}>
+                                <Link href="/access" className={"flex items-center"}>
+                                    <span className={"text-4xl"}>アクセス</span>
+                                    <ChevronRight size={36} />
+                                </Link>
+                            </h3>
                         </div>
-                    </ParallaxContainer>
+                        <AccessTransportation/>
+                    </div>
 
-                    <ParallaxContainer offset={scrollY * 0.6 - 500}>
-                        <div className="pb-20">
-                            <AccessMap/>
-                        </div>
-                    </ParallaxContainer>
+                    <div className="flex items-center justify-center">
+                        <AccessMap/>
+                    </div>
                 </div>
                 )
             }
