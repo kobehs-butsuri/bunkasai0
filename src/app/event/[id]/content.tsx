@@ -5,6 +5,12 @@ import Link from "next/link"
 import { ImageGallery } from "@/components/image-garally"
 import {Performance, UnifiedEvent, Day} from "@/data/types"
 
+const parseOrganizations = (org: string): string[] =>
+    org.split(';').map(o => o.trim()).filter(Boolean)
+
+const formatOrganizations = (org: string): string =>
+    parseOrganizations(org).join(' · ')
+
 interface EventDetailContentProps {
     event: UnifiedEvent
     isPerformance: boolean
@@ -15,13 +21,13 @@ interface EventDetailContentProps {
 }
 
 export function Content({
-                                        event,
-                                        isPerformance,
-                                        schedules,
-                                        roomId,
-                                        mapData,
-                                        festivalDays
-                                    }: EventDetailContentProps) {
+                            event,
+                            isPerformance,
+                            schedules,
+                            roomId,
+                            mapData,
+                            festivalDays
+                        }: EventDetailContentProps) {
     const getLabel = (roomId: string): string => {
         const data = mapData[roomId];
         return typeof data === "string" ? data : data.label;
@@ -81,7 +87,7 @@ export function Content({
                 >
                     <h1 className="text-5xl font-bold tracking-tight text-balance flex-1">{event.name}</h1>
                     <div>
-                        <p className="text-lg">{event.organization}</p>
+                        <p className="text-lg">{formatOrganizations(event.organization)}</p>
                     </div>
                     <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold shrink-0">
                         {isPerformance ? '舞台' : '展示'}

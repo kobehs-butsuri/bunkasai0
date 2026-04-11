@@ -8,6 +8,12 @@ import {Performance, Exhibition, UnifiedEvent, Day} from "@/data/types";
 import {useSetPageTitle} from "@/hooks/page-title-context";
 import { motion, AnimatePresence } from "framer-motion"
 
+const parseOrganizations = (org: string): string[] =>
+    org.split(';').map(o => o.trim()).filter(Boolean)
+
+const formatOrganizations = (org: string): string =>
+    parseOrganizations(org).join(' · ')
+
 export default function EventsPage() {
     useSetPageTitle("イベント一覧")
 
@@ -28,7 +34,10 @@ export default function EventsPage() {
         return [...perfEvents, ...exhEvents]
     }, [performances, exhibitions])
 
-    const organizations = [...new Set(allEvents.map((e) => e.organization))].sort()
+    const organizations = [...new Set(
+        allEvents.flatMap(e => parseOrganizations(e.organization))
+    )].sort()
+
     const mapData = mapDataJson as Record<string, string | { label: string; keywords?: string[] }>;
     const getLabel = (roomId: string): string => {
         const data = mapData[roomId];
@@ -62,7 +71,10 @@ export default function EventsPage() {
         const matchesSearch =
             event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             event.description.toLowerCase().includes(searchTerm.toLowerCase())
-        const matchesOrg = filterOrganizations.includes(event.organization)
+
+        const matchesOrg = parseOrganizations(event.organization)
+            .some(org => filterOrganizations.includes(org))
+
         const matchesCategory = filterCategories.includes(event.category)
 
         const matchesDay =
@@ -497,7 +509,7 @@ export default function EventsPage() {
                                                 </div>
                                                 <div className="space-y-3 text-sm">
                                                     <p>
-                                                        <span className="font-bold">By:</span> {event.organization}
+                                                        <span className="font-bold">By:</span> {formatOrganizations(event.organization)}
                                                     </p>
                                                     <p>
                                                         {getScheduleInfo(event)}

@@ -8,12 +8,12 @@ import ConstructingSVG from "@/components/decoration/constructing.svg"
 
 const underConstructionPages = [
     '/contact',
-    '/event',
+    //'/event',
     '/faq',
     '/greeting',
-    '/map',
+    //'/map',
     '/pickup',
-    '/schedule',
+    //'/schedule',
     '/garden'
 ];
 
