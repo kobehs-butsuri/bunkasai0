@@ -31,6 +31,7 @@ export default function EventsPage() {
             ...e,
             category: 'exhibition' as const
         }))
+            .filter(e => e.id != "")
         return [...perfEvents, ...exhEvents]
     }, [performances, exhibitions])
 
@@ -130,7 +131,8 @@ export default function EventsPage() {
     // スケジュール情報を取得するヘルパー関数
     const getScheduleInfo = (event: UnifiedEvent) => {
         if (event.category === 'exhibition') {
-            return <span className="font-bold">常設展示</span>
+            const data = mapData[event.roomId]
+            return <span className="font-bold">常設展示 @{typeof data === "string" ? data : data.label}</span>
         }
 
         if (!event.schedules || event.schedules.length === 0) {

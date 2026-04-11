@@ -452,35 +452,207 @@
   ],
   "exhibitions": [
     {
-      "id": "exh-001",
-      "name": "展示1",
-      "organization": "G部",
-      "description": "詳細7",
-      "roomId": "_39",
-      "images": [
-        "exh-001-1.jpg"
-      ]
+      "id": "shodou",
+      "name": "書道部",
+      "organization": "書道部",
+      "description": "書道部",
+      "roomId": "_18"
     },
     {
-      "id": "exh-002",
-      "name": "展示2",
-      "organization": "H部",
-      "description": "詳細8",
-      "roomId": "_11"
+      "id": "takoyaki",
+      "name": "たこやき",
+      "organization": "園遊会",
+      "description": "たこやき",
+      "roomId": "_17"
     },
     {
-      "id": "exh-003",
-      "name": "展示3",
-      "organization": "I部",
-      "description": "詳細9",
-      "roomId": "_21"
+      "id": "",
+      "name": "イートインスペース(4F)",
+      "organization": "その他",
+      "description": "イートイン",
+      "roomId": "_16"
     },
     {
-      "id": "exh-004",
-      "name": "展示4",
-      "organization": "J部",
-      "description": "詳細10",
-      "roomId": "_31"
+      "id": "takosen",
+      "name": "たこせん",
+      "organization": "園遊会",
+      "description": "たこせん",
+      "roomId": "_15"
+    },
+    {
+      "id": "ess",
+      "name": "ESS部",
+      "organization": "ESS部",
+      "description": "ESS部",
+      "roomId": "_14"
+    },
+    {
+      "id": "shinbun",
+      "name": "新聞委員会",
+      "organization": "新聞委員会",
+      "description": "新聞委員会",
+      "roomId": "_13"
+    },
+    {
+      "id": "butsuri",
+      "name": "物理班",
+      "organization": "物理班",
+      "description": "物理班",
+      "roomId": "_13"
+    },
+    {
+      "id": "karuta",
+      "name": "かるた部",
+      "organization": "かるた部",
+      "description": "かるた部",
+      "roomId": "_12"
+    },
+    {
+      "id": "ennichi",
+      "name": "縁日",
+      "organization": "その他",
+      "description": "縁日",
+      "roomId": "_28"
+    },
+    {
+      "id": "tosho",
+      "name": "図書委員会",
+      "organization": "図書委員会",
+      "description": "図書委員会",
+      "roomId": "_27"
+    },
+    {
+      "id": "",
+      "name": "イートインスペース(3F)",
+      "organization": "その他",
+      "description": "イートイン",
+      "roomId": "_26"
+    },
+    {
+      "id": "waffle",
+      "name": "ワッフル",
+      "organization": "園遊会",
+      "description": "ワッフル",
+      "roomId": "_25"
+    },
+    {
+      "id": "",
+      "name": "神高探究",
+      "organization": "その他",
+      "description": "探究発表(掲示)",
+      "roomId": "_24"
+    },
+    {
+      "id": "",
+      "name": "課題探究",
+      "organization": "その他",
+      "description": "探究発表(掲示)",
+      "roomId": "_23"
+    },
+    {
+      "id": "chigaku",
+      "name": "地学班",
+      "organization": "地学班",
+      "description": "地学班",
+      "roomId": "_22"
+    },
+    {
+      "id": "frankfurt",
+      "name": "フランクフルト",
+      "organization": "園遊会",
+      "description": "フランクフルト",
+      "roomId": "_38"
+    },
+    {
+      "id": "kadou",
+      "name": "華道部",
+      "organization": "華道部",
+      "description": "華道部",
+      "roomId": "_37"
+    },
+    {
+      "id": "suken",
+      "name": "数学研究会",
+      "organization": "数学研究会",
+      "description": "数学研究会",
+      "roomId": "_36"
+    },
+    {
+      "id": "sokyoku",
+      "name": "筝曲部",
+      "organization": "筝曲部",
+      "description": "筝曲部",
+      "roomId": "_35"
+    },
+    {
+      "id": "bijutsu",
+      "name": "美術部",
+      "organization": "美術部",
+      "description": "美術部",
+      "roomId": "_34"
+    },
+    {
+      "id": "bungei",
+      "name": "文芸部",
+      "organization": "文芸部",
+      "description": "文芸部",
+      "roomId": "_33"
+    },
+    {
+      "id": "housou",
+      "name": "放送委員会",
+      "organization": "放送委員会",
+      "description": "放送委員会",
+      "roomId": "_32"
+    },
+    {
+      "id": "",
+      "name": "相談ブース",
+      "organization": "その他",
+      "description": "相談ブース",
+      "roomId": "kaigi"
+    },
+    {
+      "id": "",
+      "name": "フリーマーケット",
+      "organization": "その他",
+      "description": "フリーマーケット",
+      "roomId": "tamokuteki"
+    },
+    {
+      "id": "",
+      "name": "PTA",
+      "organization": "PTA",
+      "description": "PTA",
+      "roomId": "_29"
+    },
+    {
+      "id": "kishikara",
+      "name": "きしから",
+      "organization": "その他",
+      "description": "きしから",
+      "roomId": "_19"
+    },
+    {
+      "id": "sangaku",
+      "name": "山岳部",
+      "organization": "山岳部",
+      "description": "山岳部",
+      "roomId": "_39"
+    },
+    {
+      "id": "",
+      "name": "金券販売",
+      "organization": "その他",
+      "description": "金券販売",
+      "roomId": "_39"
+    },
+    {
+      "id": "cafe",
+      "name": "カフェ",
+      "organization": "その他",
+      "description": "カフェ",
+      "roomId": "LL"
     }
   ]
 }

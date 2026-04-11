@@ -63,9 +63,13 @@ function MapContent() {
     const roomLabels = roomLabelsData as Record<string, string | { label: string; keywords?: string[] }>
     const [pinnedRoomMapPosition, setPinnedRoomMapPosition] = useState<{ x: number; y: number } | null>(null)
 
-    const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
-        return exhibitions.find(exh => exh.roomId === roomId)
+    const getExhibitionsByRoomId = useCallback((roomId: string): Exhibition[] => {
+        return exhibitions.filter(exh => exh.roomId === roomId)
     }, [exhibitions])
+
+    const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
+        return getExhibitionsByRoomId(roomId)[0]
+    }, [getExhibitionsByRoomId])
 
     const constrainPosition = (x: number, y: number) => {
         if (!containerRef.current || !mapRef.current) return { x, y }
@@ -138,19 +142,15 @@ function MapContent() {
         const container = containerRef.current
         const containerRect = container.getBoundingClientRect()
 
-        // ピンの位置を取得（コンテナ基準）
         const roomRect = roomElement.getBoundingClientRect()
         const pinX = roomRect.left + roomRect.width / 2 - containerRect.left
         const pinY = roomRect.top + roomRect.height / 2 - containerRect.top
 
-        // ピンの位置のマップ上での座標（スケール1.0基準）
         const pinMapX = (pinX - position.x) / scale
         const pinMapY = (pinY - position.y) / scale
 
-        // ピンの位置を保存
         setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
 
-        // 部屋のサイズから目標スケールを計算
         const currentRoomWidth = roomRect.width
         const currentRoomHeight = roomRect.height
         const originalRoomWidth = currentRoomWidth / scale
@@ -162,11 +162,9 @@ function MapContent() {
             baseScale * 3
         ))
 
-        // ピンの位置（部屋の中心）がコンテナの中心に来るように位置を計算
         const newX = containerRect.width / 2 - pinMapX * targetScale
         const newY = containerRect.height / 2 - pinMapY * targetScale
 
-        // 新しいスケールでの制約を計算
         const map = mapRef.current
         const mapRect = map.getBoundingClientRect()
 
@@ -186,7 +184,6 @@ function MapContent() {
 
         const constrained = { x: constrainedX, y: constrainedY }
 
-        // アニメーション付きで移動
         if (mapRef.current) {
             mapRef.current.style.transition = 'transform 0.5s ease-in-out'
         }
@@ -201,8 +198,6 @@ function MapContent() {
         }, 500)
     }, [roomLayerCache, activeLayer, position.x, position.y, scale, baseScale])
 
-
-    // handleSearchSelectを定義（zoomToRoomCachedの後）
     const handleSearchSelect = useCallback((roomId: string) => {
         setPinnedRoomId(roomId)
         zoomToRoomCached(roomId)
@@ -222,13 +217,11 @@ function MapContent() {
         }
     }, [pinnedRoomId, clearUrlParams])
 
-    // キャッシュ構築のuseEffect
     useEffect(() => {
         if (!isInitialized) return
         if (roomLayerCache.size > 0) return
 
         const buildCache = async () => {
-
             const cache = new Map<string, number>()
 
             for (let layer = 0; layer <= 5; layer++) {
@@ -255,21 +248,15 @@ function MapContent() {
     }, [isInitialized, roomLayerCache.size])
 
     const hasProcessedInitialRoom = useRef(false)
-    // initialRoomIdを処理する新しいuseEffect
     useEffect(() => {
         if (!isInitialized || roomLayerCache.size === 0 || !initialRoomId) return
-
-        // 既に処理済みの場合はスキップ
         if (hasProcessedInitialRoom.current) return
-
         if (pinnedRoomId === initialRoomId) return
-
         if (!roomLayerCache.has(initialRoomId)) {
             console.warn(`Initial room ${initialRoomId} not found in cache`)
             return
         }
 
-        console.log('Processing initialRoomId:', initialRoomId)
         hasProcessedInitialRoom.current = true
         handleSearchSelect(initialRoomId)
     }, [isInitialized, roomLayerCache, initialRoomId, getExhibitionByRoomId, handleSearchSelect, pinnedRoomId])
@@ -407,24 +394,24 @@ function MapContent() {
     }, [isMobile, isDragging])
 
     const handleRoomClick = useCallback((roomId: string) => {
-        const exhibition = getExhibitionByRoomId(roomId)
-        if (!exhibition) return
+        const exhs = getExhibitionsByRoomId(roomId)
+        if (exhs.length === 0) return
 
-        if (isMobile) {
+        if (exhs.length === 1 && !isMobile) {
+            window.location.href = `/event/${exhs[0].id}`
+        } else {
             setSelectedRoomId(roomId)
             setShowPopup(true)
-        } else {
-            window.location.href = `/event/${exhibition.id}`
         }
-    }, [getExhibitionByRoomId, isMobile])
+    }, [getExhibitionsByRoomId, isMobile])
 
     const handleRoomTouch = useCallback((roomId: string) => {
-        const exhibition = getExhibitionByRoomId(roomId)
-        if (!exhibition) return
+        const exhs = getExhibitionsByRoomId(roomId)
+        if (exhs.length === 0) return
 
         setSelectedRoomId(roomId)
         setShowPopup(true)
-    }, [getExhibitionByRoomId])
+    }, [getExhibitionsByRoomId])
 
     useEffect(() => {
         const container = containerRef.current
@@ -685,15 +672,15 @@ function MapContent() {
         }
     }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch, baseScale])
 
-    const selectedExhibition = selectedRoomId ? getExhibitionByRoomId(selectedRoomId) : null
-    const hoveredExhibition = hoveredRoomId ? getExhibitionByRoomId(hoveredRoomId) : null
+    const selectedExhibitions = selectedRoomId ? getExhibitionsByRoomId(selectedRoomId) : []
+    const hoveredExhibitions  = hoveredRoomId  ? getExhibitionsByRoomId(hoveredRoomId)  : []
 
     return (
         <>
             <div className={
                 isMobile
-                        ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light"
-                        : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light"
+                    ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light"
+                    : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light"
             }>
                 <MapSearch
                     onSelectRoom={handleSearchSelect}
@@ -704,14 +691,15 @@ function MapContent() {
                     }}
                     roomLabels={roomLabels}
                     pinnedRoomId={pinnedRoomId}
+                    exhibitions={exhibitions}
                 />
             </div>
 
             <div
                 className={
-                        isMobile
-                            ? "w-full h-[calc(100dvh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
-                            : "max-w-7xl mx-auto h-[calc(100dvh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
+                    isMobile
+                        ? "w-full h-[calc(100dvh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
+                        : "max-w-7xl mx-auto h-[calc(100dvh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
                 }
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
@@ -725,7 +713,7 @@ function MapContent() {
                 }}
                 style={{
                     touchAction: isDragging ? 'none' : 'pan-x pan-y',
-                    cursor: !isMobile && hoveredRoomId && hoveredExhibition ? "pointer" : (isDragging ? 'grabbing' : 'default'),
+                    cursor: !isMobile && hoveredRoomId && hoveredExhibitions.length > 0 ? "pointer" : (isDragging ? 'grabbing' : 'default'),
                 }}
             >
                 {isLoadingCache && (
@@ -776,78 +764,43 @@ function MapContent() {
                         {
                             label: "本館地階",
                             icon: <><code>G</code></>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(0)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(0) },
                         },
                         {
                             label: "本館1階",
                             icon: <><code>1</code></>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(1)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(1) },
                         },
                         {
                             label: "本館2階(別館1階)",
                             icon: <><code>2</code></>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(2)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(2) },
                         },
                         {
                             label: "本館3階(別館2階)",
                             icon: <><code>3</code></>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(3)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(3) },
                         },
                         {
                             label: "本館4階(別館3階)",
                             icon: <><code>4</code></>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(4)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(4) },
                         },
                         {
                             label: "別館4階",
                             icon: <><code>5</code></>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(5)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(5) },
                         },
                         {
                             label: "立体図",
                             icon: <>3D</>,
-                            onClick: () => {
-                                setPinnedRoomId(null)
-                                setPinnedRoomMapPosition(null)
-                                clearUrlParams()
-                                setActiveLayer(6)
-                            },
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(6) },
                         },
                     ]} buttonLabel={"Layers"}/>
                 </div>
             </div>
 
-            {!isMobile && hoveredRoomId && hoveredExhibition && (
+            {!isMobile && hoveredRoomId && hoveredExhibitions.length > 0 && (
                 <div
                     className="fixed p-6 bg-card border border-accent-light z-60 pointer-events-none"
                     style={{
@@ -858,28 +811,30 @@ function MapContent() {
                 >
                     <div
                         className="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-accent-light"
-                        style={{
-                            bottom: '-8px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                        }}
-                    ></div>
+                        style={{ bottom: '-8px', left: '50%', transform: 'translateX(-50%)' }}
+                    />
                     <div
                         className="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-card"
-                        style={{
-                            bottom: '-7px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                        }}
-                    ></div>
-                    <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{hoveredExhibition.name}</h3>
-                    <p className="text-muted-foreground whitespace-nowrap">{hoveredExhibition.description}</p>
+                        style={{ bottom: '-7px', left: '50%', transform: 'translateX(-50%)' }}
+                    />
+                    {hoveredExhibitions.length === 1 ? (
+                        <>
+                            <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{hoveredExhibitions[0].name}</h3>
+                            <p className="text-muted-foreground whitespace-nowrap">{hoveredExhibitions[0].description}</p>
+                        </>
+                    ) : (
+                        <div className="space-y-2">
+                            {hoveredExhibitions.map(exh => (
+                                <h3 key={exh.id} className="font-bold text-lg whitespace-nowrap">{exh.name}</h3>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
 
             <div
                 className={`fixed inset-0 backdrop-blur-xs bg-black/75 flex items-center justify-center z-60 p-4 transition-opacity
-                ${showPopup && selectedExhibition
+                ${showPopup && selectedExhibitions.length > 0
                     ? 'opacity-100'
                     : 'opacity-0 pointer-events-none'}`}
                 onClick={(e) => {
@@ -888,43 +843,69 @@ function MapContent() {
                         setSelectedRoomId(null)
                     }
                 }}
-                onTouchEnd={(e) => {
-                    e.stopPropagation()
-                }}
+                onTouchEnd={(e) => { e.stopPropagation() }}
             >
                 <div
                     className="bg-card border border-accent-light p-8 max-w-md w-full"
                     onClick={(e) => e.stopPropagation()}
                 >
-                    {selectedExhibition && (
+                    {selectedExhibitions.length === 1 ? (
                         <>
                             <div className="flex justify-between items-start mb-6">
-                                <h2 className="text-2xl font-bold">{selectedExhibition.name}</h2>
+                                <h2 className="text-2xl font-bold">{selectedExhibitions[0].name}</h2>
                                 <button
-                                    onClick={() => {
-                                        setShowPopup(false)
-                                        setSelectedRoomId(null)
-                                    }}
+                                    onClick={() => { setShowPopup(false); setSelectedRoomId(null) }}
                                     className="text-2xl font-bold opacity-50 hover:opacity-100"
-                                >
-                                    ×
-                                </button>
+                                >×</button>
                             </div>
-
-                            <p className="text-muted-foreground mb-8">{selectedExhibition.description}</p>
-
-                            <Link
-                                href={`/event/${selectedExhibition.id}`}
-                                className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
-                            >
-                                詳細を見る
-                            </Link>
-
+                            <p className="text-muted-foreground mb-8">{selectedExhibitions[0].description}</p>
+                            {selectedExhibitions[0].id != "" && (
+                                <Link
+                                    href={`/event/${selectedExhibitions[0].id}`}
+                                    className="w-full bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center block mb-4"
+                                >
+                                    詳細を見る
+                                </Link>
+                            )}
                             <button
-                                onClick={() => {
-                                    setShowPopup(false)
-                                    setSelectedRoomId(null)
-                                }}
+                                onClick={() => { setShowPopup(false); setSelectedRoomId(null) }}
+                                className="w-full bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
+                            >
+                                閉じる
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <div className="flex justify-between items-start mb-6">
+                                <h2 className="text-xl font-bold">この部屋のイベント</h2>
+                                <button
+                                    onClick={() => { setShowPopup(false); setSelectedRoomId(null) }}
+                                    className="text-2xl font-bold opacity-50 hover:opacity-100"
+                                >×</button>
+                            </div>
+                            <div className="space-y-3 mb-4">
+                                {selectedExhibitions.map(exh => exh.id != "" && (
+                                    <Link
+                                        key={exh.id}
+                                        href={`/event/${exh.id}`}
+                                        className="w-full bg-primary text-background px-5 py-3 font-bold hover:opacity-90 transition-opacity block mb-4"
+                                    >
+                                        <p className="font-bold mb-1">{exh.name}</p>
+                                        <p className="text-sm">{exh.description}</p>
+                                    </Link>
+                                ))}
+                                {selectedExhibitions.map(exh => exh.id == "" && (
+                                    <div
+                                        key={"no-id" + exh.roomId}
+                                        className="block bg-card border border-accent-light px-5 py-4 transition-colors"
+                                    >
+                                        <p className="font-bold mb-1">{exh.name}</p>
+                                        <p className="text-sm text-muted-foreground">{exh.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <button
+                                onClick={() => { setShowPopup(false); setSelectedRoomId(null) }}
                                 className="w-full bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"
                             >
                                 閉じる
