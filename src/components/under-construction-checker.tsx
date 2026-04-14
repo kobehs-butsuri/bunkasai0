@@ -13,7 +13,6 @@ const underConstructionPages = [
     '/greeting',
     '/map',
     '/pickup',
-    '/schedule',
     '/garden'
 ];
 
