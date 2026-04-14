@@ -143,13 +143,13 @@
           "info": [
             {
               "location": "_2Fwatari",
-              "startTime": "14:00",
-              "endTime": "14:06"
+              "startTime": "11:30",
+              "endTime": "11:36"
             },
             {
               "location": "stairs_honkan_1_takaradsuka",
-              "startTime": "13:30",
-              "endTime": "13:32"
+              "startTime": "14:40",
+              "endTime": "14:42"
             },
             {
               "location": "koudou",
@@ -163,8 +163,8 @@
           "info": [
             {
               "location": "_2Fwatari",
-              "startTime": "12:05",
-              "endTime": "12:07"
+              "startTime": "11:00",
+              "endTime": "11:02"
             },
             {
               "location": "stairs_honkan_1_takaradsuka",
@@ -201,23 +201,23 @@
           "info": [
             {
               "location": "_2Fwatari",
-              "startTime": "12:55",
-              "endTime": "12:59"
+              "startTime": "11:40",
+              "endTime": "11:45"
             },
             {
               "location": "_2Fwatari",
-              "startTime": "13:25",
-              "endTime": "13:30"
+              "startTime": "13:40",
+              "endTime": "13:44"
             },
             {
               "location": "stairs_honkan_1_takaradsuka",
-              "startTime": "10:30",
-              "endTime": "10:33"
+              "startTime": "11:05",
+              "endTime": "11:08"
             },
             {
               "location": "stairs_honkan_1_takaradsuka",
-              "startTime": "12:22",
-              "endTime": "12:26"
+              "startTime": "13:16",
+              "endTime": "13:20"
             },
             {
               "location": "koudou",
@@ -239,8 +239,8 @@
           "info": [
             {
               "location": "ground",
-              "startTime": "12:30",
-              "endTime": "12:42"
+              "startTime": "12:45",
+              "endTime": "12:57"
             }
           ]
         },
@@ -249,8 +249,8 @@
           "info": [
             {
               "location": "ground",
-              "startTime": "11:00",
-              "endTime": "11:12"
+              "startTime": "12:35",
+              "endTime": "12:47"
             }
           ]
         }
@@ -426,6 +426,11 @@
           "dayId": "day-1",
           "info": [
             {
+              "location": "_2Fwatari",
+              "startTime": "13:30",
+              "endTime": "13:40"
+            },
+            {
               "location": "stairs_honkan_1_takaradsuka",
               "startTime": "13:40",
               "endTime": "13:50"
@@ -442,8 +447,8 @@
             },
             {
               "location": "_2Fwatari",
-              "startTime": "13:40",
-              "endTime": "13:50"
+              "startTime": "13:00",
+              "endTime": "13:10"
             }
           ]
         }
