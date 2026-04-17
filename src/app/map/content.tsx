@@ -64,12 +64,12 @@ function MapContent() {
     const [pinnedRoomMapPosition, setPinnedRoomMapPosition] = useState<{ x: number; y: number } | null>(null)
 
     const getExhibitionsByRoomId = useCallback((roomId: string): Exhibition[] => {
-        return exhibitions.filter(exh => exh.roomId === roomId)
-    }, [exhibitions])
+        return activeLayer != 6 ? exhibitions.filter(exh => exh.roomId === roomId) : []
+    }, [activeLayer, exhibitions])
 
     const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
-        return getExhibitionsByRoomId(roomId)[0]
-    }, [getExhibitionsByRoomId])
+        return activeLayer != 6 ? getExhibitionsByRoomId(roomId)[0] : undefined
+    }, [activeLayer, getExhibitionsByRoomId])
 
     const constrainPosition = (x: number, y: number) => {
         if (!containerRef.current || !mapRef.current) return { x, y }
@@ -795,6 +795,11 @@ function MapContent() {
                             label: "立体図",
                             icon: <>3D</>,
                             onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(6) },
+                        },
+                        {
+                            label: "広域図",
+                            icon: <>WIDE</>,
+                            onClick: () => { setPinnedRoomId(null); setPinnedRoomMapPosition(null); clearUrlParams(); setActiveLayer(7) },
                         },
                     ]} buttonLabel={"Layers"}/>
                 </div>

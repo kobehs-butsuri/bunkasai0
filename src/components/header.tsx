@@ -112,7 +112,7 @@ export default function Header() {
                                     className="h-full flex items-center"
                                 >
                                     <div className={`flex flex-col items-center justify-center transition-colors ${
-                                        pathname === item.href
+                                        pathname.replace(/\/$/, '') === item.href
                                             ? 'text-primary'
                                             : 'text-foreground hover:text-primary'
                                     }`}>

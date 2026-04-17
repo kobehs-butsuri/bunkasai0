@@ -16,7 +16,7 @@ export function Toolbar() {
     ]
 
     return (
-        <nav className="fixed bottom-0 left-0 right-0 border-t border-border bg-background md:hidden h-16">
+        <nav className="fixed bottom-0 left-0 right-0 bg-background md:hidden h-16">
             <div className="flex items-stretch">
                 {items.map((item) => {
                     const Icon = item.icon

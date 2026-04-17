@@ -8,17 +8,17 @@ import useMobile from "@/hooks/use-mobile";
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-foreground text-background py-16 px-8 relative overflow-hidden select-none">
+        <footer className="w-full bg-muted text-foreground py-16 px-8 relative overflow-hidden select-none">
             <div className="relative z-10 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 pb-12 border-t-2 border-background border-opacity-20">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 pb-12 border-t-2 border-foreground border-opacity-20">
                     <div className="pt-12">
-                        <p className="text-primary-foreground leading-relaxed text-2xl">BOth</p>
+                        <p className="text-primary leading-relaxed text-2xl font-bold">BOth</p>
                         <div className={"flex gap-4"}>
                             <Emblem size={80} />
                             <Logo size={80} />
                         </div>
-                        <p className={"text-primary-foreground leading-relaxed"}>兵庫県立神戸高等学校</p>
-                        <p className={"text-primary-foreground leading-relaxed text-xs"}>神戸市灘区城の下通1丁目5-1</p>
+                        <p className={"text-primary leading-relaxed"}>兵庫県立神戸高等学校</p>
+                        <p className={"text-primary leading-relaxed text-xs"}>神戸市灘区城の下通1丁目5-1</p>
                     </div>
                     {useMobile() && (
                         <div className="pt-12 flex gap-2 md:justify-end h-fit">

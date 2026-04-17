@@ -1,171 +1,411 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 4961 3508" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-miterlimit:1.5;">
-    <g id="_1F" serif:id="1F">
-        <g>
-            <path d="M1629.401,2170.133L1861.798,2170.133L1861.798,2115.749C1861.798,2115.304 1862.159,2114.944 1862.604,2114.944L3918.41,2114.944C3918.855,2114.944 3919.216,2115.304 3919.216,2115.749L3919.216,2608.37C3919.216,2608.815 3918.855,2609.176 3918.41,2609.176L1725.529,2609.176C1725.084,2609.176 1724.723,2608.815 1724.723,2608.37L1724.723,2574.594L1629.401,2574.594L1629.401,2618.654C1629.401,2619.099 1629.041,2619.46 1628.596,2619.46L1165.756,2619.46C1165.557,2619.46 1165.364,2619.386 1165.216,2619.252L933.382,2409.866C933.212,2409.713 933.116,2409.496 933.116,2409.268L933.116,1837.611C933.116,1837.397 933.201,1837.192 933.352,1837.041C933.503,1836.89 933.708,1836.805 933.922,1836.806L1472.658,1837.296C1473.103,1837.296 1473.463,1837.657 1473.463,1838.101L1473.463,1981.858L1629.125,2117.365C1629.3,2117.518 1629.401,2117.739 1629.401,2117.972L1629.401,2170.133Z" style="fill:#f9f7f4;"/>
-            <path d="M1629.401,2170.133L1747.035,2170.133L1747.035,2171.744L1628.596,2171.744C1628.151,2171.744 1627.79,2171.383 1627.79,2170.938L1627.79,2118.339L1472.128,1982.832C1471.952,1982.679 1471.852,1982.457 1471.852,1982.224L1471.852,1838.906L934.727,1838.418L934.727,2408.91L986.734,2455.881L985.654,2457.077L933.382,2409.866C933.212,2409.713 933.116,2409.496 933.116,2409.268L933.116,1837.611C933.116,1837.397 933.201,1837.192 933.352,1837.041C933.503,1836.89 933.708,1836.805 933.922,1836.806L1472.658,1837.296C1473.103,1837.296 1473.463,1837.657 1473.463,1838.101L1473.463,1981.858L1629.125,2117.365C1629.3,2117.518 1629.401,2117.739 1629.401,2117.972L1629.401,2170.133Z" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1124.469,2582.45L1125.549,2581.254L1166.066,2617.849L1627.79,2617.849L1627.79,2573.789C1627.79,2573.344 1628.151,2572.983 1628.596,2572.983L1725.529,2572.983C1725.974,2572.983 1726.335,2573.344 1726.335,2573.789L1726.335,2607.564L3917.604,2607.564L3917.604,2402.902L3919.216,2402.902L3919.216,2608.37C3919.216,2608.815 3918.855,2609.176 3918.41,2609.176L1725.529,2609.176C1725.084,2609.176 1724.723,2608.815 1724.723,2608.37L1724.723,2574.594L1629.401,2574.594L1629.401,2618.654C1629.401,2619.099 1629.041,2619.46 1628.596,2619.46L1165.756,2619.46C1165.557,2619.46 1165.364,2619.386 1165.216,2619.252L1124.469,2582.45Z" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M3919.216,2339.061L3917.604,2339.061L3917.604,2116.555L2145.8,2116.555L1863.41,2116.555L1863.41,2170.938C1863.41,2171.383 1863.049,2171.744 1862.604,2171.744L1836,2171.744L1836,2170.133L1861.798,2170.133L1861.798,2115.749C1861.798,2115.304 1862.159,2114.944 1862.604,2114.944L3918.41,2114.944C3918.855,2114.944 3919.216,2115.304 3919.216,2115.749L3919.216,2339.061Z" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
+<svg width="100%" height="100%" viewBox="0 0 2787 1393" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-580.14855,-1447.624565)">
+        <g id="ベース" transform="matrix(1,0,0,1,0.543842,0.04558)">
+            <g id="科学棟" transform="matrix(1,0,0,1.091521,0,-180.154863)">
+                <path d="M3356.495,1668.535L3356.495,1968.454L2551.674,1968.454L2551.674,1668.535L2763.671,1668.535L2763.671,1610.638L3173.628,1610.638L3173.628,1668.535L3356.495,1668.535Z" style="fill:rgb(224,218,211);stroke:rgb(213,207,199);stroke-width:5.97px;"/>
+            </g>
+            <g id="本館" transform="matrix(0.769615,0,0,0.659214,653.736188,949.690468)">
+                <path d="M323.072,2571.464L323.072,1952.774L829.252,1952.774L829.252,2109.259L973.977,2252.903L973.977,2313.294L1192.097,2313.294L1192.097,2252.903L3110.879,2252.903L3110.879,2494.588L3193.569,2494.588L3193.569,2711.513L3110.879,2711.513L3110.879,2784.524L1064.08,2784.524L1064.08,2749.807L974.73,2749.924L974.602,2798.655L541.706,2798.655L323.072,2571.464Z" style="fill:rgb(224,218,211);stroke:rgb(213,207,199);stroke-width:8.72px;"/>
+            </g>
+            <g id="芸術棟" transform="matrix(0.982731,0,0,0.986341,47.481308,16.651314)">
+                <rect x="1709.98" y="1616.061" width="722.518" height="362.77" style="fill:rgb(224,218,211);stroke:rgb(213,207,199);stroke-width:6.35px;"/>
+            </g>
+            <g id="講堂棟" transform="matrix(0.785505,0,0,0.857606,160.905851,228.536865)">
+                <path d="M1645.663,1820.194L1645.663,1968.454L549.997,1968.454L549.997,1425.091L1645.663,1425.091L1645.663,1633.606L1791.833,1633.606L1791.833,1820.194L1645.663,1820.194Z" style="fill:rgb(224,218,211);stroke:rgb(213,207,199);stroke-width:7.6px;"/>
+            </g>
         </g>
-        <g id="honkan_1">
-            <path d="M1725.529,2573.789L1725.8,2428.014L1628.596,2427.956L3918.41,2429.325" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <g id="kouchou">
-                <path d="M1725.529,2427.956L1999.545,2428.178L1999.545,2608.37L1725.529,2608.37L1725.529,2427.956Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="1812.537px" y="2529.491px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校長室</text>
-            </g>
+        <g id="_1F" serif:id="1F" transform="matrix(0.717623,0,0,0.709544,239.432415,933.290693)">
             <g>
-                <path d="M1999.545,2427.956L2273.56,2428.178L2273.56,2608.37L1999.545,2608.37L1999.545,2427.956Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
+                <path d="M1629.718,2169.803L1861.481,2169.803L1861.481,2115.749C1861.481,2115.122 1861.984,2114.614 1862.604,2114.614L3918.41,2114.614C3919.03,2114.614 3919.533,2115.122 3919.533,2115.749L3919.533,2608.37C3919.533,2608.997 3919.03,2609.506 3918.41,2609.506L1725.529,2609.506C1724.909,2609.506 1724.406,2608.997 1724.406,2608.37L1724.406,2574.924L1629.718,2574.924L1629.718,2618.654C1629.718,2619.281 1629.216,2619.79 1628.596,2619.79L1165.756,2619.79C1165.481,2619.79 1165.214,2619.687 1165.009,2619.501L933.174,2410.115C932.935,2409.899 932.799,2409.591 932.799,2409.268L932.799,1837.611C932.799,1837.31 932.917,1837.021 933.128,1836.808C933.339,1836.595 933.625,1836.475 933.923,1836.476L1472.658,1836.966C1473.278,1836.967 1473.78,1837.475 1473.78,1838.101L1473.78,1981.704L1629.328,2117.112C1629.576,2117.327 1629.718,2117.642 1629.718,2117.972L1629.718,2169.803Z" style="fill:rgb(249,247,244);"/>
+                <path d="M1629.718,2169.803L1747.035,2169.803L1747.035,2172.074L1628.596,2172.074L1627.473,2170.938L1627.473,2118.493L1471.925,1983.085C1471.677,1982.869 1471.535,1982.555 1471.535,1982.224L1471.535,1839.236L935.044,1838.748L935.044,2408.759L986.942,2455.632L985.446,2457.326L933.174,2410.115C932.935,2409.899 932.799,2409.591 932.799,2409.268L932.799,1837.611C932.799,1837.31 932.917,1837.021 933.128,1836.808C933.339,1836.595 933.625,1836.475 933.923,1836.476L1472.658,1836.966C1473.278,1836.967 1473.78,1837.475 1473.78,1838.101L1473.78,1981.704L1629.328,2117.112C1629.576,2117.327 1629.718,2117.642 1629.718,2117.972L1629.718,2169.803Z" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                <path d="M1124.261,2582.699L1125.757,2581.005L1166.185,2617.519L1627.473,2617.519L1627.473,2573.789C1627.473,2573.162 1627.976,2572.653 1628.596,2572.653L1725.529,2572.653C1726.149,2572.653 1726.652,2573.162 1726.652,2573.789L1726.652,2607.235L3917.287,2607.235L3917.287,2402.902L3919.533,2402.902L3919.533,2608.37C3919.533,2608.997 3919.03,2609.506 3918.41,2609.506L1725.529,2609.506C1724.909,2609.506 1724.406,2608.997 1724.406,2608.37L1724.406,2574.924L1629.718,2574.924L1629.718,2618.654C1629.718,2619.281 1629.216,2619.79 1628.596,2619.79L1165.756,2619.79C1165.481,2619.79 1165.214,2619.687 1165.009,2619.501L1124.261,2582.699Z" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                <path d="M3919.533,2339.061L3917.287,2339.061L3917.287,2116.885L2145.8,2116.885L1863.727,2116.885L1863.727,2170.938C1863.727,2171.565 1863.224,2172.074 1862.604,2172.074L1836,2172.074L1836,2169.803L1861.481,2169.803L1861.481,2115.749C1861.481,2115.122 1861.984,2114.614 1862.604,2114.614L3918.41,2114.614C3919.03,2114.614 3919.533,2115.122 3919.533,2115.749L3919.533,2339.061Z" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
             </g>
-            <g id="shokuin">
-                <path d="M2273.56,2427.956L2958.6,2428.178L2958.6,2608.37L2273.56,2608.37L2273.56,2427.956Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="2566.08px" y="2529.491px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">職員室</text>
-            </g>
-            <g id="hoken">
-                <path d="M2958.6,2427.956L3232.616,2428.178L3232.616,2608.37L2958.6,2608.37L2958.6,2427.956Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="3045.608px" y="2529.491px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">保健室</text>
-            </g>
-            <g>
-                <path d="M3232.616,2427.956L3369.623,2428.178L3369.623,2608.37L3232.616,2608.37L3232.616,2427.956Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g id="_29" serif:id="29">
-                <path d="M3369.623,2427.956L3643.639,2428.178L3643.639,2608.37L3369.623,2608.37L3369.623,2427.956Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <g transform="matrix(33.333333,0,0,33.333333,3530.71982,2530.101486)">
+            <g id="honkan_1">
+                <path d="M1725.529,2573.789L1725.8,2428.014L1628.596,2427.956L3918.41,2429.325" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                <g id="kouchou">
+                    <g transform="matrix(1.008556,0,0,1,-15.927373,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(219,219,219);stroke:rgb(115,108,97);stroke-width:8.72px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.982602,-1847.220188,285.100248)">
+                        <text x="3768.433px" y="2283.93px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校長室</text>
+                    </g>
                 </g>
-                <text x="3482.543px" y="2530.101px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">2-9</text>
-            </g>
-            <g id="_19" serif:id="19">
-                <path d="M3643.639,2427.956L3917.655,2428.178L3917.655,2608.37L3643.639,2608.37L3643.639,2427.956Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <g transform="matrix(33.333333,0,0,33.333333,3804.735568,2530.101486)">
+                <g transform="matrix(1.008556,0,0,1,258.088375,0)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:8.72px;stroke-linejoin:miter;"/>
                 </g>
-                <text x="3756.558px" y="2530.101px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">1-9</text>
-            </g>
-            <g id="kaigi">
-                <path d="M2145.8,2115.749L2684.584,2115.998L2684.584,2317.978L2145.8,2317.978L2145.8,2115.749Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="2365.192px" y="2228.192px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">会議室</text>
-            </g>
-            <g>
-                <path d="M2821.592,2115.749L2958.6,2115.998L2958.6,2317.978L2821.592,2317.978L2821.592,2115.749Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g>
-                <path d="M2684.584,2115.749L2821.592,2115.998L2821.592,2317.978L2684.584,2317.978L2684.584,2115.749Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g>
-                <path d="M2958.6,2115.749L3232.616,2115.998L3232.616,2317.978L2958.6,2317.978L2958.6,2115.749Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g>
-                <path d="M3232.616,2115.749L3369.623,2115.998L3369.623,2317.978L3232.616,2317.978L3232.616,2115.749Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g id="tamokuteki">
-                <path d="M3369.623,2115.749L3643.639,2115.998L3643.639,2317.978L3369.623,2317.978L3369.623,2115.749Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="3423.298px" y="2228.192px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">多目的教室</text>
-            </g>
-            <g id="EV_honkan_1">
-                <rect x="1628.596" y="2170.938" width="97.204" height="147.04" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-                <g transform="matrix(33.333333,0,0,33.333333,1699.430908,2256.396591)">
+                <g id="shokuin" transform="matrix(2.5,0,0,1,-3410.340618,0)">
+                    <g transform="matrix(1.008556,0,0,1,532.104123,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(219,219,219);stroke:rgb(115,108,97);stroke-width:4.55px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.388616,0,0,0.982602,844.46077,285.100248)">
+                        <text x="3979.965px" y="2283.93px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">職員室</text>
+                    </g>
                 </g>
-                <text x="1654.965px" y="2256.397px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">EV</text>
-            </g>
-            <g id="stairs_honkan_1_W">
-                <rect x="1862.604" y="2115.749" width="136.941" height="202.229" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1931.074,2317.978L1931.074,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1862.604,2286.864L1999.545,2286.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1862.604,2256.864L1999.545,2256.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1862.604,2226.864L1999.545,2226.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1862.604,2196.864L1999.545,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g id="stairs_honkan_1_takaradsuka">
-                <rect x="1556.84" y="2203.132" width="70.553" height="83.785" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1556.84,2242.331L1627.394,2242.331" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1556.84,2220.445L1627.394,2220.445" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1556.84,2264.217L1627.394,2264.217" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1400.779,1984.34L1400.779,2068.125L1319.125,2068.125L1319.125,1984.34L1400.779,1984.34Z" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1362.576,1984.34L1362.576,2068.125" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1383.906,1984.34L1383.906,2068.125" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1341.247,1984.34L1341.247,2068.125" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1473.762,1984.34L1628.75,2119.347L1628.596,2203.132L1555.768,2203.132L1495.921,2271.836L1340.933,2136.829L1400.779,2068.125L1400.779,1984.34L1473.762,1984.34Z" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1361.369,2113.368L1516.358,2248.374" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1381.074,2090.747L1536.063,2225.753" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M1400.779,2068.125L1555.768,2203.132" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g id="WC_honkan_1_W">
-                <rect x="1999.612" y="2115.749" width="146.188" height="202.229" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <g transform="matrix(33.333333,0,0,33.333333,2100.439276,2228.802091)">
+                <g id="hoken" transform="matrix(1,0,0,1,-137.007874,0)">
+                    <g transform="matrix(1.008556,0,0,1,1354.151368,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:8.72px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.982602,-477.141448,285.100248)">
+                        <text x="3768.433px" y="2283.93px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">保健室</text>
+                    </g>
                 </g>
-                <text x="2044.905px" y="2228.802px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
-            </g>
-            <g id="stairs_honkan_1_E">
-                <rect x="3781.469" y="2115.749" width="136.941" height="202.229" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3849.94,2317.978L3849.94,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3781.469,2286.864L3918.41,2286.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3781.469,2256.864L3918.41,2256.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3781.469,2226.864L3918.41,2226.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3781.469,2196.864L3918.41,2196.864" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g id="stairs_honkan_1_out">
-                <path d="M3918.41,2402.902L3918.41,2539.345L4005.351,2539.345L4005.351,2339.061L3918.41,2339.061" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;stroke-linecap:square;"/>
-                <path d="M3918.41,2508.231L4005.351,2508.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3918.41,2478.231L4005.351,2478.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3918.41,2448.231L4005.351,2448.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-                <path d="M3918.41,2418.231L4005.351,2418.231" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            </g>
-            <g id="WC_honkan_1_E">
-                <rect x="3635.214" y="2115.749" width="146.188" height="202.229" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <g transform="matrix(33.333333,0,0,33.333333,3736.108491,2228.802091)">
+                <g transform="matrix(0.504278,0,0,1,2361.887386,0)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:11.1px;stroke-linejoin:miter;"/>
                 </g>
-                <text x="3680.575px" y="2228.802px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
+                <g id="_29" serif:id="29">
+                    <g transform="matrix(1.008556,0,0,1,1628.167116,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:8.72px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.982602,-203.1257,285.100248)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3842.521396,2284.540438)">
+                        </g>
+                        <text x="3794.344px" y="2284.54px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">2-9</text>
+                    </g>
+                </g>
+                <g id="_19" serif:id="19">
+                    <g transform="matrix(1.008556,0,0,1,1902.182864,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:8.72px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.982602,70.890048,285.100248)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3842.521396,2284.540438)">
+                        </g>
+                        <text x="3794.344px" y="2284.54px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">1-9</text>
+                    </g>
+                </g>
+                <g id="kaigiB" transform="matrix(1.966252,0,0,1.120913,-2171.106911,-605.778278)">
+                    <g transform="matrix(0.287311,0,0,1,1895.851118,-0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:9.9px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.494107,0,0,0.876608,574.911827,516.250475)">
+                        <text x="3695.286px" y="2295.641px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">会議室</text>
+                        <g transform="matrix(33.333333,0,0,33.333333,3817.518905,2295.640778)">
+                        </g>
+                        <text x="3795.286px" y="2295.641px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">B</text>
+                    </g>
+                </g>
+                <g id="kaigiA" transform="matrix(1.966252,0,0,1.120913,-2324.592568,-605.778278)">
+                    <g transform="matrix(0.723051,0,0,1,1025.079978,-0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:6.83px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.494107,0,0,0.876608,456.525165,516.250475)">
+                        <text x="3815.084px" y="2295.641px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">会議室</text>
+                        <g transform="matrix(33.333333,0,0,33.333333,3937.317477,2295.640778)">
+                        </g>
+                        <text x="3915.084px" y="2295.641px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">A</text>
+                    </g>
+                </g>
+                <g transform="matrix(0.504278,0,0,1.120913,1950.863764,-605.778278)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:10.12px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(0.504278,0,0,1.120913,1813.85589,-605.778278)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:10.12px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(1.008556,0,0,1.120913,1217.143493,-605.778278)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:8.22px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(0.504278,0,0,1.120913,2361.887386,-605.778278)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:10.12px;stroke-linejoin:miter;"/>
+                </g>
+                <g id="tamokuteki" transform="matrix(1,0,0,1.120913,-274.015748,-605.778278)">
+                    <g transform="matrix(1.008556,0,0,1,1902.182864,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:8.22px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.876608,70.890048,516.250475)">
+                        <text x="3735.1px" y="2295.03px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">多目的教室</text>
+                    </g>
+                </g>
+                <g id="EV_honkan_1">
+                    <rect x="1628.596" y="2170.938" width="97.204" height="147.04" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    <g transform="matrix(0.971539,0,0,0.982602,-1944.153467,28.08264)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3749.670443,2267.557682)">
+                        </g>
+                        <text x="3705.204px" y="2267.558px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">EV</text>
+                    </g>
+                </g>
+                <g id="stairs_honkan_1_W">
+                    <g transform="matrix(1,0,0,1,234.070976,-56.059015)">
+                        <rect x="1628.533" y="2171.808" width="136.941" height="202.229" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,0.598898,-1918.865328,929.745539)">
+                        <path d="M3849.94,2317.978L3849.94,2115.749" style="fill:none;stroke:rgb(115,108,97);stroke-width:10.6px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,70)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,40)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,10)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,-20)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                </g>
+                <g id="stairs_honkan_1_takaradsuka" transform="matrix(1.131793,0.985874,-0.656826,0.754043,755.356934,-1447.317283)">
+                    <g transform="matrix(0.258827,-0.338404,0.181302,0.312406,1184.822263,2098.775528)">
+                        <rect x="1628.533" y="2171.808" width="136.941" height="202.229" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:18.71px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.258827,-0.338404,0.319247,0.550103,330.762319,2315.877209)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:13.89px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.258827,-0.338404,0.319247,0.550103,321.184899,2299.374105)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:13.89px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.258827,-0.338404,0.319247,0.550103,340.339739,2332.380314)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:13.89px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.267739,0.461348,-0.202842,0.265206,1830.45193,836.388337)">
+                        <rect x="1628.533" y="2171.808" width="136.941" height="202.229" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:16.93px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.267739,0.461348,-0.357177,0.466992,1586.113373,-591.052064)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:13.19px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.267739,0.461348,-0.357177,0.466992,1596.828683,-605.061811)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:13.19px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.267739,0.461348,-0.357177,0.466992,1575.398062,-577.042318)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:13.19px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,234.070976,-56.059015)">
+                        <path d="M1628.533,2171.808L1765.474,2171.808L1802.06,2235.087L1765.474,2282.923L1765.474,2374.037L1628.533,2374.037L1628.533,2282.923L1591.869,2219.745L1628.533,2171.808Z" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:6.9px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,70)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.9px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,40)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.9px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-1918.865328,10)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:6.9px;stroke-linejoin:miter;"/>
+                    </g>
+                </g>
+                <g id="WC_honkan_1_W">
+                    <g transform="matrix(1,0,0,1,371.07885,-56.059015)">
+                        <rect x="1628.533" y="2171.808" width="146.188" height="202.229" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.982602,-1573.20444,-27.106361)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3780.448248,2295.640778)">
+                        </g>
+                        <text x="3724.914px" y="2295.641px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
+                    </g>
+                </g>
+                <g id="stairs_honkan_1_E">
+                    <g transform="matrix(-1,0,0,1,5544.332979,-56.059015)">
+                        <rect x="1625.923" y="2171.808" width="136.941" height="202.229" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,0.598898,0,929.745539)">
+                        <path d="M3849.94,2317.978L3849.94,2115.749" style="fill:none;stroke:rgb(115,108,97);stroke-width:10.6px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,70)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,40)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,10)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,-20)">
+                        <path d="M3781.469,2216.864L3918.41,2216.864" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                </g>
+                <g id="stairs_honkan_1_out" transform="matrix(1,0,0,1,136.746413,223.311699)">
+                    <g transform="matrix(-1,0,0,1,5544.332979,-56.059015)">
+                        <path d="M1762.669,2235.65L1762.669,2372.093L1675.729,2372.093L1675.729,2171.808L1762.669,2171.808" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linecap:square;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,70)">
+                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,40)">
+                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,10)">
+                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,0,-20)">
+                        <path d="M3781.664,2214.919L3868.604,2214.919" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                </g>
+                <g id="WC_honkan_1_E">
+                    <g transform="matrix(-1,0,0,1,5407.325105,-56.059015)">
+                        <rect x="1625.923" y="2171.808" width="146.188" height="202.229" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.982602,62.464776,-27.106361)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3780.448248,2295.640778)">
+                        </g>
+                        <text x="3724.914px" y="2295.641px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">WC</text>
+                    </g>
+                </g>
+                <g transform="matrix(0.490192,0,0,1.052537,649.279957,-127.55831)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(249,247,244);stroke:rgb(115,108,97);stroke-width:10.71px;stroke-linejoin:miter;"/>
+                </g>
+                <g id="jimu" transform="matrix(1,0,0,1.052537,-503.858394,-127.55831)">
+                    <g transform="matrix(1.008556,0,0,1,-15.927373,0)">
+                        <path d="M1799.988,2427.956L1998.375,2428.178L1998.375,2608.37L1671.244,2609.136L1671.244,2556.932L1799.988,2427.956Z" style="fill:rgb(219,219,219);stroke:rgb(115,108,97);stroke-width:8.5px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(0.971539,0,0,0.933555,-1847.220188,392.060736)">
+                        <text x="3768.433px" y="2288.753px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">事務室</text>
+                    </g>
+                </g>
+                <g id="higashikobe" transform="matrix(0.486034,0,0,1.052537,94.716446,-342.504601)">
+                    <g transform="matrix(1.008556,0,0,1,-15.927373,0)">
+                        <path d="M1726.684,2427.956L2200.732,2427.956L2200.732,2518.163L1971.486,2614.986L1726.684,2614.986L1726.684,2427.956Z" style="fill:rgb(219,219,219);stroke:rgb(115,108,97);stroke-width:10.71px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1.998913,0,0,0.933555,-5625.298098,392.060736)">
+                        <text x="3697.003px" y="2288.753px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">東神戸資料室</text>
+                    </g>
+                </g>
+                <g id="koushihenshuu" transform="matrix(0.486034,0,0,1.052537,94.716446,-539.360608)">
+                    <g transform="matrix(1.008556,0,0,1,-15.927373,0)">
+                        <rect x="1726.684" y="2427.956" width="474.049" height="187.03" style="fill:rgb(219,219,219);stroke:rgb(115,108,97);stroke-width:10.71px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1.998913,0,0,0.933555,-5625.298098,392.060736)">
+                        <text x="3713.669px" y="2292.297px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校史編集室</text>
+                    </g>
+                </g>
+                <g id="koushikinen" transform="matrix(0.486034,0,0,0.958927,94.716446,-491.42773)">
+                    <g transform="matrix(1.008556,0,0,1,-15.927373,0)">
+                        <rect x="1726.684" y="2427.956" width="474.049" height="187.03" style="fill:rgb(224,218,211);stroke:rgb(115,108,97);stroke-width:11.54px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1.998913,0,0,1.024689,-5625.298098,193.317628)">
+                        <text x="3713.669px" y="2283.388px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校史記念室</text>
+                    </g>
+                </g>
+                <g id="kokugo_junbi" transform="matrix(0.486034,0,0,0.958927,349.465658,-465.968568)">
+                    <g transform="matrix(1.008556,0,0,1,-15.927373,0)">
+                        <path d="M1905.442,2402.467L2307.123,2402.758L2309.375,2555.26L1907.694,2554.969L1905.442,2402.467Z" style="fill:rgb(219,219,219);stroke:rgb(115,108,97);stroke-width:11.54px;stroke-linejoin:miter;"/>
+                    </g>
+                    <g transform="matrix(1.998913,0,0,1.024689,-5442.738697,168.119423)">
+                        <text x="3694.844px" y="2266.398px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">国語準備室</text>
+                    </g>
+                </g>
+                <g transform="matrix(0,-1,1,0,1481.499022,5840.886725)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2289.989792,5840.886725)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2468.657761,5840.886725)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,1874.303801,5950.864798)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2288.055511,5950.864798)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2470.592042,5950.864798)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2562.071259,5950.864798)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2744.60779,5950.864798)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2579.897111,5840.886725)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,945.398413,5840.886725)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,663.043093,5690.779195)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0,-1,1,0,2834.572861,6062.254242)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0.699146,-0.707107,0.707107,0.715158,-2210.982777,4202.151518)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
+                <g transform="matrix(0.988741,0,0,1.011387,-2317.489655,786.335749)">
+                    <path d="M3505.286,1133.547L3505.286,1145.133L3487.257,1127.308L3505.286,1109.482L3505.286,1121.068L3540.532,1121.068L3540.532,1109.482L3558.561,1127.308L3540.532,1145.133L3540.532,1133.547L3505.286,1133.547Z" style="fill:rgb(255,0,0);"/>
+                </g>
             </g>
-            <g>
-                <path d="M1495.686,2427.956L1628.867,2428.189L1628.867,2617.849L1495.686,2617.849L1495.686,2427.956Z" style="fill:#f9f7f4;stroke:#736c61;stroke-width:6.25px;"/>
+            <g id="parking">
+                <g id="parking1" transform="matrix(0.669733,0,0,1,-1613.861316,-998.937993)">
+                    <g transform="matrix(1.008556,0,0,1,1628.167116,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);"/>
+                    </g>
+                    <g transform="matrix(1.450637,0,0,0.982602,-1964.96713,375.307302)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3781.127265,2238.638296)">
+                        </g>
+                        <text x="3762.589px" y="2238.638px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">1</text>
+                    </g>
+                </g>
+                <g id="parking2" transform="matrix(0.669733,0,0,1,-1430.344041,-998.937993)">
+                    <g transform="matrix(1.008556,0,0,1,1628.167116,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);"/>
+                    </g>
+                    <g transform="matrix(1.450637,0,0,0.982602,-1964.96713,375.307302)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3781.127265,2238.638296)">
+                        </g>
+                        <text x="3762.589px" y="2238.638px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">2</text>
+                    </g>
+                </g>
+                <g id="parking3" transform="matrix(0.669733,0,0,1,-1246.826766,-998.937993)">
+                    <g transform="matrix(1.008556,0,0,1,1628.167116,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);"/>
+                    </g>
+                    <g transform="matrix(1.450637,0,0,0.982602,-1964.96713,375.307302)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3781.127265,2238.638296)">
+                        </g>
+                        <text x="3762.589px" y="2238.638px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">3</text>
+                    </g>
+                </g>
+                <g id="parking4" transform="matrix(0.669733,0,0,1,-1063.309491,-998.937993)">
+                    <g transform="matrix(1.008556,0,0,1,1628.167116,0)">
+                        <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:rgb(224,218,211);"/>
+                    </g>
+                    <g transform="matrix(1.450637,0,0,0.982602,-1964.96713,375.307302)">
+                        <g transform="matrix(33.333333,0,0,33.333333,3781.127265,2238.638296)">
+                        </g>
+                        <text x="3762.589px" y="2238.638px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:33.333px;">4</text>
+                    </g>
+                </g>
+                <g transform="matrix(0.971539,0,0,0.982602,-2929.86383,-713.837745)">
+                    <text x="3971.865px" y="2283.93px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">地下駐車場</text>
+                </g>
+                <g transform="matrix(2.70185,0,0,1,-4022.354807,-998.937993)">
+                    <path d="M1726.684,2427.956L1998.375,2428.178L1998.375,2608.37L1726.684,2608.37L1726.684,2427.956Z" style="fill:none;stroke:rgb(115,108,97);stroke-width:4.28px;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:4.281,8.562,0,0,0,0;"/>
+                </g>
             </g>
-            <g id="jimu">
-                <path d="M1295.602,2427.956L1495.686,2428.189L1495.686,2617.849L1165.756,2618.654L1165.756,2563.708L1295.602,2427.956Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="1308.678px" y="2534.23px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">事務室</text>
+            <g transform="matrix(0,1,-1,0,3999.588229,-19.632086)">
+                <path d="M1629.064,3516.953L1627.978,-350.527" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
             </g>
-            <g id="higashikobe">
-                <path d="M933.382,2213.01L1165.756,2213.01L1165.756,2307.956L1053.382,2409.866L933.382,2409.866L933.382,2213.01Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="949.569px" y="2319.284px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">東神戸資料室</text>
+            <g id="stairs_out_1" transform="matrix(0,1,-1,0,3943.529214,-253.703063)">
+                <g transform="matrix(1,0,0,1,234.070976,-56.059015)">
+                    <path d="M1697.535,2224.702L1629.064,2224.702L1629.064,2022.473L1766.005,2022.473L1766.005,2224.702" style="fill:rgb(255,248,142);stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(1,0,0,0.598898,-1918.865328,929.745539)">
+                    <path d="M3849.384,2068.628L3849.384,1866.4" style="fill:none;stroke:rgb(115,108,97);stroke-width:10.65px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(0.5,-0,-0,1,40.061954,70)">
+                    <path d="M3783.087,2067.529L3920.028,2067.529" style="fill:none;stroke:rgb(115,108,97);stroke-width:11.04px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(1,0,0,1,-1918.865328,40)">
+                    <path d="M3782,2067.529L3918.941,2067.529" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(1,0,0,1,-1918.865328,10)">
+                    <path d="M3782,2067.529L3918.941,2067.529" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(1,0,0,1,-1918.865328,-20)">
+                    <path d="M3782,2067.529L3918.941,2067.529" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                </g>
+                <g transform="matrix(1,0,0,1,234.070976,-56.059015)">
+                    <path d="M1697.535,2224.702L1629.956,2224.702" style="fill:none;stroke:rgb(115,108,97);stroke-width:8.76px;stroke-linejoin:miter;"/>
+                </g>
             </g>
-            <g id="koushihenshuu">
-                <rect x="933.382" y="2016.154" width="232.375" height="196.856" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="966.236px" y="2125.91px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校史編集室</text>
+            <g transform="matrix(0.971539,0,0,0.982602,-317.564031,1212.560805)">
+                <text x="4201.33px" y="1497.048px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:50px;">本館</text>
+                <g transform="matrix(50,0,0,50,4359.679669,1497.047506)">
+                </g>
+                <text x="4301.33px" y="1497.048px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:50px;">1F</text>
             </g>
-            <g id="koushikinen">
-                <rect x="933.382" y="1836.806" width="232.375" height="179.348" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="966.236px" y="1937.808px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">校史記念室</text>
-            </g>
-            <g id="kokugo_junbi">
-                <path d="M1275.756,1837.822L1472.657,1838.101L1473.762,1984.34L1276.861,1984.061L1275.756,1837.822Z" style="fill:#e0dad3;stroke:#736c61;stroke-width:6.25px;"/>
-                <text x="1291.426px" y="1922.409px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:33.333px;">国語準備室</text>
-            </g>
-            <path d="M2215.716,2335.804L2227.302,2335.804L2209.477,2353.63L2191.651,2335.804L2203.238,2335.804L2203.238,2300.152L2191.651,2300.152L2209.477,2282.326L2227.302,2300.152L2215.716,2300.152L2215.716,2335.804Z" style="fill:#f00;"/>
-            <path d="M3423.536,2335.804L3435.123,2335.804L3417.297,2353.63L3399.471,2335.804L3411.058,2335.804L3411.058,2300.152L3399.471,2300.152L3417.297,2282.326L3435.123,2300.152L3423.536,2300.152L3423.536,2335.804Z" style="fill:#f00;"/>
-            <path d="M3602.204,2335.804L3613.791,2335.804L3595.965,2353.63L3578.139,2335.804L3589.726,2335.804L3589.726,2300.152L3578.139,2300.152L3595.965,2282.326L3613.791,2300.152L3602.204,2300.152L3602.204,2335.804Z" style="fill:#f00;"/>
-            <path d="M2325.539,2445.782L2337.126,2445.782L2319.3,2463.608L2301.474,2445.782L2313.061,2445.782L2313.061,2410.13L2301.474,2410.13L2319.3,2392.304L2337.126,2410.13L2325.539,2410.13L2325.539,2445.782Z" style="fill:#f00;"/>
-            <path d="M2873.571,2445.782L2885.157,2445.782L2867.332,2463.608L2849.506,2445.782L2861.092,2445.782L2861.092,2410.13L2849.506,2410.13L2867.332,2392.304L2885.157,2410.13L2873.571,2410.13L2873.571,2445.782Z" style="fill:#f00;"/>
-            <path d="M3007.85,2445.782L3019.437,2445.782L3001.611,2463.608L2983.785,2445.782L2995.372,2445.782L2995.372,2410.13L2983.785,2410.13L3001.611,2392.304L3019.437,2410.13L3007.85,2410.13L3007.85,2445.782Z" style="fill:#f00;"/>
-            <path d="M3421.602,2445.782L3433.189,2445.782L3415.363,2463.608L3397.537,2445.782L3409.124,2445.782L3409.124,2410.13L3397.537,2410.13L3415.363,2392.304L3433.189,2410.13L3421.602,2410.13L3421.602,2445.782Z" style="fill:#f00;"/>
-            <path d="M3604.139,2445.782L3615.725,2445.782L3597.9,2463.608L3580.074,2445.782L3591.66,2445.782L3591.66,2410.13L3580.074,2410.13L3597.9,2392.304L3615.725,2410.13L3604.139,2410.13L3604.139,2445.782Z" style="fill:#f00;"/>
-            <path d="M3695.618,2445.782L3707.205,2445.782L3689.379,2463.608L3671.553,2445.782L3683.14,2445.782L3683.14,2410.13L3671.553,2410.13L3689.379,2392.304L3707.205,2410.13L3695.618,2410.13L3695.618,2445.782Z" style="fill:#f00;"/>
-            <path d="M3878.154,2445.782L3889.741,2445.782L3871.915,2463.608L3854.089,2445.782L3865.676,2445.782L3865.676,2410.13L3854.089,2410.13L3871.915,2392.304L3889.741,2410.13L3878.154,2410.13L3878.154,2445.782Z" style="fill:#f00;"/>
-            <path d="M3713.444,2335.804L3725.03,2335.804L3707.205,2353.63L3689.379,2335.804L3700.966,2335.804L3700.966,2300.152L3689.379,2300.152L3707.205,2282.326L3725.03,2300.152L3713.444,2300.152L3713.444,2335.804Z" style="fill:#f00;"/>
-            <path d="M2078.945,2335.804L2090.532,2335.804L2072.706,2353.63L2054.88,2335.804L2066.467,2335.804L2066.467,2300.152L2054.88,2300.152L2072.706,2282.326L2090.532,2300.152L2078.945,2300.152L2078.945,2335.804Z" style="fill:#f00;"/>
-        </g>
-        <path d="M482.635,1609.432L4350.115,1608.345" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-        <g id="stairs_out_1">
-            <path d="M1774.886,1677.902L1774.886,1609.432L1977.115,1609.432L1977.115,1746.373L1774.886,1746.373" style="fill:#fff88e;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1774.886,1676.816L1896,1676.816" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1806,1677.902L1806,1746.373" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1836,1609.432L1836,1746.373" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1866,1609.432L1866,1746.373" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1896,1609.432L1896,1746.373" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-            <path d="M1774.886,1677.902L1774.886,1610.324" style="fill:none;stroke:#736c61;stroke-width:6.25px;"/>
-        </g>
-        <g transform="matrix(1,0,0,1,-429.117815,1187.137987)">
-            <text x="4188.804px" y="1497.048px" style="font-family:'MS-UIGothic', 'MS UI Gothic', sans-serif;font-size:50px;">本館</text>
-            <g transform="matrix(50,0,0,50,4347.153227,1497.047506)">
-            </g>
-            <text x="4288.804px" y="1497.048px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:50px;">1F</text>
         </g>
     </g>
 </svg>
