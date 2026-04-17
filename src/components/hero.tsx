@@ -62,7 +62,7 @@ export default function Hero({ scrollY }: HeroProps) {
 
     return (
         <section
-            className="relative w-full h-[calc(100vh-4rem-4rem)] md:h-[calc(100vh-5rem)] flex flex-col items-center justify-center overflow-hidden"
+            className="relative w-full h-[calc(100dvh-4rem-4rem)] md:h-[calc(100dvh-5rem)] flex flex-col items-center justify-center overflow-hidden"
             style={{
                 backgroundColor: showIntro === null || showIntro ? '#e94709' : undefined,
                 backgroundImage: showIntro === null || showIntro ? undefined : "linear-gradient(45deg, #fdf1db 25%, transparent 25%, transparent 75%, #fdf1db 75%), linear-gradient(45deg, #fdf1db 25%, transparent 25%, transparent 75%, #fdf1db 75%)",

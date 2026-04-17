@@ -26,7 +26,7 @@ export function AccessTransportation() {
 
 export function AccessBanner() {
     return (
-        <div className="bg-muted pl-5 pr-5 md:m-20 overflow-hidden">
+        <div className="bg-background pl-5 pr-5 md:m-20 overflow-hidden">
         <div className="w-full">
             {/* Location Information */}
             {useMobile() && (

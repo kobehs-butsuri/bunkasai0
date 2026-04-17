@@ -13,8 +13,8 @@ import UnderConstructionChecker from "@/components/under-construction-checker";
 
 export const metadata: Metadata = {
     title: {
-        default: 'BOth - 第130回神戸高校創立記念祭',
-        template: '%s | BOth - 第130回神戸高校創立記念祭',
+        default: '「BOth」第130回神戸高校創立記念祭・文化祭',
+        template: '%s | 「BOth」第130回神戸高校創立記念祭・文化祭',
     },
     description: '',
     icons: {
