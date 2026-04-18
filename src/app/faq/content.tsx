@@ -3,6 +3,7 @@
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown } from "lucide-react"
+import { useSetPageTitle } from "@/hooks/page-title-context"
 
 interface QAItem {
     id: string
@@ -25,6 +26,7 @@ interface QAPageProps {
 }
 
 export function Content({ data }: QAPageProps) {
+    useSetPageTitle("よくあるご質問")
     const [mobileActiveId, setMobileActiveId] = useState<string | null>(null)
     const [desktopActiveId, setDesktopActiveId] = useState<string | null>(null)
     const answerRefs = useRef<Record<string, HTMLDivElement | null>>({})
