@@ -7,13 +7,10 @@ import Footer from "@/components/footer";
 import ConstructingSVG from "@/components/decoration/constructing.svg"
 
 const underConstructionPages = [
-    '/contact',
     //'/event',
-    '/faq',
     //'/greeting',
     //'/map',
     //'/pickup',
-    '/schedule',
     '/garden'
 ];
 
