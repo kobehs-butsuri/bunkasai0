@@ -334,9 +334,9 @@
     },
     {
       "id": "broadcasting",
-      "name": "放送",
+      "name": "一年のあゆみ",
       "organization": "放送委員会",
-      "description": "放送",
+      "description": "一年のあゆみ",
       "schedules": [
         {
           "dayId": "day-2",
@@ -390,9 +390,9 @@
     },
     {
       "id": "orchestra",
-      "name": "管弦",
+      "name": "オーケストラ",
       "organization": "吹奏楽部;弦楽部",
-      "description": "管弦",
+      "description": "オーケストラ",
       "schedules": [
         {
           "dayId": "day-1",
