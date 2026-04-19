@@ -514,9 +514,9 @@
     },
     {
       "id": "ennichi",
-      "name": "縁日",
+      "name": "「神戸大縁日」",
       "organization": "その他",
-      "description": "縁日",
+      "description": "縁日(神戸大縁日)",
       "roomId": "_28"
     },
     {
@@ -633,9 +633,9 @@
     },
     {
       "id": "kishikara",
-      "name": "きしから",
+      "name": "純喫茶「喫茶神戸」",
       "organization": "その他",
-      "description": "きしから",
+      "description": "純喫茶「喫茶神戸」",
       "roomId": "_19"
     },
     {
@@ -654,9 +654,9 @@
     },
     {
       "id": "cafe",
-      "name": "カフェ",
+      "name": "カフェー「Kiss Of BErries」",
       "organization": "その他",
-      "description": "カフェ",
+      "description": "カフェ(Kiss Of BErries)",
       "roomId": "LL"
     }
   ]
