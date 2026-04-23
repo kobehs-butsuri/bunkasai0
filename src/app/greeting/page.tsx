@@ -31,10 +31,6 @@ export default function Greeting() {
 
 さあ　祭りの時間です
 
-
-自治会長　中山大賀
-
-
 第130回創立記念祭「BOth」のホームページを
 ご覧いただきありがとうございます。
 
@@ -59,7 +55,7 @@ export default function Greeting() {
 
 ご来場お待ちしております。
 
-文化委員長　矢野りさ子`
+第79代文化委員長`
             }
                    className={"max-w-3xl mx-auto w-full select-none"} />
             <Footer/>
