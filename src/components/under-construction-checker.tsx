@@ -14,6 +14,7 @@ const underConstructionPages = [
 ];
 
 function isUnderConstruction(pathname: string): boolean {
+    return false;
     const normalizedPath = pathname.replace(/\/$/, '') || '/';
 
     return underConstructionPages.some(page => {
