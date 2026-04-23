@@ -28,6 +28,8 @@ export default function Content() {
     )
 }
 function MapContent() {
+    const MIN_SCALE_RATIO = 0.5
+
     const searchParams = useSearchParams()
     const initialRoomId = searchParams.get('id') || undefined
     const [hoveredRoomId, setHoveredRoomId] = useState<string | null>(null)
@@ -93,8 +95,18 @@ function MapContent() {
         const bottom = -mapHeight + containerRect.height - marginY
         const right = -mapWidth + containerRect.width - marginX
 
-        const constrainedX = Math.max(right, Math.min(left, x))
-        const constrainedY = Math.max(bottom, Math.min(top, y))
+        let adjustedX = x
+        let adjustedY = y
+
+        if (mapWidth < containerRect.width) {
+            adjustedX = (containerRect.width - mapWidth) / 2
+        }
+        if (mapHeight < containerRect.height) {
+            adjustedY = (containerRect.height - mapHeight) / 2
+        }
+
+        const constrainedX = Math.max(right, Math.min(left, adjustedX))
+        const constrainedY = Math.max(bottom, Math.min(top, adjustedY))
         return { x: constrainedX, y: constrainedY }
     }
 
@@ -156,7 +168,9 @@ function MapContent() {
         const originalRoomWidth = currentRoomWidth / scale
         const originalRoomHeight = currentRoomHeight / scale
 
-        const targetScale = Math.max(baseScale, Math.min(
+        const minScale = baseScale * MIN_SCALE_RATIO
+
+        const targetScale = Math.max(minScale, Math.min(
             (containerRect.width * 0.4) / originalRoomWidth,
             (containerRect.height * 0.4) / originalRoomHeight,
             baseScale * 3
@@ -427,8 +441,11 @@ function MapContent() {
             const beforeX = (mouseX - position.x) / scale
             const beforeY = (mouseY - position.y) / scale
 
+            const minScale = baseScale * MIN_SCALE_RATIO
+            const maxScale = baseScale * 4
+
             const delta = e.deltaY > 0 ? 0.9 : 1.1
-            const newScale = Math.max(baseScale, Math.min(baseScale * 4, scale * delta))
+            const newScale = Math.max(minScale, Math.min(maxScale, scale * delta))
 
             const newX = mouseX - beforeX * newScale
             const newY = mouseY - beforeY * newScale
@@ -579,8 +596,11 @@ function MapContent() {
                 const avgCenterX = centerHistory.reduce((sum, c) => sum + c.x, 0) / centerHistory.length
                 const avgCenterY = centerHistory.reduce((sum, c) => sum + c.y, 0) / centerHistory.length
 
+                const minScale = baseScale * MIN_SCALE_RATIO
+                const maxScale = baseScale * 4
+
                 const scaleRatio = distance / lastTouchDistance.current
-                const newScale = Math.max(baseScale, Math.min(baseScale * 4, initialPinchScale.current * scaleRatio))
+                const newScale = Math.max(minScale, Math.min(maxScale, initialPinchScale.current * scaleRatio))
 
                 const centerDeltaX = avgCenterX - lastTouchCenter.current.x
                 const centerDeltaY = avgCenterY - lastTouchCenter.current.y

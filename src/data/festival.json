@@ -465,9 +465,9 @@
     },
     {
       "id": "takoyaki",
-      "name": "たこやき",
+      "name": "まるまれ！たこやきくん　～たこやいてまいります～",
       "organization": "園遊会",
-      "description": "たこやき",
+      "description": "2年6組によるたこ焼きの園遊会販売",
       "roomId": "_17"
     },
     {
@@ -479,9 +479,9 @@
     },
     {
       "id": "takosen",
-      "name": "たこせん",
+      "name": "た・こ・せ・ん♡",
       "organization": "園遊会",
-      "description": "たこせん",
+      "description": "2年7組によるたこせんの園遊会販売",
       "roomId": "_15"
     },
     {
@@ -535,9 +535,9 @@
     },
     {
       "id": "waffle",
-      "name": "ワッフル",
+      "name": "Mrs.Green waffle",
       "organization": "園遊会",
-      "description": "ワッフル",
+      "description": "2年8組によるワッフルの園遊会販売",
       "roomId": "_25"
     },
     {
@@ -563,9 +563,9 @@
     },
     {
       "id": "frankfurt",
-      "name": "フランクフルト",
+      "name": "２年５組の５つ星フランク",
       "organization": "園遊会",
-      "description": "フランクフルト",
+      "description": "2年5組によるフランクフルトの園遊会販売",
       "roomId": "_38"
     },
     {
@@ -658,6 +658,55 @@
       "organization": "その他",
       "description": "カフェ(Kiss Of BErries)",
       "roomId": "LL"
+    },
+    {
+      "id": "chemical1",
+      "name": "化學班",
+      "organization": "化學班",
+      "description": "化學班",
+      "roomId": "chigaku"
+    },
+    {
+      "id": "biology",
+      "name": "生物班",
+      "organization": "生物班",
+      "description": "生物班",
+      "roomId": "seibutsu"
+    },
+    {
+      "id": "flied",
+      "name": "釈迦釈迦ポテト",
+      "organization": "園遊会",
+      "description": "2年1組、2組、3組の後半によるフライドポテトの園遊会販売",
+      "roomId": "parking1"
+    },
+    {
+      "id": "donut",
+      "name": "最高速度でぶち挙げたる！！！",
+      "organization": "園遊会",
+      "description": "2年9組によるドーナツの園遊会販売",
+      "roomId": "parking2"
+    },
+    {
+      "id": "yakisoba",
+      "name": "ソ。ソースの流動について",
+      "organization": "園遊会",
+      "description": "2年1組、2組、3組の前半による焼きそばの園遊会販売",
+      "roomId": "parking3"
+    },
+    {
+      "id": "chemical2",
+      "name": "化學班",
+      "organization": "化學班",
+      "description": "化學班",
+      "roomId": "parking4"
+    },
+    {
+      "id": "pizza",
+      "name": "ピザ、好きになりました。",
+      "organization": "園遊会",
+      "description": "2年4組によるピザの園遊会販売",
+      "roomId": "katei"
     }
   ]
 }

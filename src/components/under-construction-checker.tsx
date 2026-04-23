@@ -8,7 +8,6 @@ import ConstructingSVG from "@/components/decoration/constructing.svg"
 
 const underConstructionPages = [
     '/event',
-    '/greeting',
     '/map',
     '/pickup',
     '/garden'
