@@ -5,7 +5,7 @@ import {Tab, TabView} from "@/components/tabview";
 import Slideshow from "@/components/slideshow";
 import {motion} from "framer-motion";
 import Link from "next/link";
-import {Day, Exhibition, Performance, UnifiedEvent} from "@/data/types";
+import {Day, Exhibition, Garden, Performance, UnifiedEvent} from "@/data/types";
 import {useMemo} from "react";
 import festivalData from "@/data/festival.json";
 import mapDataJson from "@/data/map.json";
@@ -18,6 +18,7 @@ export default function Policy() {
     const ad_ids: string[] = ["perf-001", "perf-004", "exh-002"]
     const performances = festivalData.performances as Performance[]
     const exhibitions = festivalData.exhibitions as Exhibition[]
+    const gardens = festivalData.gardens as Garden[]
     const allEvents: UnifiedEvent[] = useMemo(() => {
         const perfEvents: UnifiedEvent[] = performances.map(p => ({
             ...p,
@@ -27,8 +28,12 @@ export default function Policy() {
             ...e,
             category: 'exhibition' as const
         }))
-        return [...perfEvents, ...exhEvents]
-    }, [performances, exhibitions])
+        const gardenEvents: UnifiedEvent[] = gardens.map(e => ({
+            ...e,
+            category: 'garden' as const
+        }))
+        return [...perfEvents, ...exhEvents, ...gardenEvents]
+    }, [performances, exhibitions, gardens])
     const days = festivalData.festival.days as Day[]
     const ad_event: UnifiedEvent[] = allEvents.filter(item => ad_ids.includes(item.id))
 
@@ -59,6 +64,10 @@ export default function Policy() {
     const getScheduleInfo = (event: UnifiedEvent) => {
         if (event.category === 'exhibition') {
             return <span className="font-bold">常設展示</span>
+        }
+
+        if (event.category === 'garden') {
+            return <span className="font-bold">園遊会</span>
         }
 
         if (!event.schedules || event.schedules.length === 0) {
@@ -109,12 +118,12 @@ export default function Policy() {
                                 {item.name}
                             </h3>
                             <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold shrink-0 ml-2">
-                                                        {item.category === 'performance' ? '舞台' : '展示'}
+                                                        {item.category === 'performance' ? '舞台' : item.category === 'exhibition' ? '展示' : '園遊会'}
                                                     </span>
                         </div>
                         <div className="space-y-3 text-sm">
                             <p>
-                                <span className="font-bold">By:</span> {item.organization}
+                                <span className="font-bold">By:</span> {item.category === "garden" ? "" : item.organization}
                             </p>
                             <p>
                                 {getScheduleInfo(item)}
