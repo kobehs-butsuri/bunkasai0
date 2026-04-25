@@ -22,13 +22,20 @@ export default function Timetable() {
     const days         = festivalData.festival.days as Day[]
     const performances = festivalData.performances as Performance[]
 
-    const locations = Array.from(
-        new Set(
-            performances.flatMap(p =>
-                p.schedules.flatMap(s => s.info.map(info => info.location))
-            )
-        )
-    ).sort()
+    const locationCount = new Map<string, number>()
+
+    performances.forEach(p => {
+        p.schedules.forEach(s => {
+            s.info.forEach(info => {
+                const loc = info.location
+                locationCount.set(loc, (locationCount.get(loc) ?? 0) + 1)
+            })
+        })
+    })
+
+    const locations = Array.from(locationCount.entries())
+        .sort((a, b) => b[1] - a[1])
+        .map(([loc]) => loc)
 
     const timeToMinutes = (t: string): number => {
         const [h, m] = t.split(":").map(Number)
