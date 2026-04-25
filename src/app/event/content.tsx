@@ -4,7 +4,7 @@ import {useState, useMemo, useEffect} from "react"
 import Link from "next/link"
 import festivalData from "@/data/festival.json"
 import mapDataJson from "@/data/map.json"
-import {Performance, Exhibition, UnifiedEvent, Day} from "@/data/types";
+import {Performance, Exhibition, UnifiedEvent, Day, Garden} from "@/data/types";
 import {useSetPageTitle} from "@/hooks/page-title-context";
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -19,6 +19,7 @@ export default function EventsPage() {
 
     const performances = festivalData.performances as Performance[]
     const exhibitions = festivalData.exhibitions as Exhibition[]
+    const gardens = festivalData.gardens as Garden[]
     const days = festivalData.festival.days as Day[]
 
     // 舞台と展示を統合
@@ -32,11 +33,15 @@ export default function EventsPage() {
             category: 'exhibition' as const
         }))
             .filter(e => e.id != "")
-        return [...perfEvents, ...exhEvents]
-    }, [performances, exhibitions])
+        const gardenEvents: UnifiedEvent[] = gardens.map(e => ({
+            ...e,
+            category: 'garden' as const
+        }))
+        return [...perfEvents, ...exhEvents, ...gardenEvents]
+    }, [performances, exhibitions, gardens])
 
     const organizations = [...new Set(
-        allEvents.flatMap(e => parseOrganizations(e.organization))
+        allEvents.flatMap(e => parseOrganizations(e.category === 'garden' ? "園遊会" : e.organization))
     )].sort()
 
     const mapData = mapDataJson as Record<string, string | { label: string; keywords?: string[] }>;
@@ -46,7 +51,7 @@ export default function EventsPage() {
     };
     const [searchTerm, setSearchTerm] = useState("")
     const [filterOrganizations, setFilterOrganizations] = useState<string[]>(organizations)
-    const [filterCategories, setFilterCategories] = useState<string[]>(['performance', 'exhibition'])
+    const [filterCategories, setFilterCategories] = useState<string[]>(['performance', 'exhibition', 'garden'])
     const [filterDays, setFilterDays] = useState<string[]>(days.map(d => d.id))
     const [openSections, setOpenSections] = useState<{[key: string]: boolean}>({
         organization: false,
@@ -73,14 +78,14 @@ export default function EventsPage() {
             event.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             event.description.toLowerCase().includes(searchTerm.toLowerCase())
 
-        const matchesOrg = parseOrganizations(event.organization)
+        const matchesOrg = parseOrganizations(event.category === 'garden' ? "園遊会" : event.organization)
             .some(org => filterOrganizations.includes(org))
 
         const matchesCategory = filterCategories.includes(event.category)
 
         const matchesDay =
             (event.category === 'performance' && event.schedules?.some(s => filterDays.includes(s.dayId))) ||
-            event.category === 'exhibition'
+            event.category === 'exhibition' || event.category === 'garden'
 
         return matchesSearch && matchesOrg && matchesDay && matchesCategory
     })
@@ -132,7 +137,12 @@ export default function EventsPage() {
     const getScheduleInfo = (event: UnifiedEvent) => {
         if (event.category === 'exhibition') {
             const data = mapData[event.roomId]
-            return <span className="font-bold">常設展示 @{typeof data === "string" ? data : data.label}</span>
+            return <span className="font-bold">常設 @{typeof data === "string" ? data : data.label}</span>
+        }
+
+        if (event.category === 'garden') {
+            const data = mapData[event.roomId]
+            return <span className="font-bold">園遊会販売 @{typeof data === "string" ? data : data.label}</span>
         }
 
         if (!event.schedules || event.schedules.length === 0) {
@@ -168,7 +178,7 @@ export default function EventsPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4 }}
                 >
-                    <div className="sticky top-28 flex flex-col md:max-h-[calc(100vh-7rem)]">
+                    <div className="sticky top-28 flex flex-col md:max-h-[calc(100dvh-7rem)]">
                         <div className="p-8 flex-1 md:overflow-y-auto">
                             <h2 className="text-lg font-bold mb-6">絞り込み</h2>
                             <div className="space-y-6">
@@ -280,7 +290,7 @@ export default function EventsPage() {
                                     >
                                         <div className="flex items-center gap-2">
                                             <span>カテゴリ</span>
-                                            {filterCategories.length !== 2 && (
+                                            {filterCategories.length !== 3 && (
                                                 <span className="w-2 h-2 rounded-full bg-primary"></span>
                                             )}
                                         </div>
@@ -298,15 +308,15 @@ export default function EventsPage() {
                                                 <div className="space-y-2 pl-2">
                                                     <div className="flex flex-wrap gap-2">
                                                         <button
-                                                            onClick={() => selectAll(['performance', 'exhibition'], filterCategories, setFilterCategories, setIsExplicitAllCategory)}
+                                                            onClick={() => selectAll(['performance', 'exhibition', 'garden'], filterCategories, setFilterCategories, setIsExplicitAllCategory)}
                                                             className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
-                                                                isAllSelected(filterCategories, ['performance', 'exhibition']) && isExplicitAllCategory
+                                                                isAllSelected(filterCategories, ['performance', 'exhibition', 'garden']) && isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
                                                                     : 'bg-input border-border text-foreground hover:border-primary'
                                                             }`}
                                                         >
                                                             <span className="w-3 h-3 flex items-center justify-center shrink-0">
-                                                                {isAllSelected(filterCategories, ['performance', 'exhibition']) ? (
+                                                                {isAllSelected(filterCategories, ['performance', 'exhibition', 'garden']) ? (
                                                                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                                                     </svg>
@@ -319,7 +329,7 @@ export default function EventsPage() {
                                                             <span>すべて</span>
                                                         </button>
                                                         <button
-                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory, isExplicitAllCategory)}
+                                                            onClick={() => toggleFilter('performance', filterCategories, setFilterCategories, ['performance', 'exhibition', 'garden'], setIsExplicitAllCategory, isExplicitAllCategory)}
                                                             className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
                                                                 filterCategories.includes('performance') && !isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
@@ -340,7 +350,7 @@ export default function EventsPage() {
                                                             <span>舞台</span>
                                                         </button>
                                                         <button
-                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition'], setIsExplicitAllCategory, isExplicitAllCategory)}
+                                                            onClick={() => toggleFilter('exhibition', filterCategories, setFilterCategories, ['performance', 'exhibition', 'garden'], setIsExplicitAllCategory, isExplicitAllCategory)}
                                                             className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
                                                                 filterCategories.includes('exhibition') && !isExplicitAllCategory
                                                                     ? 'bg-primary text-background'
@@ -359,6 +369,27 @@ export default function EventsPage() {
                                                                 )}
                                                             </span>
                                                             <span>展示</span>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => toggleFilter('garden', filterCategories, setFilterCategories, ['performance', 'exhibition', 'garden'], setIsExplicitAllCategory, isExplicitAllCategory)}
+                                                            className={`px-3 py-1.5 border text-sm rounded transition-all flex items-center gap-1.5 ${
+                                                                filterCategories.includes('garden') && !isExplicitAllCategory
+                                                                    ? 'bg-primary text-background'
+                                                                    : 'bg-input border-border text-foreground hover:border-primary'
+                                                            }`}
+                                                        >
+                                                            <span className="w-3 h-3 flex items-center justify-center shrink-0">
+                                                                {filterCategories.includes('garden') ? (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                                                    </svg>
+                                                                ) : (
+                                                                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                                                    </svg>
+                                                                )}
+                                                            </span>
+                                                            <span>園遊会</span>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -473,7 +504,7 @@ export default function EventsPage() {
                             {filteredEvents.length > 0 ? (
                                 filteredEvents.map((event, index) => (
                                     <motion.div
-                                        key={event.id}
+                                        key={event.id + index}
                                         layout
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
@@ -506,17 +537,22 @@ export default function EventsPage() {
                                                         {event.name}
                                                     </h3>
                                                     <span className="text-xs text-background bg-primary bg-opacity-20 px-2 py-1 font-bold shrink-0 ml-2">
-                                                        {event.category === 'performance' ? '舞台' : '展示'}
+                                                        {event.category === 'performance' ? '舞台' : event.category === 'garden' ? "園遊会" : '展示'}
                                                     </span>
                                                 </div>
                                                 <div className="space-y-3 text-sm">
                                                     <p>
-                                                        <span className="font-bold">By:</span> {formatOrganizations(event.organization)}
+                                                        <span className="font-bold">By:</span> {formatOrganizations(event.category === 'garden' ? "園遊会" : event.organization)}
                                                     </p>
                                                     <p>
                                                         {getScheduleInfo(event)}
                                                     </p>
-                                                    <p className="text-muted-foreground mt-4">{event.description}</p>
+                                                    <p className="text-muted-foreground mt-4">{event.description.split('\n').map((line, index)=>(
+                                                        <span key={`${line}-${index}`}>
+                                                            {line}
+                                                            <br/>
+                                                        </span>
+                                                    ))}</p>
                                                 </div>
                                             </div>
                                         </Link>
