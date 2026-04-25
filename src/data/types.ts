@@ -41,7 +41,15 @@ export interface Garden {
     images?: string[]
 }
 
-export type UnifiedEvent = (Performance & { category: 'performance' }) | (Exhibition & { category: 'exhibition' }) | (Garden & { category: 'garden'})
+export interface Volunteer {
+    id: string
+    name: string
+    description: string
+    roomId: string
+    images?: string[]
+}
+
+export type UnifiedEvent = (Performance & { category: 'performance' }) | (Exhibition & { category: 'exhibition' }) | (Garden & { category: 'garden'}) | (Volunteer & { category: 'volunteer'})
 
 export interface FestivalData {
     festival: {
@@ -50,4 +58,5 @@ export interface FestivalData {
     performances: Performance[]
     exhibitions: Exhibition[]
     gardens: Garden[]
+    volunteers: Volunteer[]
 }

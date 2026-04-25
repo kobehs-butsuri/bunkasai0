@@ -70,6 +70,10 @@ export default function Policy() {
             return <span className="font-bold">園遊会</span>
         }
 
+        if (event.category === 'volunteer') {
+            return <span className="font-bold">３年有志</span>
+        }
+
         if (!event.schedules || event.schedules.length === 0) {
             return <span className="font-bold">時間未定</span>
         }
@@ -123,7 +127,7 @@ export default function Policy() {
                         </div>
                         <div className="space-y-3 text-sm">
                             <p>
-                                <span className="font-bold">By:</span> {item.category === "garden" ? "" : item.organization}
+                                <span className="font-bold">By:</span> {item.category === "garden" || item.category === "volunteer" ? "" : item.organization}
                             </p>
                             <p>
                                 {getScheduleInfo(item)}
