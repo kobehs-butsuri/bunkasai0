@@ -98,7 +98,7 @@ export default function Footer() {
                                 <h4 className="font-bold uppercase tracking-widest mb-4 text-sm opacity-60">その他</h4>
                                 <li>
                                     <Link href="/greeting" className="hover:opacity-100 transition-opacity">
-                                        自治会長・文化委員長挨拶
+                                        ご挨拶
                                     </Link>
                                 </li>
                                 <li>

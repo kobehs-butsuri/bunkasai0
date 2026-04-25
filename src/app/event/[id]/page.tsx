@@ -1,6 +1,6 @@
 import festivalDataRaw from "@/data/festival.json"
 import mapDataJson from "@/data/map.json"
-import {Performance, Exhibition, UnifiedEvent, FestivalData} from "@/data/types";
+import {Performance, Exhibition, UnifiedEvent, FestivalData, Garden} from "@/data/types";
 import {Metadata} from "next";
 import {notFound} from "next/navigation";
 import { Content } from "./content";
@@ -35,7 +35,8 @@ export async function generateMetadata({ params }: EventDetailPageProps):Promise
 export const generateStaticParams = () =>{
     const performances = festivalData.performances.map((p) => ({ id: p.id }))
     const exhibitions = festivalData.exhibitions.map((e) => ({ id: e.id }))
-    const params = [...performances, ...exhibitions]
+    const gardens = festivalData.gardens.map((e) => ({ id: e.id }))
+    const params = [...performances, ...exhibitions, ...gardens]
 
     if (params.length === 0) {
         return [{ id: '_dummy_' }]
@@ -58,6 +59,12 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
         if (exhibition) {
             event = { ...exhibition, category: 'exhibition' as const }
         }
+        else {
+            const garden = festivalData.gardens.find((e) => e.id === id)
+            if (garden) {
+                event = { ...garden, category: 'garden' as const }
+            }
+        }
     }
 
     if (!event) {
@@ -65,15 +72,15 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     }
 
     const isPerformance = event.category === 'performance'
+    const isExhibition = event.category === 'exhibition'
     const schedules = isPerformance ? (event as Performance).schedules : undefined
-    const roomId = !isPerformance ? (event as Exhibition).roomId : undefined
+    const roomId = !isPerformance ? (isExhibition ? event as Exhibition : event as Garden).roomId : undefined
     const mapData = mapDataJson as Record<string, string | { label: string; keywords?: string[] }>;
 
     return (
         <>
             <Content
                 event={event}
-                isPerformance={isPerformance}
                 schedules={schedules}
                 roomId={roomId}
                 mapData={mapData}

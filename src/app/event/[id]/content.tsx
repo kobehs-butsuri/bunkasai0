@@ -13,7 +13,6 @@ const formatOrganizations = (org: string): string =>
 
 interface EventDetailContentProps {
     event: UnifiedEvent
-    isPerformance: boolean
     schedules?: Performance['schedules']
     roomId?: string
     mapData: Record<string, string | { label: string; keywords?: string[] }>
@@ -22,7 +21,6 @@ interface EventDetailContentProps {
 
 export function Content({
                             event,
-                            isPerformance,
                             schedules,
                             roomId,
                             mapData,
@@ -87,10 +85,10 @@ export function Content({
                 >
                     <h1 className="text-5xl font-bold tracking-tight text-balance flex-1">{event.name}</h1>
                     <div>
-                        <p className="text-lg">{formatOrganizations(event.organization)}</p>
+                        <p className="text-lg">{formatOrganizations(event.category === 'garden' ? "" : event.organization)}</p>
                     </div>
                     <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold shrink-0">
-                        {isPerformance ? '舞台' : '展示'}
+                        {event.category === "performance" ? '舞台' : event.category === "exhibition" ? '展示' : '園遊会'}
                     </span>
                 </motion.div>
 
@@ -100,7 +98,7 @@ export function Content({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.2 }}
                 >
-                    {isPerformance && schedules && schedules.length > 0 && (
+                    {event.category === "performance" && schedules && schedules.length > 0 && (
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -110,7 +108,7 @@ export function Content({
                         </motion.div>
                     )}
 
-                    {!isPerformance && roomId && (
+                    {event.category !== "performance" && roomId && (
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -118,7 +116,7 @@ export function Content({
                         >
                             <h3 className="font-bold text-lg mb-2">場所</h3>
                             <p className="text-lg">{getLabel(roomId)}</p>
-                            <p className="text-sm text-muted-foreground font-bold mt-1">常設展示</p>
+                            <p className="text-sm text-muted-foreground font-bold mt-1">{event.category === "exhibition" ? '常設展示' : '園遊会販売'}</p>
                         </motion.div>
                     )}
 
@@ -129,7 +127,12 @@ export function Content({
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.4, delay: 0.4 }}
                         >
-                            <p className="text-lg leading-relaxed">{event.description}</p>
+                            <p className="text-lg leading-relaxed">{event.description.split('\n').map((line, index)=>(
+                                <span key={`${line}-${index}`}>
+                                    {line}
+                                    <br/>
+                                </span>
+                            ))}</p>
                         </motion.div>
                         {event.images && event.images.length > 0 && (
                             <motion.div
@@ -161,7 +164,7 @@ export function Content({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.6 }}
             >
-                {!isPerformance && roomId && (
+                {event.category !== "performance" && roomId && (
                     <Link
                         href={`/map?id=${roomId}`}
                         className="flex-1 bg-primary text-background py-3 font-bold hover:opacity-90 transition-opacity text-center"
@@ -169,7 +172,7 @@ export function Content({
                         マップを見る
                     </Link>
                 )}
-                {isPerformance && (
+                {event.category === "performance" && (
                     <Link
                         href="/schedule"
                         className="flex-1 bg-card border border-accent-light py-3 font-bold hover:bg-accent-light transition-colors text-center"

@@ -88,7 +88,7 @@
       "id": "organ",
       "name": "電子オルガン",
       "organization": "電子オルガン部",
-      "description": "電子オルガン",
+      "description": "こんにちは、電子オルガン部です！\n今年の創立記念祭では下記の日程・場所で演奏を行います！ぜひお越しください！！\n\n〇校内祭\n・11:00～　講堂\n・11:45～　２階渡り廊下\n・15:00～　宝塚階段\n\n〇一般祭\n・9:15～　講堂\n・10:00～　２階渡り廊下\n・13:50～　宝塚階段",
       "schedules": [
         {
           "dayId": "day-1",
@@ -136,7 +136,7 @@
       "id": "string",
       "name": "弦楽",
       "organization": "弦楽部",
-      "description": "弦楽",
+      "description": "こんにちは、神戸高校弦楽部です🎻🎶私たちは講堂にて「ハンガリー舞曲第５番」「NHK大河ドラマ麒麟が来るメインテーマ」「愛の挨拶」の３曲を演奏します🎶宝塚階段や2F渡り廊下でも演奏しますので、通りかかった際はぜひ足を止めてお聴きください🙌",
       "schedules": [
         {
           "dayId": "day-1",
@@ -306,9 +306,9 @@
     },
     {
       "id": "play",
-      "name": "演劇",
+      "name": "夏芙蓉",
       "organization": "演劇部",
-      "description": "演劇",
+      "description": "演劇部による演劇",
       "schedules": [
         {
           "dayId": "day-1",
@@ -330,6 +330,9 @@
             }
           ]
         }
+      ],
+      "images": [
+        "engeki-poster.png"
       ]
     },
     {
@@ -343,8 +346,8 @@
           "info": [
             {
               "location": "koudou",
-              "startTime": "12:22",
-              "endTime": "12:42"
+              "startTime": "13:10",
+              "endTime": "13:30"
             }
           ]
         }
@@ -377,12 +380,115 @@
             {
               "location": "koudou",
               "startTime": "11:50",
-              "endTime": "12:20"
-            },
+              "endTime": "12:59"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "individual",
+      "name": "4tune(個人出演)",
+      "organization": "（個人）",
+      "description": "4tuneによる個人出演",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "info": [
             {
               "location": "koudou",
-              "startTime": "12:44",
-              "endTime": "13:30"
+              "startTime": "11:50",
+              "endTime": "11:55"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "individual",
+      "name": "HANAHARU(個人出演)",
+      "organization": "（個人）",
+      "description": "HANAHARUによる個人出演",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "info": [
+            {
+              "location": "koudou",
+              "startTime": "11:55",
+              "endTime": "12:03"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "individual",
+      "name": "木曜日のライスコロッケ(個人出演)",
+      "organization": "（個人）",
+      "description": "木曜日のライスコロッケによる個人出演",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "info": [
+            {
+              "location": "koudou",
+              "startTime": "12:03",
+              "endTime": "12:18"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "individual",
+      "name": "Pro:)cedure(個人出演)",
+      "organization": "（個人）",
+      "description": "Pro:)cedureによる個人出演",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "info": [
+            {
+              "location": "koudou",
+              "startTime": "12:18",
+              "endTime": "12:27"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "individual",
+      "name": "Woo-TAN(個人出演)",
+      "organization": "（個人）",
+      "description": "Woo-TANによる個人出演",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "info": [
+            {
+              "location": "koudou",
+              "startTime": "12:27",
+              "endTime": "12:45"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "individual",
+      "name": "MARZN(個人出演)",
+      "organization": "（個人）",
+      "description": "MARZNによる個人出演",
+      "schedules": [
+        {
+          "dayId": "day-2",
+          "info": [
+            {
+              "location": "koudou",
+              "startTime": "12:45",
+              "endTime": "12:59"
             }
           ]
         }
@@ -423,21 +529,6 @@
       "description": "PTA",
       "schedules": [
         {
-          "dayId": "day-1",
-          "info": [
-            {
-              "location": "_2Fwatari",
-              "startTime": "13:30",
-              "endTime": "13:40"
-            },
-            {
-              "location": "stairs_honkan_1_takaradsuka",
-              "startTime": "13:40",
-              "endTime": "13:50"
-            }
-          ]
-        },
-        {
           "dayId": "day-2",
           "info": [
             {
@@ -460,15 +551,11 @@
       "id": "shodou",
       "name": "書道部",
       "organization": "書道部",
-      "description": "書道部",
-      "roomId": "_18"
-    },
-    {
-      "id": "takoyaki",
-      "name": "まるまれ！たこやきくん　～たこやいてまいります～",
-      "organization": "園遊会",
-      "description": "2年6組によるたこ焼きの園遊会販売",
-      "roomId": "_17"
+      "description": "書道部による書道体験",
+      "roomId": "_18",
+      "images": [
+        "shodou-poster.png"
+      ]
     },
     {
       "id": "",
@@ -478,39 +565,44 @@
       "roomId": "_16"
     },
     {
-      "id": "takosen",
-      "name": "た・こ・せ・ん♡",
-      "organization": "園遊会",
-      "description": "2年7組によるたこせんの園遊会販売",
-      "roomId": "_15"
-    },
-    {
       "id": "ess",
       "name": "ESS部",
       "organization": "ESS部",
       "description": "ESS部",
-      "roomId": "_14"
+      "roomId": "_14",
+      "images": [
+        "ess-poster.png"
+      ]
     },
     {
       "id": "shinbun",
-      "name": "新聞委員会",
+      "name": "みんなのスクープ！",
       "organization": "新聞委員会",
-      "description": "新聞委員会",
-      "roomId": "_13"
+      "description": "日常の中で起きたスクープを募集します。",
+      "roomId": "_13",
+      "images": [
+        "shinbun-poster.png"
+      ]
     },
     {
       "id": "butsuri",
       "name": "物理班",
       "organization": "物理班",
-      "description": "物理班",
-      "roomId": "_13"
+      "description": "物理班によるパソコン解体物や3Dプリンターの作品などの展示",
+      "roomId": "_13",
+      "images": [
+        "butsuri-poster.png"
+      ]
     },
     {
       "id": "karuta",
       "name": "かるた部",
       "organization": "かるた部",
-      "description": "かるた部",
-      "roomId": "_12"
+      "description": "ルールを説明しよう！\n今回のバトルは自分相手合わせて計12枚の札で行う！互いに指定された範囲内に６枚ずつ、自分の好みに札を置き、奪い合え！自陣の札をとったらそのまま自陣が-1枚、相手陣の札からとったら自陣から１枚送りまた‐１枚だ！お手つきをしたら逆に+1枚になってしまう...こうやって自陣を０枚にした者が\"勝者\"となる。\n「ちはやふる」の世界へ、ようこそ...",
+      "roomId": "_12",
+      "images": [
+        "karuta-poster.png"
+      ]
     },
     {
       "id": "ennichi",
@@ -523,8 +615,11 @@
       "id": "tosho",
       "name": "図書委員会",
       "organization": "図書委員会",
-      "description": "図書委員会",
-      "roomId": "_27"
+      "description": "図書委員会だより「らいぶ」やその他展示",
+      "roomId": "_27",
+      "images": [
+        "tosho-poster.png"
+      ]
     },
     {
       "id": "",
@@ -532,13 +627,6 @@
       "organization": "その他",
       "description": "イートイン",
       "roomId": "_26"
-    },
-    {
-      "id": "waffle",
-      "name": "Mrs.Green waffle",
-      "organization": "園遊会",
-      "description": "2年8組によるワッフルの園遊会販売",
-      "roomId": "_25"
     },
     {
       "id": "",
@@ -558,29 +646,32 @@
       "id": "chigaku",
       "name": "地学班",
       "organization": "地学班",
-      "description": "地学班",
-      "roomId": "_22"
-    },
-    {
-      "id": "frankfurt",
-      "name": "２年５組の５つ星フランク",
-      "organization": "園遊会",
-      "description": "2年5組によるフランクフルトの園遊会販売",
-      "roomId": "_38"
+      "description": "突然ですが、神戸高校で最も星空に地階場所とは、果たしてどこでしょうか？\nお答えしましょう。それは、２年２組教室。自然科学研究会地学班の、プラネタリウムに他なりません。頭上に広がる満点の星空は、まるで自分が宇宙にいるかのような大迫力。気になる方は、いますぐ２年２組へ！！！",
+      "roomId": "_22",
+      "images": [
+        "chigaku-poster.png",
+        "chigaku-01.jpeg"
+      ]
     },
     {
       "id": "kadou",
       "name": "華道部",
       "organization": "華道部",
-      "description": "華道部",
-      "roomId": "_37"
+      "description": "華道部の展示",
+      "roomId": "_37",
+      "images": [
+        "kadou-poster.png"
+      ]
     },
     {
       "id": "suken",
-      "name": "数学研究会",
+      "name": "数研迷路",
       "organization": "数学研究会",
-      "description": "数学研究会",
-      "roomId": "_36"
+      "description": "数学研究会による迷路",
+      "roomId": "_36",
+      "images": [
+        "suken-poster.png"
+      ]
     },
     {
       "id": "sokyoku",
@@ -593,29 +684,58 @@
       "id": "bijutsu",
       "name": "美術部",
       "organization": "美術部",
-      "description": "美術部",
-      "roomId": "_34"
+      "description": "美術部による作品の展示とタトゥーシール体験",
+      "roomId": "_34",
+      "images": [
+        "art-poster.png"
+      ]
     },
     {
       "id": "bungei",
-      "name": "文芸部",
-      "organization": "文芸部",
-      "description": "文芸部",
-      "roomId": "_33"
+      "name": "文藝部",
+      "organization": "文藝部",
+      "description": "文藝部へようこそ！ここでは、液晶タブレットの体験や、私たちが作った部誌を販売しています！とってもリーズナブルなので、ぜひ来てください！",
+      "roomId": "_33",
+      "images": [
+        "bungei-poster.png"
+      ]
     },
     {
       "id": "housou",
-      "name": "放送委員会",
+      "name": "花より青春",
       "organization": "放送委員会",
-      "description": "放送委員会",
-      "roomId": "_32"
+      "description": "こんにちは！私たち放送委員会では、部活動紹介ビデオ「花より青春」を放映します。各部活動1分半程度なので、気軽に足を運んでみてください。神高生をはじめ、どんな部活があるか気になる中学生の型やOB、oGの皆さんも是非ご覧ください！",
+      "roomId": "_32",
+      "images": [
+        "housou-poster.png"
+      ]
+    },
+    {
+      "id": "sadou",
+      "name": "お茶会",
+      "organization": "茶道部",
+      "description": "茶道部のお点前の披露",
+      "roomId": "sahou",
+      "images": [
+        "sadou-poster.png"
+      ]
+    },
+    {
+      "id": "koimikuji",
+      "name": "神恋みくじ",
+      "organization": "その他",
+      "description": "恋みくじ",
+      "roomId": "kaigiA",
+      "images": [
+        "koimikuji-poster.png"
+      ]
     },
     {
       "id": "",
       "name": "相談ブース",
       "organization": "その他",
       "description": "相談ブース",
-      "roomId": "kaigi"
+      "roomId": "kaigiB"
     },
     {
       "id": "",
@@ -640,10 +760,13 @@
     },
     {
       "id": "sangaku",
-      "name": "山岳部",
+      "name": "わくわくクライミング",
       "organization": "山岳部",
-      "description": "山岳部",
-      "roomId": "_39"
+      "description": "山岳部によるクライミング体験",
+      "roomId": "_39",
+      "images": [
+        "sangaku-poster.png"
+      ]
     },
     {
       "id": "",
@@ -670,8 +793,27 @@
       "id": "biology",
       "name": "生物班",
       "organization": "生物班",
-      "description": "生物班",
-      "roomId": "seibutsu"
+      "description": "DNAストラップ作りやってます！\n今年は130周年なので、剥製に加え人体模型も見れる...かも？！\nお花や野菜の苗もお渡しします！\n生物実験室で部員一同お待ちしてます＾＾",
+      "roomId": "seibutsu",
+      "images": [
+        "seibutsu-poster.png"
+      ]
+    },
+    {
+      "id": "chemical2",
+      "name": "化學班",
+      "organization": "化學班",
+      "description": "化學班",
+      "roomId": "parking4"
+    }
+  ],
+  "gardens": [
+    {
+      "id": "yakisoba",
+      "name": "ソ。ソースの流動について",
+      "organization": "園遊会",
+      "description": "2年1組、2組、3組の前半による焼きそばの園遊会販売",
+      "roomId": "parking3"
     },
     {
       "id": "flied",
@@ -681,32 +823,45 @@
       "roomId": "parking1"
     },
     {
+      "id": "pizza",
+      "name": "ピザ、好きになりました。",
+      "description": "2年4組によるピザの園遊会販売",
+      "roomId": "katei"
+    },
+    {
+      "id": "frankfurt",
+      "name": "２年５組の５つ星フランク",
+      "organization": "園遊会",
+      "description": "2年5組によるフランクフルトの園遊会販売",
+      "roomId": "_38"
+    },
+    {
+      "id": "takoyaki",
+      "name": "まるまれ！たこやきくん　～たこやいてまいります～",
+      "organization": "園遊会",
+      "description": "2年6組によるたこ焼きの園遊会販売",
+      "roomId": "_17"
+    },
+    {
+      "id": "takosen",
+      "name": "た・こ・せ・ん♡",
+      "organization": "園遊会",
+      "description": "2年7組によるたこせんの園遊会販売",
+      "roomId": "_15"
+    },
+    {
+      "id": "waffle",
+      "name": "Mrs.Green waffle",
+      "organization": "園遊会",
+      "description": "2年8組によるワッフルの園遊会販売",
+      "roomId": "_25"
+    },
+    {
       "id": "donut",
       "name": "最高速度でぶち挙げたる！！！",
       "organization": "園遊会",
       "description": "2年9組によるドーナツの園遊会販売",
       "roomId": "parking2"
-    },
-    {
-      "id": "yakisoba",
-      "name": "ソ。ソースの流動について",
-      "organization": "園遊会",
-      "description": "2年1組、2組、3組の前半による焼きそばの園遊会販売",
-      "roomId": "parking3"
-    },
-    {
-      "id": "chemical2",
-      "name": "化學班",
-      "organization": "化學班",
-      "description": "化學班",
-      "roomId": "parking4"
-    },
-    {
-      "id": "pizza",
-      "name": "ピザ、好きになりました。",
-      "organization": "園遊会",
-      "description": "2年4組によるピザの園遊会販売",
-      "roomId": "katei"
     }
   ]
 }
