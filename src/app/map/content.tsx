@@ -1,6 +1,6 @@
 "use client"
 
-import React, {Suspense, useCallback, useEffect, useRef, useState} from "react"
+import React, {Suspense, useCallback, useEffect, useMemo, useRef, useState} from "react"
 import Link from "next/link"
 import {MapSVG} from "@/components/map"
 import festivalData from "@/data/festival.json"
@@ -10,6 +10,7 @@ import { MapSearch } from "@/components/map-search"
 import roomLabelsData from "@/data/map.json"
 import { MapPin } from "lucide-react"
 import {useSearchParams} from "next/dist/client/components/navigation";
+import {Garden, Volunteer} from "@/data/types";
 
 interface Exhibition {
     id: string
@@ -57,7 +58,13 @@ function MapContent() {
 
     const [activeLayer, setActiveLayer] = useState(0)
 
-    const exhibitions = festivalData.exhibitions as Exhibition[]
+    const nonePerformanceEvents = useMemo(() => {
+        return [
+            ...(festivalData.exhibitions as Exhibition[]),
+            ...(festivalData.gardens as Garden[]),
+            ...(festivalData.volunteers as Volunteer[])
+        ]
+    }, [])
 
     const [isLoadingCache, setIsLoadingCache] = useState(true)
     const [roomLayerCache, setRoomLayerCache] = useState<Map<string, number>>(new Map())
@@ -65,11 +72,11 @@ function MapContent() {
     const roomLabels = roomLabelsData as Record<string, string | { label: string; keywords?: string[] }>
     const [pinnedRoomMapPosition, setPinnedRoomMapPosition] = useState<{ x: number; y: number } | null>(null)
 
-    const getExhibitionsByRoomId = useCallback((roomId: string): Exhibition[] => {
-        return activeLayer != 6 ? exhibitions.filter(exh => exh.roomId === roomId) : []
-    }, [activeLayer, exhibitions])
+    const getExhibitionsByRoomId = useCallback((roomId: string): Exhibition[] | Garden[] | Volunteer[] => {
+        return activeLayer != 6 ? nonePerformanceEvents.filter(exh => exh.roomId === roomId) : []
+    }, [activeLayer, nonePerformanceEvents])
 
-    const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | undefined => {
+    const getExhibitionByRoomId = useCallback((roomId: string): Exhibition | Garden | Volunteer | undefined => {
         return activeLayer != 6 ? getExhibitionsByRoomId(roomId)[0] : undefined
     }, [activeLayer, getExhibitionsByRoomId])
 
@@ -711,7 +718,7 @@ function MapContent() {
                     }}
                     roomLabels={roomLabels}
                     pinnedRoomId={pinnedRoomId}
-                    exhibitions={exhibitions}
+                    exhibitions={nonePerformanceEvents}
                 />
             </div>
 
@@ -844,13 +851,18 @@ function MapContent() {
                     />
                     {hoveredExhibitions.length === 1 ? (
                         <>
-                            <h3 className="font-bold text-lg mb-2 whitespace-nowrap">{hoveredExhibitions[0].name}</h3>
-                            <p className="text-muted-foreground whitespace-nowrap">{hoveredExhibitions[0].description}</p>
+                            <h3 className="font-bold text-lg mb-2 wrap-normal whitespace-pre-wrap">{hoveredExhibitions[0].name}</h3>
+                            <p className="text-muted-foreground wrap-normal whitespace-pre-wrap">{hoveredExhibitions[0].description.split('\n').map((line, index)=>(
+                                <span key={`${line}-${index}`}>
+                                {line}
+                                <br/>
+                            </span>
+                            ))}</p>
                         </>
                     ) : (
                         <div className="space-y-2">
                             {hoveredExhibitions.map(exh => (
-                                <h3 key={exh.id} className="font-bold text-lg whitespace-nowrap">{exh.name}</h3>
+                                <h3 key={exh.id} className="font-bold text-lg wrap-normal whitespace-pre-wrap">{exh.name}</h3>
                             ))}
                         </div>
                     )}
@@ -883,7 +895,12 @@ function MapContent() {
                                     className="text-2xl font-bold opacity-50 hover:opacity-100"
                                 >×</button>
                             </div>
-                            <p className="text-muted-foreground mb-8">{selectedExhibitions[0].description}</p>
+                            <p className="text-muted-foreground mb-8">{selectedExhibitions[0].description.split('\n').map((line, index)=>(
+                                <span key={`${line}-${index}`}>
+                                    {line}
+                                    <br/>
+                                </span>
+                            ))}</p>
                             {selectedExhibitions[0].id != "" && (
                                 <Link
                                     href={`/event/${selectedExhibitions[0].id}`}
@@ -916,7 +933,12 @@ function MapContent() {
                                         className="w-full bg-primary text-background px-5 py-3 font-bold hover:opacity-90 transition-opacity block mb-4"
                                     >
                                         <p className="font-bold mb-1">{exh.name}</p>
-                                        <p className="text-sm">{exh.description}</p>
+                                        <p className="text-sm">{exh.description.split('\n').map((line, index)=>(
+                                            <span key={`${line}-${index}`}>
+                                                {line}
+                                                <br/>
+                                            </span>
+                                        ))}</p>
                                     </Link>
                                 ))}
                                 {selectedExhibitions.map(exh => exh.id == "" && (
@@ -925,7 +947,12 @@ function MapContent() {
                                         className="block bg-card border border-accent-light px-5 py-4 transition-colors"
                                     >
                                         <p className="font-bold mb-1">{exh.name}</p>
-                                        <p className="text-sm text-muted-foreground">{exh.description}</p>
+                                        <p className="text-sm text-muted-foreground">{exh.description.split('\n').map((line, index)=>(
+                                            <span key={`${line}-${index}`}>
+                                                {line}
+                                                <br/>
+                                            </span>
+                                        ))}</p>
                                     </div>
                                 ))}
                             </div>

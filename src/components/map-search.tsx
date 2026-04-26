@@ -18,8 +18,15 @@ interface RoomData {
 
 interface ExhibitionData {
     roomId: string
-    name: string
+    name: string,
     organization: string
+    description: string
+}
+
+interface OtherEventData {
+    roomId: string
+    name: string
+    description: string
 }
 
 interface MapSearchProps {
@@ -27,7 +34,7 @@ interface MapSearchProps {
     onRemoveSelect: () => void
     roomLabels: Record<string, string | RoomData>
     pinnedRoomId: string | null
-    exhibitions: ExhibitionData[]  // 追加
+    exhibitions: (ExhibitionData | OtherEventData)[]
 }
 
 export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoomId, exhibitions }: MapSearchProps) {
@@ -55,7 +62,7 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
         })
     }
 
-    const getExhibitionsByRoomId = (roomId: string): ExhibitionData[] =>
+    const getExhibitionsByRoomId = (roomId: string): (ExhibitionData | OtherEventData)[] =>
         exhibitions.filter(e => e.roomId === roomId)
 
     useEffect(() => {
@@ -79,10 +86,12 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
             const normalizedLabel    = toHalfWidth(label.toLowerCase())
             const normalizedId       = toHalfWidth(id.toLowerCase())
             const normalizedKeywords = keywords.map(k => toHalfWidth(k.toLowerCase()))
-            // イベント名・主催も検索対象に追加
             const normalizedExhNames = roomExhibitions.map(e => toHalfWidth(e.name.toLowerCase()))
             const normalizedExhOrgs  = roomExhibitions.flatMap(e =>
-                e.organization.split(';').map(o => toHalfWidth(o.trim().toLowerCase()))
+                "organization" in e && e.organization ? e.organization.split(';').map(o => toHalfWidth(o.trim().toLowerCase())) : ""
+            )
+            const normalizedDescriptions = roomExhibitions.map(e =>
+                toHalfWidth(e.description.toLowerCase())
             )
 
             const matchesAllTerms = searchTerms.every(term =>
@@ -90,7 +99,8 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
                 normalizedId.includes(term) ||
                 normalizedKeywords.some(k => k.includes(term)) ||
                 normalizedExhNames.some(n => n.includes(term)) ||
-                normalizedExhOrgs.some(o => o.includes(term))
+                normalizedExhOrgs.some(o => o.includes(term)) ||
+                normalizedDescriptions.some(d => d.includes(term))
             )
 
             if (matchesAllTerms) {
@@ -103,18 +113,21 @@ export function MapSearch({ onSelectRoom, onRemoveSelect, roomLabels, pinnedRoom
                     else if (normalizedKeywords.some(k => k === term))        score += 80
                     else if (normalizedExhNames.some(n => n === term))        score += 80
                     else if (normalizedExhOrgs.some(o => o === term))         score += 75
+                    else if (normalizedDescriptions.some(d => d === term))        score += 60
                     // 前方一致
                     else if (normalizedLabel.startsWith(term))                score += 50
                     else if (normalizedId.startsWith(term))                   score += 45
                     else if (normalizedKeywords.some(k => k.startsWith(term))) score += 40
                     else if (normalizedExhNames.some(n => n.startsWith(term))) score += 40
                     else if (normalizedExhOrgs.some(o => o.startsWith(term))) score += 35
+                    else if (normalizedDescriptions.some(d => d.startsWith(term))) score += 25
                     // 部分一致
                     else if (normalizedLabel.includes(term))                  score += 30
                     else if (normalizedId.includes(term))                     score += 25
                     else if (normalizedKeywords.some(k => k.includes(term)))  score += 20
                     else if (normalizedExhNames.some(n => n.includes(term)))  score += 20
                     else if (normalizedExhOrgs.some(o => o.includes(term)))   score += 15
+                    else if (normalizedDescriptions.some(d => d.includes(term)))   score += 10
                 })
 
                 const labelLength = normalizedLabel.length
