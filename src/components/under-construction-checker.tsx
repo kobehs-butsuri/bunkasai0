@@ -7,8 +7,6 @@ import Footer from "@/components/footer";
 import ConstructingSVG from "@/components/decoration/constructing.svg"
 
 const underConstructionPages = [
-    '/event',
-    '/map',
     '/pickup',
     '/garden'
 ];
