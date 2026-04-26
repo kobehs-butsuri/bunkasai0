@@ -605,13 +605,6 @@
       ]
     },
     {
-      "id": "ennichi",
-      "name": "「神戸大縁日」",
-      "organization": "その他",
-      "description": "縁日(神戸大縁日)",
-      "roomId": "_28"
-    },
-    {
       "id": "tosho",
       "name": "図書委員会",
       "organization": "図書委員会",
@@ -646,7 +639,7 @@
       "id": "chigaku",
       "name": "地学班",
       "organization": "地学班",
-      "description": "突然ですが、神戸高校で最も星空に地階場所とは、果たしてどこでしょうか？\nお答えしましょう。それは、２年２組教室。自然科学研究会地学班の、プラネタリウムに他なりません。頭上に広がる満点の星空は、まるで自分が宇宙にいるかのような大迫力。気になる方は、いますぐ２年２組へ！！！",
+      "description": "突然ですが、神戸高校で最も星空に近い場所とは、果たしてどこでしょうか？\nお答えしましょう。それは、２年２組教室。自然科学研究会地学班の、プラネタリウムに他なりません。頭上に広がる満天の星空は、まるで自分が宇宙にいるかのような大迫力。気になる方は、いますぐ２年２組へ！！！",
       "roomId": "_22",
       "images": [
         "chigaku-poster.png",
@@ -704,7 +697,7 @@
       "id": "housou",
       "name": "花より青春",
       "organization": "放送委員会",
-      "description": "こんにちは！私たち放送委員会では、部活動紹介ビデオ「花より青春」を放映します。各部活動1分半程度なので、気軽に足を運んでみてください。神高生をはじめ、どんな部活があるか気になる中学生の型やOB、oGの皆さんも是非ご覧ください！",
+      "description": "こんにちは！私たち放送委員会では、部活動紹介ビデオ「花より青春」を放映します。各部活動1分半ほどなので、気軽に足を運んでみてください。神高生をはじめ、どんな部活があるか気になる中学生の方やOB、OGの皆さんも是非ご覧ください！",
       "roomId": "_32",
       "images": [
         "housou-poster.png"
@@ -752,13 +745,6 @@
       "roomId": "_29"
     },
     {
-      "id": "kishikara",
-      "name": "純喫茶「喫茶神戸」",
-      "organization": "その他",
-      "description": "純喫茶「喫茶神戸」",
-      "roomId": "_19"
-    },
-    {
       "id": "sangaku",
       "name": "わくわくクライミング",
       "organization": "山岳部",
@@ -774,13 +760,6 @@
       "organization": "その他",
       "description": "金券販売",
       "roomId": "_39"
-    },
-    {
-      "id": "cafe",
-      "name": "カフェー「Kiss Of BErries」",
-      "organization": "その他",
-      "description": "カフェ(Kiss Of BErries)",
-      "roomId": "LL"
     },
     {
       "id": "chemical1",
@@ -862,6 +841,29 @@
       "organization": "園遊会",
       "description": "2年9組によるドーナツの園遊会販売",
       "roomId": "parking2"
+    }
+  ],
+  "volunteers": [
+    {
+      "id": "ennichi",
+      "name": "「神戸大縁日」",
+      "organization": "３年有志",
+      "description": "縁日(神戸大縁日)",
+      "roomId": "_28"
+    },
+    {
+      "id": "kishikara",
+      "name": "純喫茶「喫茶神戸」",
+      "organization": "３年有志",
+      "description": "純喫茶「喫茶神戸」",
+      "roomId": "_19"
+    },
+    {
+      "id": "cafe",
+      "name": "カフェー「Kiss Of BErries」",
+      "organization": "３年有志",
+      "description": "カフェ(Kiss Of BErries)",
+      "roomId": "LL"
     }
   ]
 }

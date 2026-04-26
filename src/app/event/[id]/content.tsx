@@ -85,10 +85,10 @@ export function Content({
                 >
                     <h1 className="text-5xl font-bold tracking-tight text-balance flex-1">{event.name}</h1>
                     <div>
-                        <p className="text-lg">{formatOrganizations(event.category === 'garden' ? "" : event.organization)}</p>
+                        <p className="text-lg">{formatOrganizations(event.category === 'garden' || event.category === 'volunteer' ? "" : event.organization)}</p>
                     </div>
                     <span className="text-sm bg-primary bg-opacity-20 text-background px-3 py-1 font-bold shrink-0">
-                        {event.category === "performance" ? '舞台' : event.category === "exhibition" ? '展示' : '園遊会'}
+                        {event.category === "performance" ? '舞台' : event.category === "exhibition" ? '展示' : event.category === "garden" ? '園遊会' : '３年有志'}
                     </span>
                 </motion.div>
 
@@ -116,7 +116,7 @@ export function Content({
                         >
                             <h3 className="font-bold text-lg mb-2">場所</h3>
                             <p className="text-lg">{getLabel(roomId)}</p>
-                            <p className="text-sm text-muted-foreground font-bold mt-1">{event.category === "exhibition" ? '常設展示' : '園遊会販売'}</p>
+                            <p className="text-sm text-muted-foreground font-bold mt-1">{event.category === "exhibition" ? '常設展示' : event.category === "garden" ? '園遊会販売' : '３年有志'}</p>
                         </motion.div>
                     )}
 
