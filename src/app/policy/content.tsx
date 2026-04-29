@@ -59,11 +59,11 @@ export default function Policy() {
                         <div className="mb-4">
                             <h3 className="text-xl font-semibold text-foreground mb-3">主要なライブラリ</h3>
                             <ul className="list-disc list-inside text-foreground/80 space-y-2">
-                                <li><Link href="https://nextjs.org/"><strong>Next.js</strong></Link> - MIT License</li>
-                                <li><Link href="https://react.dev/"><strong>React</strong></Link> - MIT License</li>
-                                <li><Link href="https://tailwindcss.com/"><strong>Tailwind CSS</strong></Link> - MIT License</li>
-                                <li><Link href="https://www.radix-ui.com/"><strong>Radix UI</strong></Link> - MIT License</li>
-                                <li><Link href="https://lucide.dev/"><strong>Lucide React</strong></Link> - ISC License</li>
+                                <li><Link href="https://nextjs.org/" className={"border-b-2 border-dashed border-foreground"}><strong>Next.js</strong></Link> - MIT License</li>
+                                <li><Link href="https://react.dev/" className={"border-b-2 border-dashed border-foreground"}><strong>React</strong></Link> - MIT License</li>
+                                <li><Link href="https://tailwindcss.com/" className={"border-b-2 border-dashed border-foreground"}><strong>Tailwind CSS</strong></Link> - MIT License</li>
+                                <li><Link href="https://www.radix-ui.com/" className={"border-b-2 border-dashed border-foreground"}><strong>Radix UI</strong></Link> - MIT License</li>
+                                <li><Link href="https://lucide.dev/" className={"border-b-2 border-dashed border-foreground"}><strong>Lucide React</strong></Link> - ISC License</li>
                             </ul>
                         </div>
                         <p className="text-foreground/80 mb-4">

@@ -260,7 +260,7 @@
       "id": "koto",
       "name": "筝曲",
       "organization": "筝曲部",
-      "description": "筝曲",
+      "description": "箏曲",
       "schedules": [
         {
           "dayId": "day-1",
@@ -306,7 +306,7 @@
     },
     {
       "id": "play",
-      "name": "夏芙蓉",
+      "name": "演劇",
       "organization": "演劇部",
       "description": "演劇部による演劇",
       "schedules": [
@@ -670,7 +670,7 @@
       "id": "sokyoku",
       "name": "筝曲部",
       "organization": "筝曲部",
-      "description": "筝曲部",
+      "description": "箏曲部",
       "roomId": "_35"
     },
     {

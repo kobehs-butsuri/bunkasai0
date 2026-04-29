@@ -48,9 +48,21 @@ export default function Header() {
         { href: "/", label: "Home", labelJa: "ホーム" },
         { href: "/map", label: "Map", labelJa: "マップ" },
         { href: "/schedule", label: "Schedule", labelJa: "スケジュール" },
-        { href: "/event", label: "Events", labelJa: "イベント一覧", },
+        { href: "/event", label: "Events", labelJa: "イベント", subItems: [
+                { href: "/event", label: "Events List", labelJa: "イベント一覧", },
+                { href: "/pickup", label: "Pick Up", labelJa: "ピックアップ", },
+            ]
+        },
         { href: "/access", label: "Access", labelJa: "アクセス" },
-        { href: "/news", label: "News", labelJa: "ニュース" },
+        { href: "/quiz", label: "Quiz", labelJa: "謎解き" },
+        { href: "#", label: "Others", labelJa: "その他", subItems: [
+                { href: "/news", label: "News", labelJa: "ニュース", },
+                { href: "/introduce", label: "Theme & Logo & Emblem", labelJa: "テーマ・ロゴ・エンブレム", },
+                { href: "/greeting", label: "Greeting", labelJa: "ご挨拶", },
+                { href: "/faq", label: "Frequently Asked Question", labelJa: "よくあるご質問", },
+                { href: "/contact", label: "Contact", labelJa: "お問い合わせ", },
+            ]
+        },
     ]
 
     const toggleSubmenu = (itemHref: string) => {
@@ -96,10 +108,10 @@ export default function Header() {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden md:flex gap-6 items-center h-full">
+                    <nav className="hidden md:flex gap-3 items-center h-full">
                         {navItems.map((item, index) => (
                             <motion.div
-                                key={item.href}
+                                key={index}
                                 className="relative h-full flex items-center group"
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -107,26 +119,55 @@ export default function Header() {
                                 onMouseEnter={() => item.subItems && setOpenSubmenu(item.href)}
                                 onMouseLeave={() => item.subItems && setOpenSubmenu(null)}
                             >
-                                <Link
-                                    href={item.href}
-                                    className="h-full flex items-center"
-                                >
-                                    <div className={`flex flex-col items-center justify-center transition-colors ${
-                                        pathname.replace(/\/$/, '') === item.href
-                                            ? 'text-primary'
-                                            : 'text-foreground hover:text-primary'
-                                    }`}>
-                                        <span className={`text-[1rem] leading-tight flex items-center gap-1 font-bold`}>
-                                            {item.label}
-                                            {item.subItems && (
-                                                <ChevronDown className="w-3 h-3" />
-                                            )}
-                                        </span>
-                                        <span className="text-[0.65rem] text-foreground/60 leading-tight mt-0.5 font-medium">
-                                            {item.labelJa}
-                                        </span>
+                                {
+                                    !item.subItems && (
+                                    <Link
+                                        href={item.href}
+                                        className="h-full flex items-center mr-3"
+                                    >
+                                        <div className={`flex flex-col items-center justify-center transition-colors ${
+                                            pathname.replace(/\/$/, '') === item.href
+                                                ? 'text-primary'
+                                                : 'text-foreground hover:text-primary'
+                                        }`}>
+                                            <span className={`text-[1rem] leading-tight flex items-center gap-1 font-bold`}>
+                                                {item.label}
+                                                {item.subItems && (
+                                                    <ChevronDown className="w-3 h-3"/>
+                                                )}
+                                            </span>
+                                            <span
+                                                className="text-[0.65rem] text-foreground/60 leading-tight mt-0.5 font-medium">
+                                                {item.labelJa}
+                                            </span>
+                                        </div>
+                                    </Link>
+                                )
+                                }
+                                {
+                                    item.subItems && (
+                                    <div
+                                        className="h-full flex items-center"
+                                    >
+                                        <div className={`flex flex-col items-center justify-center transition-colors ${
+                                            pathname.replace(/\/$/, '') === item.href
+                                                ? 'text-primary'
+                                                : 'text-foreground hover:text-primary'
+                                        }`}>
+                                            <span className={`text-[1rem] leading-tight flex items-center gap-1 font-bold`}>
+                                                {item.label}
+                                                {item.subItems && (
+                                                    <ChevronDown className="w-3 h-3"/>
+                                                )}
+                                            </span>
+                                            <span
+                                                className="text-[0.65rem] text-foreground/60 leading-tight mt-0.5 font-medium">
+                                                {item.labelJa}
+                                            </span>
+                                        </div>
                                     </div>
-                                </Link>
+                                )
+                                }
 
                                 {/* Desktop Submenu */}
                                 {item.subItems && (
@@ -271,7 +312,7 @@ export default function Header() {
                                                     href={item.href}
                                                     onClick={() => setIsMenuOpen(false)}
                                                     className={`flex items-center justify-between text-base font-medium px-4 py-3 rounded-lg transition-all duration-200 ${
-                                                        pathname === item.href
+                                                        pathname.replace(/\/$/, '') === item.href
                                                             ? 'text-primary bg-accent-light/70'
                                                             : 'text-foreground hover:text-primary hover:bg-accent-light/50'
                                                     }`}
