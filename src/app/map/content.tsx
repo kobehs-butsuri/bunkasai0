@@ -706,12 +706,8 @@ function MapContent() {
     const hoveredExhibitions  = hoveredRoomId  ? getExhibitionsByRoomId(hoveredRoomId)  : []
 
     return (
-        <div className="h-dvh flex flex-col">
-            <div className={
-                isMobile
-                    ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light shrink-0"
-                    : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light shrink-0"
-            }>
+        <div className="w-full max-w-7xl mx-auto h-[calc(100dvh-100px)] md:h-[calc(100dvh-84px)] flex flex-col">
+            <div className="w-full px-4 py-3 bg-card border-b h-16 border-accent-light shrink-0">
                 <MapSearch
                     onSelectRoom={handleSearchSelect}
                     onRemoveSelect={() => {
@@ -726,11 +722,7 @@ function MapContent() {
             </div>
 
             <div
-                className={
-                    isMobile
-                        ? "w-full flex-1 min-h-0 overflow-hidden relative bg-card border-y border-accent-light"
-                        : "max-w-7xl mx-auto flex-1 min-h-0 overflow-hidden relative bg-card border-y border-accent-light"
-                }
+                className="w-full flex-1 min-h-0 overflow-hidden relative bg-card border-y border-accent-light"
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
