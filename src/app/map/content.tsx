@@ -102,18 +102,12 @@ function MapContent() {
         const bottom = -mapHeight + containerRect.height - marginY
         const right = -mapWidth + containerRect.width - marginX
 
-        let adjustedX = x
-        let adjustedY = y
-
-        if (mapWidth < containerRect.width) {
-            adjustedX = (containerRect.width - mapWidth) / 2
-        }
-        if (mapHeight < containerRect.height) {
-            adjustedY = (containerRect.height - mapHeight) / 2
-        }
-
-        const constrainedX = Math.max(right, Math.min(left, adjustedX))
-        const constrainedY = Math.max(bottom, Math.min(top, adjustedY))
+        const constrainedX = mapWidth < containerRect.width
+            ? (containerRect.width - mapWidth) / 2
+            : Math.max(right, Math.min(left, x))
+        const constrainedY = mapHeight < containerRect.height
+            ? (containerRect.height - mapHeight) / 2
+            : Math.max(bottom, Math.min(top, y))
         return { x: constrainedX, y: constrainedY }
     }
 
