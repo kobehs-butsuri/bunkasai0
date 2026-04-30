@@ -93,7 +93,7 @@ function MapContent() {
         const mapHeight = mapRect.height
 
         const MARGIN_RATIO_X = 0.1
-        const MARGIN_RATIO_Y = 0.15
+        const MARGIN_RATIO_Y = 0.5
 
         const marginX = containerRect.width * MARGIN_RATIO_X
         const marginY = containerRect.height * MARGIN_RATIO_Y
@@ -293,7 +293,7 @@ function MapContent() {
             if (!targetElement) {
                 console.warn("Target element honkan_G not found, using full map")
                 const MARGIN_RATIO_X = 0.1
-                const MARGIN_RATIO_Y = 0.15
+                const MARGIN_RATIO_Y = 0.5
                 const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
                 const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
@@ -313,7 +313,7 @@ function MapContent() {
             }
 
             const MARGIN_RATIO_X = 0.1
-            const MARGIN_RATIO_Y = 0.15
+            const MARGIN_RATIO_Y = 0.5
             const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
             const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
@@ -357,7 +357,7 @@ function MapContent() {
             const currentZoomRatio = scale / baseScale
 
             const MARGIN_RATIO_X = 0.1
-            const MARGIN_RATIO_Y = 0.15
+            const MARGIN_RATIO_Y = 0.5
             const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
             const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
