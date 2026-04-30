@@ -104,8 +104,11 @@ function MapContent() {
             ? (containerRect.width - mapWidth) / 2
             : Math.max(-mapWidth + containerRect.width - marginX, Math.min(marginX, x))
         const constrainedY = mapHeight < containerRect.height
-            ? (containerRect.height - mapHeight) / 2
-            : Math.max(-mapHeight + containerRect.height - marginY, Math.min(marginY, y))
+    			? (() => {
+        			const center = (containerRect.height - mapHeight) / 2
+        			return Math.max(center - marginY, Math.min(center + marginY, y))
+    			})()
+    			: Math.max(-mapHeight + containerRect.height - marginY, Math.min(marginY, y))
         return { x: constrainedX, y: constrainedY }
     }
 
