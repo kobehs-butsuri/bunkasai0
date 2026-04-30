@@ -174,7 +174,7 @@ export default function Header() {
                                     <AnimatePresence>
                                         {openSubmenu === item.href && (
                                             <motion.div
-                                                className="absolute top-full left-0 bg-background border border-accent-light shadow-lg rounded-lg overflow-hidden min-w-48"
+                                                className="absolute top-full right-0 bg-background border border-accent-light shadow-lg rounded-lg overflow-hidden min-w-48"
                                                 initial={{ opacity: 0, y: -10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: -10 }}
