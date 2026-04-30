@@ -26,11 +26,11 @@ export function AccessTransportation() {
 
 export function AccessBanner() {
     return (
-        <div className="bg-background relative pl-5 pr-5 md:m-20 overflow-hidden">
+        <div className="bg-background relative pl-5 pr-5 pb-5 md:m-20 overflow-hidden">
         <div className="absolute top-8 right-8 w-16 h-16 pointer-events-none after:content-[''] after:absolute after:top-0 after:right-0 after:w-full after:h-0.5 after:bg-accent before:content-[''] before:absolute before:top-2 before:right-2 before:w-full before:h-1.5 before:bg-secondary" />
         <div className="absolute top-8 right-8 w-16 h-16 pointer-events-none after:content-[''] after:absolute after:top-0 after:right-0 after:w-0.5 after:h-full after:bg-accent before:content-[''] before:absolute before:top-2 before:right-2 before:w-1.5 before:h-full before:bg-secondary" />
-        <div className="absolute bottom-8 left-8 w-16 h-16 pointer-events-none after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent before:content-[''] before:absolute before:bottom-2 before:left-2 before:w-full before:h-1.5 before:bg-secondary" />
-        <div className="absolute bottom-8 left-8 w-16 h-16 pointer-events-none after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0.5 after:h-full after:bg-accent before:content-[''] before:absolute before:bottom-2 before:left-2 before:w-1.5 before:h-full before:bg-secondary" />
+        <div className="absolute bottom-4 left-8 w-16 h-16 pointer-events-none after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent before:content-[''] before:absolute before:bottom-2 before:left-2 before:w-full before:h-1.5 before:bg-secondary" />
+        <div className="absolute bottom-4 left-8 w-16 h-16 pointer-events-none after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0.5 after:h-full after:bg-accent before:content-[''] before:absolute before:bottom-2 before:left-2 before:w-1.5 before:h-full before:bg-secondary" />
         <div className="w-full">
             {/* Location Information */}
             {useMobile() && (
