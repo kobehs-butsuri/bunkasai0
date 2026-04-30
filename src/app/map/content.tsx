@@ -92,10 +92,11 @@ function MapContent() {
         const mapWidth = mapRect.width
         const mapHeight = mapRect.height
 
-        const MARGIN_RATIO = 0.1
+        const MARGIN_RATIO_X = 0.1
+        const MARGIN_RATIO_Y = 0.15
 
-        const marginX = containerRect.width * MARGIN_RATIO
-        const marginY = containerRect.height * MARGIN_RATIO
+        const marginX = containerRect.width * MARGIN_RATIO_X
+        const marginY = containerRect.height * MARGIN_RATIO_Y
 
         const left = marginX
         const top = marginY
@@ -104,10 +105,10 @@ function MapContent() {
 
         const constrainedX = mapWidth < containerRect.width
             ? (containerRect.width - mapWidth) / 2
-            : Math.max(right, Math.min(left, x))
+            : Math.max(-mapWidth + containerRect.width - marginX, Math.min(marginX, x))
         const constrainedY = mapHeight < containerRect.height
             ? (containerRect.height - mapHeight) / 2
-            : Math.max(bottom, Math.min(top, y))
+            : Math.max(-mapHeight + containerRect.height - marginY, Math.min(marginY, y))
         return { x: constrainedX, y: constrainedY }
     }
 
@@ -291,9 +292,10 @@ function MapContent() {
 
             if (!targetElement) {
                 console.warn("Target element honkan_G not found, using full map")
-                const MARGIN_RATIO = 0.1
-                const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
-                const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+                const MARGIN_RATIO_X = 0.1
+                const MARGIN_RATIO_Y = 0.15
+                const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
+                const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
                 const scaleX = effectiveWidth / mapRect.width
                 const scaleY = effectiveHeight / mapRect.height
@@ -310,9 +312,10 @@ function MapContent() {
                 return
             }
 
-            const MARGIN_RATIO = 0.1
-            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
-            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+            const MARGIN_RATIO_X = 0.1
+            const MARGIN_RATIO_Y = 0.15
+            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
+            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
             const svgEl = mapRef.current?.querySelector('svg')
             const viewBox = svgEl?.viewBox?.baseVal
@@ -353,9 +356,10 @@ function MapContent() {
         if (isScreenModeChanged) {
             const currentZoomRatio = scale / baseScale
 
-            const MARGIN_RATIO = 0.1
-            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
-            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+            const MARGIN_RATIO_X = 0.1
+            const MARGIN_RATIO_Y = 0.15
+            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
+            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
             const mapOriginalWidth = mapRect.width / scale
             const mapOriginalHeight = mapRect.height / scale
@@ -384,8 +388,8 @@ function MapContent() {
             const newX = newMapCenterX - newMapWidth / 2
             const newY = newMapCenterY - newMapHeight / 2
 
-            const MARGIN_X = containerRect.width * MARGIN_RATIO
-            const MARGIN_Y = containerRect.height * MARGIN_RATIO
+            const MARGIN_X = containerRect.width * MARGIN_RATIO_X
+            const MARGIN_Y = containerRect.height * MARGIN_RATIO_Y
 
             const left = MARGIN_X
             const top = MARGIN_Y
