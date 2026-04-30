@@ -789,7 +789,7 @@
   "gardens": [
     {
       "id": "yakisoba",
-      "name": "ソ。ソースの流動について",
+      "name": "You For みんなの源へ",
       "organization": "園遊会",
       "description": "2年1組、2組、3組の前半による焼きそばの園遊会販売",
       "roomId": "parking3"
@@ -803,20 +803,20 @@
     },
     {
       "id": "pizza",
-      "name": "ピザ、好きになりました。",
+      "name": "ピザ好き",
       "description": "2年4組によるピザの園遊会販売",
       "roomId": "katei"
     },
     {
       "id": "frankfurt",
-      "name": "２年５組の５つ星フランク",
+      "name": "２年５組の５つ星フランク⭐︎",
       "organization": "園遊会",
       "description": "2年5組によるフランクフルトの園遊会販売",
       "roomId": "_38"
     },
     {
       "id": "takoyaki",
-      "name": "まるまれ！たこやきくん　～たこやいてまいります～",
+      "name": "たこやきだいすけ",
       "organization": "園遊会",
       "description": "2年6組によるたこ焼きの園遊会販売",
       "roomId": "_17"
@@ -830,14 +830,14 @@
     },
     {
       "id": "waffle",
-      "name": "Mrs.Green waffle",
+      "name": "森のゴリッフル",
       "organization": "園遊会",
       "description": "2年8組によるワッフルの園遊会販売",
       "roomId": "_25"
     },
     {
       "id": "donut",
-      "name": "最高速度でぶち挙げたる！！！",
+      "name": "小麦粉と油の奇跡",
       "organization": "園遊会",
       "description": "2年9組によるドーナツの園遊会販売",
       "roomId": "parking2"
