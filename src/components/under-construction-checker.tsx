@@ -8,7 +8,7 @@ import ConstructingSVG from "@/components/decoration/constructing.svg"
 
 const underConstructionPages = [
     '/pickup',
-    '/garden'
+    '/quiz'
 ];
 
 function isUnderConstruction(pathname: string): boolean {
