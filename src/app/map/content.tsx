@@ -706,11 +706,11 @@ function MapContent() {
     const hoveredExhibitions  = hoveredRoomId  ? getExhibitionsByRoomId(hoveredRoomId)  : []
 
     return (
-        <>
+        <div className="h-dvh flex flex-col">
             <div className={
                 isMobile
-                    ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light"
-                    : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light"
+                    ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light shrink-0"
+                    : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light shrink-0"
             }>
                 <MapSearch
                     onSelectRoom={handleSearchSelect}
@@ -728,8 +728,8 @@ function MapContent() {
             <div
                 className={
                     isMobile
-                        ? "w-full h-[calc(100dvh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
-                        : "max-w-7xl mx-auto h-[calc(100dvh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
+                        ? "w-full flex-1 min-h-0 overflow-hidden relative bg-card border-y border-accent-light"
+                        : "max-w-7xl mx-auto flex-1 min-h-0 overflow-hidden relative bg-card border-y border-accent-light"
                 }
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
@@ -969,6 +969,6 @@ function MapContent() {
                     )}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
