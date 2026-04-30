@@ -93,10 +93,10 @@ function MapContent() {
         const mapHeight = mapRect.height
 
         const MARGIN_RATIO_X = 0.1
-        const MARGIN_RATIO_Y = 0.5
+        const MARGIN_RATIO_Y = 0.15
 
         const marginX = containerRect.width * MARGIN_RATIO_X
-        const marginY = containerRect.height * MARGIN_RATIO_Y
+        const marginY = Math.min(containerRect.height * MARGIN_RATIO_Y, containerRect.height / 3)
 
         const left = marginX
         const top = marginY
@@ -278,7 +278,6 @@ function MapContent() {
     }, [isInitialized, roomLayerCache, initialRoomId, getExhibitionByRoomId, handleSearchSelect, pinnedRoomId])
 
     useEffect(() => {
-        constrainPosition(0, 0)
         if (!containerRef.current || !mapRef.current) return
 
         const container = containerRef.current
@@ -287,13 +286,15 @@ function MapContent() {
         const mapRect = map.getBoundingClientRect()
         const containerRect = container.getBoundingClientRect()
 
+        if (containerRect.width === 0 || containerRect.height === 0) return
+
         if (!isInitialized) {
             const targetElement = document.getElementById("honkan_G")
 
             if (!targetElement) {
                 console.warn("Target element honkan_G not found, using full map")
                 const MARGIN_RATIO_X = 0.1
-                const MARGIN_RATIO_Y = 0.5
+                const MARGIN_RATIO_Y = 0.15
                 const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
                 const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
@@ -313,7 +314,7 @@ function MapContent() {
             }
 
             const MARGIN_RATIO_X = 0.1
-            const MARGIN_RATIO_Y = 0.5
+            const MARGIN_RATIO_Y = 0.15
             const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
             const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
@@ -357,7 +358,7 @@ function MapContent() {
             const currentZoomRatio = scale / baseScale
 
             const MARGIN_RATIO_X = 0.1
-            const MARGIN_RATIO_Y = 0.5
+            const MARGIN_RATIO_Y = 0.15
             const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
             const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
@@ -404,7 +405,7 @@ function MapContent() {
             setPosition({ x: constrainedX, y: constrainedY })
             setIsScreenModeChanged(false)
         }
-    }, [handleSearchSelect, initialRoomId, isInitialized, isScreenModeChanged, position.x, position.y, scale, baseScale])
+    }, [isInitialized, isScreenModeChanged])
 
     useEffect(() => {
         const handleGlobalMouseUp = () => {
