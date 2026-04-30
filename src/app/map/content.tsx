@@ -316,29 +316,38 @@ function MapContent() {
                 return
             }
 
-            const targetRect = targetElement.getBoundingClientRect()
-
-            const targetRelativeX = targetRect.left - mapRect.left
-            const targetRelativeY = targetRect.top - mapRect.top
-
             const MARGIN_RATIO = 0.1
             const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
             const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
 
-            const scaleX = effectiveWidth / targetRect.width
-            const scaleY = effectiveHeight / targetRect.height
+            const svgEl = mapRef.current?.querySelector('svg')
+            const viewBox = svgEl?.viewBox?.baseVal
+            const bbox = (targetElement as unknown as SVGGraphicsElement).getBBox?.()
+
+            let relX: number, relY: number, relW: number, relH: number
+
+            if (bbox && viewBox) {
+                const logicalToDOM = mapRect.width / viewBox.width
+                relX = bbox.x * logicalToDOM
+                relY = bbox.y * logicalToDOM
+                relW = bbox.width * logicalToDOM
+                relH = bbox.height * logicalToDOM
+            } else {
+                const targetRect = targetElement.getBoundingClientRect()
+                relX = targetRect.left - mapRect.left
+                relY = targetRect.top - mapRect.top
+                relW = targetRect.width
+                relH = targetRect.height
+            }
+
+            const scaleX = effectiveWidth / relW
+            const scaleY = effectiveHeight / relH
             const newScale = Math.min(scaleX, scaleY)
 
             setBaseScale(newScale)
 
-            const targetCenterX = targetRelativeX + targetRect.width / 2
-            const targetCenterY = targetRelativeY + targetRect.height / 2
-
-            const containerCenterX = containerRect.width / 2
-            const containerCenterY = containerRect.height / 2
-
-            const centerX = containerCenterX - targetCenterX * newScale
-            const centerY = containerCenterY - targetCenterY * newScale
+            const centerX = containerRect.width / 2 - (relX + relW / 2) * newScale
+            const centerY = containerRect.height / 2 - (relY + relH / 2) * newScale
 
             setScale(newScale)
             setPosition({ x: centerX, y: centerY })
