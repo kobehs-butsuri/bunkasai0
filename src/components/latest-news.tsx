@@ -57,7 +57,10 @@ export default function LatestNews() {
     return (
         <section className="py-20 px-8 max-w-7xl mx-auto">
             <div className="mb-12">
-                <h2 className="text-4xl font-bold mb-4 tracking-tight text-balance">ニュース</h2>
+                <h2 className="text-4xl font-bold mb-4 tracking-tight text-balance flex items-center gap-12 pl-4 border-l-4 border-l-secondary">
+                    ニュース
+                    <div className="relative flex-1 min-w-0 h-3.5 after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:h-2 after:bg-secondary before:content-[''] before:absolute before:top-3 before:left-0 before:right-1/4 before:h-1 before:bg-accent" />
+                </h2>
             </div>
 
             <div className="md:hidden min-h-12">
@@ -69,16 +72,19 @@ export default function LatestNews() {
             </div>
 
             <div className="text-center hidden md:block">
-                <div className="grid grid-cols-3 gap-6 mb-8">
+                <div className="grid text-start grid-cols-3 gap-6 mb-8">
                     {latestNews.map((item) => (
                         renderNewsCard(item)
                     ))}
                 </div>
                 <Link
                     href="/news"
-                    className="inline-block bg-primary text-primary-foreground px-8 py-3 font-bold hover:opacity-90 transition-opacity"
+                    className="inline-block text-primary px-8 py-3 font-bold hover:opacity-90 transition-opacity"
                 >
+                    <div className={"relative flex"}>
                     すべてのニュースを見る
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 border-b-2 border-dashed border-primary"></div>
+                    </div>
                 </Link>
             </div>
         </section>

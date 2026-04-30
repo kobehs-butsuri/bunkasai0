@@ -1,0 +1,15 @@
+import Content from "./content";
+import {Metadata} from "next";
+import Footer from "@/components/footer";
+import type React from "react";
+
+const metadata : Metadata = {
+    title: "Pick Up",
+}
+
+async function Pickup() {
+    return <>
+        <Content/>
+        <Footer/>
+    </>
+}

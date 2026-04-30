@@ -133,7 +133,7 @@ export default function NewsPage() {
                                                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                                 />
                                             )}
-                                            <div className="flex flex-col gap-2">
+                                            <div className="flex flex-col gap-2 border-b-2 pb-4 border-dashed border-foreground">
                                                 <p className="text-xs font-bold opacity-75">{item.formattedDate}</p>
                                                 <h3 className="font-bold line-clamp-2">{item.title}</h3>
                                                 <span className="text-xs text-background inline-block bg-accent-dark px-2 py-1 w-fit rounded">
@@ -180,7 +180,7 @@ export default function NewsPage() {
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ delay: 0.2 }}
-                                            className="prose prose-sm lg:prose-base text-foreground leading-relaxed max-w-none"
+                                            className="prose prose-sm lg:prose-base text-foreground leading-relaxed max-w-none wrap-break-word [&_a]:underline [&_a]:decoration-dashed"
                                             dangerouslySetInnerHTML={{ __html: selectedNews.content }}
                                         />
                                     </motion.article>
@@ -220,7 +220,7 @@ export default function NewsPage() {
                                 transition={{ duration: 0.3, delay: index * 0.05 }}
                                 whileTap={{ scale: 0.98 }}
                             >
-                                <div className="flex flex-col gap-2">
+                                <div className="flex flex-col gap-2 pb-4 border-b-2 border-dashed border-foreground">
                                     <p className="text-xs font-bold opacity-75">{item.formattedDate}</p>
                                     <h3 className="font-bold line-clamp-2">{item.title}</h3>
                                     <span className="text-xs text-background inline-block bg-accent-dark px-2 py-1 w-fit rounded">
@@ -287,7 +287,7 @@ export default function NewsPage() {
                                     </span>
                                 </div>
                                 <div
-                                    className="prose prose-sm text-foreground leading-relaxed max-w-full wrap-break-word"
+                                    className="prose prose-sm text-foreground leading-relaxed max-w-full wrap-break-word [&_a]:underline [&_a]:decoration-dashed"
                                     dangerouslySetInnerHTML={{ __html: selectedNews.content }}
                                 />
                             </motion.article>

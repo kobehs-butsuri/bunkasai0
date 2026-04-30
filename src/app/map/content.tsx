@@ -42,6 +42,9 @@ function MapContent() {
     const [scale, setScale] = useState(1)
     const [baseScale, setBaseScale] = useState(1)
     const [position, setPosition] = useState({ x: 0, y: 0 })
+    const scaleRef = useRef(1)
+    const baseScaleRef = useRef(1)
+    const positionRef = useRef({ x: 0, y: 0 })
     const [isDragging, setIsDragging] = useState(false)
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
     const [touchStartPos, setTouchStartPos] = useState({ x: 0, y: 0 })
@@ -80,40 +83,29 @@ function MapContent() {
         return activeLayer != 6 ? getExhibitionsByRoomId(roomId)[0] : undefined
     }, [activeLayer, getExhibitionsByRoomId])
 
+    const updateScale = (v: number) => { scaleRef.current = v; setScale(v) }
+    const updateBaseScale = (v: number) => { baseScaleRef.current = v; setBaseScale(v) }
+    const updatePosition = (v: { x: number; y: number }) => { positionRef.current = v; setPosition(v) }
+
     const constrainPosition = (x: number, y: number) => {
         if (!containerRef.current || !mapRef.current) return { x, y }
 
-        const container = containerRef.current
-        const map = mapRef.current
+        const containerRect = containerRef.current.getBoundingClientRect()
+        const currentScale = scaleRef.current
+        const mapOriginalWidth = mapRef.current.getBoundingClientRect().width / currentScale
+        const mapOriginalHeight = mapRef.current.getBoundingClientRect().height / currentScale
+        const mapWidth = mapOriginalWidth * currentScale
+        const mapHeight = mapOriginalHeight * currentScale
 
-        const containerRect = container.getBoundingClientRect()
-        const mapRect = map.getBoundingClientRect()
+        const marginX = containerRect.width * 0.1
+        const marginY = containerRect.height * 2 / 3
 
-        const mapWidth = mapRect.width
-        const mapHeight = mapRect.height
-
-        const MARGIN_RATIO = 0.1
-
-        const marginX = containerRect.width * MARGIN_RATIO
-        const marginY = containerRect.height * MARGIN_RATIO
-
-        const left = marginX
-        const top = marginY
-        const bottom = -mapHeight + containerRect.height - marginY
-        const right = -mapWidth + containerRect.width - marginX
-
-        let adjustedX = x
-        let adjustedY = y
-
-        if (mapWidth < containerRect.width) {
-            adjustedX = (containerRect.width - mapWidth) / 2
-        }
-        if (mapHeight < containerRect.height) {
-            adjustedY = (containerRect.height - mapHeight) / 2
-        }
-
-        const constrainedX = Math.max(right, Math.min(left, adjustedX))
-        const constrainedY = Math.max(bottom, Math.min(top, adjustedY))
+        const constrainedX = mapWidth < containerRect.width
+            ? (containerRect.width - mapWidth) / 2
+            : Math.max(-mapWidth + containerRect.width - marginX, Math.min(marginX, x))
+        const constrainedY = mapHeight < containerRect.height
+            ? (containerRect.height - mapHeight) / 2
+            : Math.max(-mapHeight + containerRect.height - marginY, Math.min(marginY, y))
         return { x: constrainedX, y: constrainedY }
     }
 
@@ -165,22 +157,22 @@ function MapContent() {
         const pinX = roomRect.left + roomRect.width / 2 - containerRect.left
         const pinY = roomRect.top + roomRect.height / 2 - containerRect.top
 
-        const pinMapX = (pinX - position.x) / scale
-        const pinMapY = (pinY - position.y) / scale
+        const pinMapX = (pinX - positionRef.current.x) / scaleRef.current
+        const pinMapY = (pinY - positionRef.current.y) / scaleRef.current
 
         setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
 
         const currentRoomWidth = roomRect.width
         const currentRoomHeight = roomRect.height
-        const originalRoomWidth = currentRoomWidth / scale
-        const originalRoomHeight = currentRoomHeight / scale
+        const originalRoomWidth = currentRoomWidth / scaleRef.current
+        const originalRoomHeight = currentRoomHeight / scaleRef.current
 
-        const minScale = baseScale * MIN_SCALE_RATIO
+        const minScale = baseScaleRef.current * MIN_SCALE_RATIO
 
         const targetScale = Math.max(minScale, Math.min(
             (containerRect.width * 0.4) / originalRoomWidth,
             (containerRect.height * 0.4) / originalRoomHeight,
-            baseScale * 3
+            baseScaleRef.current * 3
         ))
 
         const newX = containerRect.width / 2 - pinMapX * targetScale
@@ -189,8 +181,8 @@ function MapContent() {
         const map = mapRef.current
         const mapRect = map.getBoundingClientRect()
 
-        const mapWidthOriginal = mapRect.width / scale
-        const mapHeightOriginal = mapRect.height / scale
+        const mapWidthOriginal = mapRect.width / scaleRef.current
+        const mapHeightOriginal = mapRect.height / scaleRef.current
 
         const newMapWidth = mapWidthOriginal * targetScale
         const newMapHeight = mapHeightOriginal * targetScale
@@ -209,15 +201,15 @@ function MapContent() {
             mapRef.current.style.transition = 'transform 0.5s ease-in-out'
         }
 
-        setScale(targetScale)
-        setPosition(constrained)
+        updateScale(targetScale)
+        updatePosition(constrained)
 
         setTimeout(() => {
             if (mapRef.current) {
                 mapRef.current.style.transition = ''
             }
         }, 500)
-    }, [roomLayerCache, activeLayer, position.x, position.y, scale, baseScale])
+    }, [roomLayerCache, activeLayer])
 
     const handleSearchSelect = useCallback((roomId: string) => {
         setPinnedRoomId(roomId)
@@ -283,7 +275,6 @@ function MapContent() {
     }, [isInitialized, roomLayerCache, initialRoomId, getExhibitionByRoomId, handleSearchSelect, pinnedRoomId])
 
     useEffect(() => {
-        constrainPosition(0, 0)
         if (!containerRef.current || !mapRef.current) return
 
         const container = containerRef.current
@@ -292,70 +283,84 @@ function MapContent() {
         const mapRect = map.getBoundingClientRect()
         const containerRect = container.getBoundingClientRect()
 
+        if (containerRect.width === 0 || containerRect.height === 0) return
+
         if (!isInitialized) {
             const targetElement = document.getElementById("honkan_G")
 
             if (!targetElement) {
                 console.warn("Target element honkan_G not found, using full map")
-                const MARGIN_RATIO = 0.1
-                const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
-                const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+                const MARGIN_RATIO_X = 0.1
+                const MARGIN_RATIO_Y = 0.15
+                const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
+                const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
                 const scaleX = effectiveWidth / mapRect.width
                 const scaleY = effectiveHeight / mapRect.height
                 const newScale = Math.max(scaleX, scaleY)
 
-                setBaseScale(newScale)
+                updateBaseScale(newScale)
 
                 const centerX = (containerRect.width - mapRect.width * newScale) / 2
                 const centerY = (containerRect.height - mapRect.height * newScale) / 2
-                setScale(newScale)
-                setPosition({ x: centerX, y: centerY })
+                updateScale(newScale)
+                updatePosition({ x: centerX, y: centerY })
                 setIsInitialized(true)
                 setIsScreenModeChanged(false)
                 return
             }
 
-            const targetRect = targetElement.getBoundingClientRect()
+            const MARGIN_RATIO_X = 0.1
+            const MARGIN_RATIO_Y = 0.15
+            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
+            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
-            const targetRelativeX = targetRect.left - mapRect.left
-            const targetRelativeY = targetRect.top - mapRect.top
+            const svgEl = mapRef.current?.querySelector('svg')
+            const viewBox = svgEl?.viewBox?.baseVal
+            const bbox = (targetElement as unknown as SVGGraphicsElement).getBBox?.()
 
-            const MARGIN_RATIO = 0.1
-            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
-            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+            let relX: number, relY: number, relW: number, relH: number
 
-            const scaleX = effectiveWidth / targetRect.width
-            const scaleY = effectiveHeight / targetRect.height
+            if (bbox && viewBox) {
+                const logicalToDOM = mapRect.width / viewBox.width
+                relX = bbox.x * logicalToDOM
+                relY = bbox.y * logicalToDOM
+                relW = bbox.width * logicalToDOM
+                relH = bbox.height * logicalToDOM
+            } else {
+                const targetRect = targetElement.getBoundingClientRect()
+                relX = targetRect.left - mapRect.left
+                relY = targetRect.top - mapRect.top
+                relW = targetRect.width
+                relH = targetRect.height
+            }
+
+            const scaleX = effectiveWidth / relW
+            const scaleY = effectiveHeight / relH
             const newScale = Math.min(scaleX, scaleY)
 
-            setBaseScale(newScale)
+            updateBaseScale(newScale)
 
-            const targetCenterX = targetRelativeX + targetRect.width / 2
-            const targetCenterY = targetRelativeY + targetRect.height / 2
+            const centerX = containerRect.width / 2 - (relX + relW / 2) * newScale
+            const centerY = containerRect.height / 2 - (relY + relH / 2) * newScale
 
-            const containerCenterX = containerRect.width / 2
-            const containerCenterY = containerRect.height / 2
-
-            const centerX = containerCenterX - targetCenterX * newScale
-            const centerY = containerCenterY - targetCenterY * newScale
-
-            setScale(newScale)
-            setPosition({ x: centerX, y: centerY })
+            updateScale(newScale)
+            updatePosition({ x: centerX, y: centerY })
             setIsInitialized(true)
             setIsScreenModeChanged(false)
             return
         }
 
         if (isScreenModeChanged) {
-            const currentZoomRatio = scale / baseScale
+            const currentZoomRatio = scaleRef.current / baseScaleRef.current
 
-            const MARGIN_RATIO = 0.1
-            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO * 2)
-            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO * 2)
+            const MARGIN_RATIO_X = 0.1
+            const MARGIN_RATIO_Y = 0.15
+            const effectiveWidth = containerRect.width * (1 - MARGIN_RATIO_X * 2)
+            const effectiveHeight = containerRect.height * (1 - MARGIN_RATIO_Y * 2)
 
-            const mapOriginalWidth = mapRect.width / scale
-            const mapOriginalHeight = mapRect.height / scale
+            const mapOriginalWidth = mapRect.width / scaleRef.current
+            const mapOriginalHeight = mapRect.height / scaleRef.current
 
             const scaleX = effectiveWidth / mapOriginalWidth
             const scaleY = effectiveHeight / mapOriginalHeight
@@ -366,8 +371,8 @@ function MapContent() {
             const oldContainerCenterX = containerRect.width / 2
             const oldContainerCenterY = containerRect.height / 2
 
-            const oldMapCenterX = position.x + (mapRect.width / 2)
-            const oldMapCenterY = position.y + (mapRect.height / 2)
+            const oldMapCenterX = positionRef.current.x + (mapRect.width / 2)
+            const oldMapCenterY = positionRef.current.y + (mapRect.height / 2)
 
             const relativeCenterX = oldMapCenterX - oldContainerCenterX
             const relativeCenterY = oldMapCenterY - oldContainerCenterY
@@ -381,8 +386,8 @@ function MapContent() {
             const newX = newMapCenterX - newMapWidth / 2
             const newY = newMapCenterY - newMapHeight / 2
 
-            const MARGIN_X = containerRect.width * MARGIN_RATIO
-            const MARGIN_Y = containerRect.height * MARGIN_RATIO
+            const MARGIN_X = containerRect.width * MARGIN_RATIO_X
+            const MARGIN_Y = containerRect.height * MARGIN_RATIO_Y
 
             const left = MARGIN_X
             const top = MARGIN_Y
@@ -392,12 +397,12 @@ function MapContent() {
             const constrainedX = Math.max(right, Math.min(left, newX))
             const constrainedY = Math.max(bottom, Math.min(top, newY))
 
-            setBaseScale(newBaseScale)
-            setScale(newScale)
-            setPosition({ x: constrainedX, y: constrainedY })
+            updateBaseScale(newBaseScale)
+            updateScale(newScale)
+            updatePosition({ x: constrainedX, y: constrainedY })
             setIsScreenModeChanged(false)
         }
-    }, [handleSearchSelect, initialRoomId, isInitialized, isScreenModeChanged, position.x, position.y, scale, baseScale])
+    }, [isInitialized, isScreenModeChanged])
 
     useEffect(() => {
         const handleGlobalMouseUp = () => {
@@ -445,22 +450,26 @@ function MapContent() {
             const mouseX = e.clientX - rect.left
             const mouseY = e.clientY - rect.top
 
-            const beforeX = (mouseX - position.x) / scale
-            const beforeY = (mouseY - position.y) / scale
+            const pos = positionRef.current
+            const sc = scaleRef.current
+            const bs = baseScaleRef.current
 
-            const minScale = baseScale * MIN_SCALE_RATIO
-            const maxScale = baseScale * 4
+            const beforeX = (mouseX - pos.x) / sc
+            const beforeY = (mouseY - pos.y) / sc
+
+            const minScale = bs * MIN_SCALE_RATIO
+            const maxScale = bs * 4
 
             const delta = e.deltaY > 0 ? 0.9 : 1.1
-            const newScale = Math.max(minScale, Math.min(maxScale, scale * delta))
+            const newScale = Math.max(minScale, Math.min(maxScale, sc * delta))
 
             const newX = mouseX - beforeX * newScale
             const newY = mouseY - beforeY * newScale
 
             const constrained = constrainPosition(newX, newY)
 
-            setScale(newScale)
-            setPosition(constrained)
+            updateScale(newScale)
+            updatePosition(constrained)
         }
 
         container.addEventListener('wheel', handleWheel, { passive: false })
@@ -468,13 +477,14 @@ function MapContent() {
         return () => {
             container.removeEventListener('wheel', handleWheel)
         }
-    }, [scale, position, baseScale])
+    }, [])
 
     const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault()
+        const pos = positionRef.current
         setDragStart({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y,
+            x: e.clientX - pos.x,
+            y: e.clientY - pos.y,
         })
         setTouchStartPos({ x: e.clientX, y: e.clientY })
         setHasMoved(false)
@@ -514,7 +524,7 @@ function MapContent() {
                 const newY = e.clientY - dragStart.y
 
                 const constrained = constrainPosition(newX, newY)
-                setPosition(constrained)
+                updatePosition(constrained)
             }
         }
     }
@@ -547,9 +557,10 @@ function MapContent() {
 
         const handleTouchStart = (e: TouchEvent) => {
             if (e.touches.length === 1 || e.touches.length === 2) {
+                const pos = positionRef.current
                 setDragStart({
-                    x: e.touches[0].clientX - position.x,
-                    y: e.touches[0].clientY - position.y,
+                    x: e.touches[0].clientX - pos.x,
+                    y: e.touches[0].clientY - pos.y,
                 })
                 setTouchStartPos({
                     x: e.touches[0].clientX,
@@ -576,8 +587,8 @@ function MapContent() {
 
                 centerHistory = [{x: centerX, y: centerY}]
 
-                initialPinchScale.current = scale
-                initialPinchPosition.current = {x: position.x, y: position.y}
+                initialPinchScale.current = scaleRef.current
+                initialPinchPosition.current = { x: pos.x, y: pos.y }
             }
         }
 
@@ -603,8 +614,8 @@ function MapContent() {
                 const avgCenterX = centerHistory.reduce((sum, c) => sum + c.x, 0) / centerHistory.length
                 const avgCenterY = centerHistory.reduce((sum, c) => sum + c.y, 0) / centerHistory.length
 
-                const minScale = baseScale * MIN_SCALE_RATIO
-                const maxScale = baseScale * 4
+                const minScale = baseScaleRef.current * MIN_SCALE_RATIO
+                const maxScale = baseScaleRef.current * 4
 
                 const scaleRatio = distance / lastTouchDistance.current
                 const newScale = Math.max(minScale, Math.min(maxScale, initialPinchScale.current * scaleRatio))
@@ -621,8 +632,8 @@ function MapContent() {
                 const constrained = constrainPosition(newX, newY)
 
                 setIsDragging(true)
-                setScale(newScale)
-                setPosition(constrained)
+                updateScale(newScale)
+                updatePosition(constrained)
                 e.preventDefault();
             } else if (e.touches.length === 1 && (dragStart.x !== 0 || dragStart.y !== 0 || isDragging)) {
                 const moveDistance = Math.hypot(
@@ -637,7 +648,7 @@ function MapContent() {
                     const newY = e.touches[0].clientY - dragStart.y
 
                     const constrained = constrainPosition(newX, newY)
-                    setPosition(constrained)
+                    updatePosition(constrained)
                 }
             }
         }
@@ -651,9 +662,10 @@ function MapContent() {
                 centerHistory = []
 
                 if (e.touches.length === 1) {
+                    const pos = positionRef.current
                     setDragStart({
-                        x: e.touches[0].clientX - position.x,
-                        y: e.touches[0].clientY - position.y,
+                        x: e.touches[0].clientX - pos.x,
+                        y: e.touches[0].clientY - pos.y,
                     })
                     setTouchStartPos({
                         x: e.touches[0].clientX,
@@ -697,18 +709,14 @@ function MapContent() {
             container.removeEventListener('touchmove', handleTouchMove)
             container.removeEventListener('touchend', handleTouchEnd)
         }
-    }, [scale, position, isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch, baseScale])
+    }, [isDragging, dragStart, touchStartPos, hasMoved, possibleToDrag, getExhibitionByRoomId, handleRoomClick, handleRoomTouch])
 
     const selectedExhibitions = selectedRoomId ? getExhibitionsByRoomId(selectedRoomId) : []
     const hoveredExhibitions  = hoveredRoomId  ? getExhibitionsByRoomId(hoveredRoomId)  : []
 
     return (
-        <>
-            <div className={
-                isMobile
-                    ? "w-full px-4 py-3 bg-card border-b h-16 border-accent-light"
-                    : "max-w-7xl mx-auto px-4 py-3 bg-card border-b h-16 border-accent-light"
-            }>
+        <div className="w-full max-w-7xl mx-auto h-[calc(100dvh-100px)] md:h-[calc(100dvh-84px)] flex flex-col">
+            <div className="w-full px-4 py-3 bg-card border-b h-16 border-accent-light shrink-0">
                 <MapSearch
                     onSelectRoom={handleSearchSelect}
                     onRemoveSelect={() => {
@@ -723,11 +731,7 @@ function MapContent() {
             </div>
 
             <div
-                className={
-                    isMobile
-                        ? "w-full h-[calc(100dvh-128px)] overflow-hidden relative bg-card border-y border-accent-light"
-                        : "max-w-7xl mx-auto h-[calc(100dvh-144px)] overflow-hidden relative bg-card border-y border-accent-light"
-                }
+                className="w-full flex-1 min-h-0 overflow-hidden relative bg-card border-y border-accent-light"
                 ref={containerRef}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
@@ -966,6 +970,6 @@ function MapContent() {
                     )}
                 </div>
             </div>
-        </>
+        </div>
     )
 }
