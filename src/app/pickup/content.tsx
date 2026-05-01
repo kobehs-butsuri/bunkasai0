@@ -116,7 +116,7 @@ export default function Content() {
                             </div>
 
                             {volunteer.images && volunteer.images.length > 0 && (
-                                <div className="w-full md:w-80 rounded-2xl overflow-hidden shrink-0"
+                                <div className="w-full md:w-80 rounded-2xl mt-5 overflow-hidden shrink-0"
                                      onClick={(e) => e.stopPropagation()}>
                                     <ImageGallery
                                         images={volunteer.images}
