@@ -282,7 +282,7 @@ function MapContent() {
     const hasProcessedInitialRoom = useRef(false)
     useEffect(() => {
     if (!isInitialized) return
-    if (isScreenModeChanged) return
+    if (!isScreenModeChanged) return
     if (roomLayerCache.size === 0) return
     if (!initialRoomId) return
     if (hasProcessedInitialRoom.current) return
