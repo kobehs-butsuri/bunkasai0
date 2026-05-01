@@ -189,8 +189,8 @@ function MapContent() {
 
     setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
 
-    const currentRoomWidth = bbox.width * scaleFactor
-    const currentRoomHeight = bbox.height * scaleFactor
+    const currentRoomWidth = bbox.width * scaleX
+    const currentRoomHeight = bbox.height * scaleY
 
     const originalRoomWidth = currentRoomWidth / scaleRef.current
     const originalRoomHeight = currentRoomHeight / scaleRef.current
