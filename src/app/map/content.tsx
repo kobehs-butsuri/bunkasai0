@@ -300,6 +300,7 @@ function MapContent() {
         const map = mapRef.current
 
         const mapRect = map.getBoundingClientRect()
+		const pinRoomId = pinnedRoomId ?? initialRoomId
         const containerRect = container.getBoundingClientRect()
 
         if (containerRect.width === 0 || containerRect.height === 0) return
@@ -371,6 +372,10 @@ function MapContent() {
         }
 
         if (isScreenModeChanged) {
+			const roomElement = pinRoomId
+    			? document.getElementById(pinRoomId)
+			    : null
+
             const currentZoomRatio = scaleRef.current / baseScaleRef.current
 
             const MARGIN_RATIO_X = 0.1
@@ -420,6 +425,27 @@ function MapContent() {
             updateScale(newScale)
             updatePosition({ x: constrainedX, y: constrainedY })
             setIsScreenModeChanged(false)
+
+			let pinMapPosition: { x: number; y: number } | null = null
+
+			if (roomElement) {
+				const finalX = constrainedX
+				const finalY = constrainedY
+				const finalScale = newScale
+    			const rect = roomElement.getBoundingClientRect()
+
+    			const pinX = rect.left + rect.width / 2 - containerRect.left
+    			const pinY = rect.top + rect.height / 2 - containerRect.top
+
+    			pinMapPosition = {
+        			x: (pinX - finalX) / finalScale,
+        			y: (pinY - finalY) / finalScale,
+    			}
+			}
+
+			if (pinMapPosition) {
+    			setPinnedRoomMapPosition(pinMapPosition)
+			}
         }
     }, [isInitialized, isScreenModeChanged])
 
