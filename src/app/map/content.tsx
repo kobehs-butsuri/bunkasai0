@@ -281,17 +281,17 @@ function MapContent() {
 
     const hasProcessedInitialRoom = useRef(false)
     useEffect(() => {
-        if (!isInitialized || roomLayerCache.size === 0 || !initialRoomId) return
-        if (hasProcessedInitialRoom.current) return
-        if (pinnedRoomId === initialRoomId) return
-        if (!roomLayerCache.has(initialRoomId)) {
-            console.warn(`Initial room ${initialRoomId} not found in cache`)
-            return
-        }
+    if (!isInitialized) return
+    if (isScreenModeChanged) return
+    if (roomLayerCache.size === 0) return
+    if (!initialRoomId) return
+    if (hasProcessedInitialRoom.current) return
+    if (pinnedRoomId === initialRoomId) return
+    if (!roomLayerCache.has(initialRoomId)) return
 
-        hasProcessedInitialRoom.current = true
-        handleSearchSelect(initialRoomId)
-    }, [isInitialized, roomLayerCache, initialRoomId, getExhibitionByRoomId, handleSearchSelect, pinnedRoomId])
+    hasProcessedInitialRoom.current = true
+    handleSearchSelect(initialRoomId)
+}, [isInitialized, isScreenModeChanged, roomLayerCache, initialRoomId, pinnedRoomId, handleSearchSelect])
 
     useEffect(() => {
         if (!containerRef.current || !mapRef.current) return
