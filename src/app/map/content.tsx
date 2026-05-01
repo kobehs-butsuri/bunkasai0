@@ -92,26 +92,32 @@ function MapContent() {
 
         const containerRect = containerRef.current.getBoundingClientRect()
         const currentScale = scaleRef.current
-        const mapOriginalWidth = mapRef.current.getBoundingClientRect().width / currentScale
-        const mapOriginalHeight = mapRef.current.getBoundingClientRect().height / currentScale
+
+        const mapRect = mapRef.current.getBoundingClientRect()
+        const mapOriginalWidth = mapRect.width / currentScale
+        const mapOriginalHeight = mapRect.height / currentScale
+
         const mapWidth = mapOriginalWidth * currentScale
         const mapHeight = mapOriginalHeight * currentScale
 
-        const marginX = containerRect.width * 0.1
-        const marginY = containerRect.height * 2 / 3
+        const left = containerRect.width / 2
+        const top = containerRect.height / 2
+        const right = -mapWidth + containerRect.width / 2
+        const bottom = -mapHeight + containerRect.height / 2
 
-        const constrainedX = mapWidth < containerRect.width
-            ? (containerRect.width - mapWidth) / 2
-            : Math.max(-mapWidth + containerRect.width - marginX, Math.min(marginX, x))
-        const constrainedY = mapHeight < containerRect.height
-            ? (() => {
-                const center = (containerRect.height - mapHeight) / 2
-                const baseMargin = center
-                const maxMargin = containerRect.height * 2 / 3
-                const extraMargin = Math.max(0, maxMargin - baseMargin)
-                return Math.max(center - extraMargin, Math.min(center + extraMargin, y))
-            })()
-    			: Math.max(-mapHeight + containerRect.height - marginY, Math.min(marginY, y))
+        const marginX = containerRect.width * 0.1
+        const marginYMax = containerRect.height * 2 / 3
+
+        const constrainedX = Math.max(
+            right - marginX,
+            Math.min(left + marginX, x)
+        )
+
+        const constrainedY = Math.max(
+            bottom - marginYMax,
+            Math.min(top + marginYMax, y)
+        )
+
         return { x: constrainedX, y: constrainedY }
     }
 
@@ -130,8 +136,6 @@ function MapContent() {
             setActiveLayer(targetLayer)
             await nextFrame()
             await nextFrame()
-            updateScale(baseScaleRef.current)
-            updatePosition({ x: 0, y: 0 })
             await nextFrame()
             await nextFrame()
         }
@@ -183,14 +187,11 @@ function MapContent() {
 
         const minScale = baseScaleRef.current * MIN_SCALE_RATIO
 
-        const targetScale = Math.max(
-            minScale,
-            Math.max(
-                (containerRect.width * 0.4) / originalRoomWidth,
-                (containerRect.height * 0.4) / originalRoomHeight
-            ),
-            baseScaleRef.current * 3
-        )
+        const targetScale = Math.max(minScale, Math.min(
+    								(containerRect.width * 0.4) / originalRoomWidth,
+    								(containerRect.height * 0.4) / originalRoomHeight,
+    								baseScaleRef.current * 3
+    							))
 
         const newX = containerRect.width / 2 - pinMapX * targetScale
         const newY = containerRect.height / 2 - pinMapY * targetScale
