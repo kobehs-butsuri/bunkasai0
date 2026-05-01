@@ -122,125 +122,112 @@ function MapContent() {
     }
 
     const zoomToRoomCached = useCallback(async (roomId: string) => {
-    if (!mapRef.current || !containerRef.current) return
+        if (!mapRef.current || !containerRef.current) return
 
-    const nextFrame = () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
+        const nextFrame = () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
 
-    const targetLayer = roomLayerCache.get(roomId)
-    if (targetLayer === undefined) {
-        console.error(`Room ${roomId} not found in cache`)
-        return
-    }
+        const targetLayer = roomLayerCache.get(roomId)
+        if (targetLayer === undefined) {
+            console.error(`Room ${roomId} not found in cache`)
+            return
+        }
 
-    if (activeLayer !== targetLayer) {
-        setActiveLayer(targetLayer)
-        await nextFrame()
-        await nextFrame()
-        await nextFrame()
-        await nextFrame()
-    }
+        if (activeLayer !== targetLayer) {
+            setActiveLayer(targetLayer)
+            await nextFrame()
+            await nextFrame()
+            await nextFrame()
+            await nextFrame()
+        }
 
-    const waitForElement = async (id: string, timeout = 3000): Promise<HTMLElement | null> => {
-        const startTime = Date.now()
+        const waitForElement = async (id: string, timeout = 3000): Promise<HTMLElement | null> => {
+            const startTime = Date.now()
 
-        let element = document.getElementById(id)
-        if (element) return element
+            let element = document.getElementById(id)
+            if (element) return element
 
-        return new Promise((resolve) => {
-            const checkInterval = setInterval(() => {
-                element = document.getElementById(id)
+            return new Promise((resolve) => {
+                const checkInterval = setInterval(() => {
+                    element = document.getElementById(id)
 
-                if (element) {
-                    clearInterval(checkInterval)
-                    resolve(element)
-                } else if (Date.now() - startTime > timeout) {
-                    clearInterval(checkInterval)
-                    resolve(null)
-                }
-            }, 50)
-        })
-    }
+                    if (element) {
+                        clearInterval(checkInterval)
+                        resolve(element)
+                    } else if (Date.now() - startTime > timeout) {
+                        clearInterval(checkInterval)
+                        resolve(null)
+                    }
+                }, 50)
+            })
+        }
 
-    const roomElement = await waitForElement(roomId)
+        const roomElement = await waitForElement(roomId)
 
-    if (!roomElement) {
-        console.error(`Room element ${roomId} not found in DOM after waiting`)
-        return
-    }
+        if (!roomElement) {
+            console.error(`Room element ${roomId} not found in DOM after waiting`)
+            return
+        }
 
-    const container = containerRef.current
-    const containerRect = container.getBoundingClientRect()
+        const container = containerRef.current
+        const containerRect = container.getBoundingClientRect()
 
-    const svgEl = mapRef.current?.querySelector('svg')
-    const viewBox = svgEl?.viewBox?.baseVal
-    const bbox = (roomElement as unknown as SVGGraphicsElement).getBBox?.()
+        const roomRect = roomElement.getBoundingClientRect()
+        const pinX = roomRect.left + roomRect.width / 2 - containerRect.left
+        const pinY = roomRect.top + roomRect.height / 2 - containerRect.top
 
-    if (!bbox || !viewBox) {
-        console.error("bbox or viewBox not available")
-        return
-    }
+        const pinMapX = (pinX - positionRef.current.x) / scaleRef.current
+        const pinMapY = (pinY - positionRef.current.y) / scaleRef.current
 
-    const mapRect = mapRef.current.getBoundingClientRect()
-	const scaleX = mapRect.width / viewBox.width
-	const scaleY = mapRect.height / viewBox.height
+        setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
 
-    const pinMapX = (bbox.x + bbox.width / 2) * scaleX
-    const pinMapY = (bbox.y + bbox.height / 2) * scaleY
+        const currentRoomWidth = roomRect.width
+        const currentRoomHeight = roomRect.height
+        const originalRoomWidth = currentRoomWidth / scaleRef.current
+        const originalRoomHeight = currentRoomHeight / scaleRef.current
 
-    setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
+        const minScale = baseScaleRef.current * MIN_SCALE_RATIO
 
-    const currentRoomWidth = bbox.width * scaleX
-    const currentRoomHeight = bbox.height * scaleY
+        const targetScale = Math.max(minScale, Math.min(
+    								(containerRect.width * 0.4) / originalRoomWidth,
+    								(containerRect.height * 0.4) / originalRoomHeight,
+    								baseScaleRef.current * 3
+    							))
 
-    const originalRoomWidth = currentRoomWidth / scaleRef.current
-    const originalRoomHeight = currentRoomHeight / scaleRef.current
+        const newX = containerRect.width / 2 - pinMapX * targetScale
+        const newY = containerRect.height / 2 - pinMapY * targetScale
 
-    const minScale = baseScaleRef.current * MIN_SCALE_RATIO
+        const map = mapRef.current
+        const mapRect = map.getBoundingClientRect()
 
-    const targetScale = Math.max(
-        minScale,
-        Math.min(
-            (containerRect.width * 0.4) / originalRoomWidth,
-            (containerRect.height * 0.4) / originalRoomHeight,
-            baseScaleRef.current * 3
-        )
-    )
+        const mapWidthOriginal = mapRect.width / scaleRef.current
+        const mapHeightOriginal = mapRect.height / scaleRef.current
 
-    const newX = containerRect.width / 2 - pinMapX * targetScale
-    const newY = containerRect.height / 2 - pinMapY * targetScale
+        const newMapWidth = mapWidthOriginal * targetScale
+        const newMapHeight = mapHeightOriginal * targetScale
 
-    const map = mapRef.current
-    const mapRect2 = map.getBoundingClientRect()
+        const constrainedX =
+            newMapWidth > containerRect.width
+                ? Math.max(containerRect.width - newMapWidth, Math.min(0, newX))
+                : newX
 
-    const mapWidthOriginal = mapRect2.width / scaleRef.current
-    const mapHeightOriginal = mapRect2.height / scaleRef.current
+        const constrainedY =
+            newMapHeight > containerRect.height
+                ? Math.max(containerRect.height - newMapHeight, Math.min(0, newY))
+                : newY
 
-    const newMapWidth = mapWidthOriginal * targetScale
-    const newMapHeight = mapHeightOriginal * targetScale
+        if (mapRef.current) {
+            mapRef.current.style.transition = 'transform 0.5s ease-in-out'
+        }
 
-    const constrainedX =
-        newMapWidth > containerRect.width
-            ? Math.max(containerRect.width - newMapWidth, Math.min(0, newX))
-            		: newX
+        updateScale(targetScale)
+        updatePosition({ x: constrainedX, y: constrainedY })
 
-    		const constrainedY =
-        		newMapHeight > containerRect.height
-            		? Math.max(containerRect.height - newMapHeight, Math.min(0, newY))
-            		: newY
-
-    		if (mapRef.current) {
-        		mapRef.current.style.transition = 'transform 0.5s ease-in-out'
-    		}
-
-    		updateScale(targetScale)
-    		updatePosition({ x: constrainedX, y: constrainedY })
-
-    		setTimeout(() => {
-        		if (mapRef.current) {
-            		mapRef.current.style.transition = ''
-        		}
-    		}, 500)
-	}, [roomLayerCache, activeLayer])
+        setTimeout(() => {
+            if (mapRef.current) {
+                mapRef.current.style.transition = ''
+            }
+        }, 500)
+    }, [roomLayerCache, activeLayer])
 
     const handleSearchSelect = useCallback((roomId: string) => {
         setPinnedRoomId(roomId)
