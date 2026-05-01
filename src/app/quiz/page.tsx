@@ -24,10 +24,10 @@ export default function Quiz() {
                         </div>
                     </section>
                     <section className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-center">
-                        <img src={"/image/a1.png"} alt="" />
-                        <img src={"/image/b1.png"} alt="" />
-                        <img src={"/image/c1.png"} alt="" />
-                        <img src={"/image/d1.png"} alt="" />
+                        <img src={"/image/a1.PNG"} alt="" />
+                        <img src={"/image/b1.PNG"} alt="" />
+                        <img src={"/image/c1.PNG"} alt="" />
+                        <img src={"/image/d1.PNG"} alt="" />
                     </section>
                 </div>
             </div>
