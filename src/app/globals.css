@@ -99,6 +99,37 @@
     }
 }
 
+@keyframes scrollArrow {
+    0% {
+        opacity: 0;
+        transform: rotate(-45deg) translate(0, 0);
+    }
+    40% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+        transform: rotate(-45deg) translate(-20px, 20px);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.scroll-arrow::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    animation: scrollArrow 2s infinite;
+}
+
 @layer utilities {
     .scrollbar-hide {
         -ms-overflow-style: none; /* IE and Edge */

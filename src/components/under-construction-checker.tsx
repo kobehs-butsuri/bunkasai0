@@ -7,8 +7,6 @@ import Footer from "@/components/footer";
 import ConstructingSVG from "@/components/decoration/constructing.svg"
 
 const underConstructionPages = [
-    '/pickup',
-    '/quiz'
 ] as string[];
 function isUnderConstruction(pathname: string): boolean {
     const normalizedPath = pathname.replace(/\/$/, '') || '/';

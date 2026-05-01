@@ -104,16 +104,21 @@ function MapContent() {
             ? (containerRect.width - mapWidth) / 2
             : Math.max(-mapWidth + containerRect.width - marginX, Math.min(marginX, x))
         const constrainedY = mapHeight < containerRect.height
-    			? (() => {
-        			const center = (containerRect.height - mapHeight) / 2
-        			return Math.max(center - marginY, Math.min(center + marginY, y))
-    			})()
+            ? (() => {
+                const center = (containerRect.height - mapHeight) / 2
+                const baseMargin = center
+                const maxMargin = containerRect.height * 2 / 3
+                const extraMargin = Math.max(0, maxMargin - baseMargin)
+                return Math.max(center - extraMargin, Math.min(center + extraMargin, y))
+            })()
     			: Math.max(-mapHeight + containerRect.height - marginY, Math.min(marginY, y))
         return { x: constrainedX, y: constrainedY }
     }
 
     const zoomToRoomCached = useCallback(async (roomId: string) => {
         if (!mapRef.current || !containerRef.current) return
+
+        const nextFrame = () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
 
         const targetLayer = roomLayerCache.get(roomId)
         if (targetLayer === undefined) {
@@ -123,6 +128,12 @@ function MapContent() {
 
         if (activeLayer !== targetLayer) {
             setActiveLayer(targetLayer)
+            await nextFrame()
+            await nextFrame()
+            updateScale(baseScaleRef.current)
+            updatePosition({ x: 0, y: 0 })
+            await nextFrame()
+            await nextFrame()
         }
 
         const waitForElement = async (id: string, timeout = 3000): Promise<HTMLElement | null> => {
@@ -172,11 +183,14 @@ function MapContent() {
 
         const minScale = baseScaleRef.current * MIN_SCALE_RATIO
 
-        const targetScale = Math.max(minScale, Math.min(
-            (containerRect.width * 0.4) / originalRoomWidth,
-            (containerRect.height * 0.4) / originalRoomHeight,
+        const targetScale = Math.max(
+            minScale,
+            Math.max(
+                (containerRect.width * 0.4) / originalRoomWidth,
+                (containerRect.height * 0.4) / originalRoomHeight
+            ),
             baseScaleRef.current * 3
-        ))
+        )
 
         const newX = containerRect.width / 2 - pinMapX * targetScale
         const newY = containerRect.height / 2 - pinMapY * targetScale
@@ -190,22 +204,22 @@ function MapContent() {
         const newMapWidth = mapWidthOriginal * targetScale
         const newMapHeight = mapHeightOriginal * targetScale
 
-        const left = containerRect.width / 2
-        const top = containerRect.height / 2
-        const bottom = -newMapHeight + containerRect.height / 2
-        const right = -newMapWidth + containerRect.width / 2
+        const constrainedX =
+            newMapWidth > containerRect.width
+                ? Math.max(containerRect.width - newMapWidth, Math.min(0, newX))
+                : newX
 
-        const constrainedX = Math.max(right, Math.min(left, newX))
-        const constrainedY = Math.max(bottom, Math.min(top, newY))
-
-        const constrained = { x: constrainedX, y: constrainedY }
+        const constrainedY =
+            newMapHeight > containerRect.height
+                ? Math.max(containerRect.height - newMapHeight, Math.min(0, newY))
+                : newY
 
         if (mapRef.current) {
             mapRef.current.style.transition = 'transform 0.5s ease-in-out'
         }
 
         updateScale(targetScale)
-        updatePosition(constrained)
+        updatePosition({ x: constrainedX, y: constrainedY })
 
         setTimeout(() => {
             if (mapRef.current) {
@@ -255,6 +269,7 @@ function MapContent() {
 
             setRoomLayerCache(cache)
             setActiveLayer(0)
+            setIsScreenModeChanged(true)
 
             await new Promise(resolve => setTimeout(resolve, 100))
             setIsLoadingCache(false)

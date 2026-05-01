@@ -763,10 +763,13 @@
     },
     {
       "id": "chemical1",
-      "name": "化學班",
+      "name": "サイエンスショー",
       "organization": "化學班",
-      "description": "化學班",
-      "roomId": "chigaku"
+      "description": "サイエンスショーを行います。\n\n(校内祭)\n11:30〜12:00\n13:30〜14:00\n\n(一般祭)\n10:30〜11:00\n13:00〜13:30",
+      "roomId": "chigaku",
+      "images": [
+        "33531.jpg"
+      ]
     },
     {
       "id": "biology",
@@ -775,15 +778,19 @@
       "description": "DNAストラップ作りやってます！\n今年は130周年なので、剥製に加え人体模型も見れる...かも？！\nお花や野菜の苗もお渡しします！\n生物実験室で部員一同お待ちしてます＾＾",
       "roomId": "seibutsu",
       "images": [
-        "seibutsu-poster.png"
+        "seibutsu-poster.png",
+        "S__20422660.jpg"
       ]
     },
     {
       "id": "chemical2",
-      "name": "化學班",
+      "name": "スライムキーホルダー作り",
       "organization": "化學班",
-      "description": "化學班",
-      "roomId": "parking4"
+      "description": "化學班によるスライムキーホルダー作りです。",
+      "roomId": "parking4",
+      "images": [
+        "33531.jpg"
+      ]
     }
   ],
   "gardens": [
@@ -792,55 +799,90 @@
       "name": "You For みんなの源へ",
       "organization": "園遊会",
       "description": "2年1組、2組、3組の前半による焼きそばの園遊会販売",
-      "roomId": "parking3"
+      "roomId": "parking3",
+      "images": [
+
+      ]
     },
     {
       "id": "flied",
       "name": "釈迦釈迦ポテト",
       "organization": "園遊会",
       "description": "2年1組、2組、3組の後半によるフライドポテトの園遊会販売",
-      "roomId": "parking1"
+      "roomId": "parking1",
+      "images": [
+
+      ]
     },
     {
       "id": "pizza",
       "name": "ピザ好き",
       "description": "2年4組によるピザの園遊会販売",
-      "roomId": "katei"
+      "roomId": "katei",
+      "images": [
+        "S__26828805.jpg"
+      ]
     },
     {
       "id": "frankfurt",
       "name": "２年５組の５つ星フランク⭐︎",
       "organization": "園遊会",
       "description": "2年5組によるフランクフルトの園遊会販売",
-      "roomId": "_38"
+      "roomId": "_38",
+      "images": [
+        "S__21479495_0.jpg",
+        "S__21479496_0.jpg"
+      ]
     },
     {
       "id": "takoyaki",
       "name": "たこやきだいすけ",
       "organization": "園遊会",
       "description": "2年6組によるたこ焼きの園遊会販売",
-      "roomId": "_17"
+      "roomId": "_17",
+      "images": [
+        "S__15736852_0.jpg",
+        "S__15736853_0.jpg",
+        "S__15736854_0.jpg",
+        "S__15736855_0.jpg",
+        "S__15736856_0.jpg",
+        "S__15736857_0.jpg"
+      ]
     },
     {
       "id": "takosen",
       "name": "た・こ・せ・ん♡",
       "organization": "園遊会",
       "description": "2年7組によるたこせんの園遊会販売",
-      "roomId": "_15"
+      "roomId": "_15",
+      "images": [
+        "S__1581142.jpg",
+        "S__1589253_0.jpg",
+        "S__1589254_0.jpg",
+        "S__15736858_0.jpg",
+        "S__15736859_0.jpg",
+        "S__15736860_0.jpg"
+      ]
     },
     {
       "id": "waffle",
       "name": "森のゴリッフル",
       "organization": "園遊会",
       "description": "2年8組によるワッフルの園遊会販売",
-      "roomId": "_25"
+      "roomId": "_25",
+      "images": [
+
+      ]
     },
     {
       "id": "donut",
       "name": "小麦粉と油の奇跡",
       "organization": "園遊会",
       "description": "2年9組によるドーナツの園遊会販売",
-      "roomId": "parking2"
+      "roomId": "parking2",
+      "images": [
+
+      ]
     }
   ],
   "volunteers": [
@@ -849,21 +891,34 @@
       "name": "「神戸大縁日」",
       "organization": "３年有志",
       "description": "縁日(神戸大縁日)",
-      "roomId": "_28"
+      "roomId": "_28",
+      "images": [
+        "S__15736851_0.jpg"
+      ]
     },
     {
       "id": "kishikara",
       "name": "純喫茶「喫茶神戸」",
       "organization": "３年有志",
       "description": "純喫茶「喫茶神戸」",
-      "roomId": "_19"
+      "roomId": "_19",
+      "images": [
+        "S__15745030_0.jpg",
+        "S__15745031_0.jpg",
+        "S__15745032_0.jpg"
+      ]
     },
     {
       "id": "cafe",
       "name": "カフェー「Kiss Of BErries」",
       "organization": "３年有志",
-      "description": "カフェ(Kiss Of BErries)",
-      "roomId": "LL"
+      "description": "メイドカフェ(Kiss Of BErries)",
+      "roomId": "LL",
+      "images": [
+        "S__15745027_0.jpg",
+        "S__15745028_0.jpg",
+        "S__15745029_0.jpg"
+      ]
     }
   ]
 }
