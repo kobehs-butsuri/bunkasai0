@@ -171,7 +171,6 @@ function MapContent() {
     const container = containerRef.current
     const containerRect = container.getBoundingClientRect()
 
-    // --- ここが修正ポイント（getBBoxベース） ---
     const svgEl = mapRef.current?.querySelector('svg')
     const viewBox = svgEl?.viewBox?.baseVal
     const bbox = (roomElement as unknown as SVGGraphicsElement).getBBox?.()
@@ -182,13 +181,13 @@ function MapContent() {
     }
 
     const mapRect = mapRef.current.getBoundingClientRect()
-    const scaleFactor = mapRect.width / viewBox.width
+	const scaleX = mapRect.width / viewBox.width
+	const scaleY = mapRect.height / viewBox.height
 
-    const pinMapX = (bbox.x + bbox.width / 2) * scaleFactor
-    const pinMapY = (bbox.y + bbox.height / 2) * scaleFactor
+    const pinMapX = (bbox.x + bbox.width / 2) * scaleX
+    const pinMapY = (bbox.y + bbox.height / 2) * scaleY
 
     setPinnedRoomMapPosition({ x: pinMapX, y: pinMapY })
-    // --- 修正ここまで ---
 
     const currentRoomWidth = bbox.width * scaleFactor
     const currentRoomHeight = bbox.height * scaleFactor
