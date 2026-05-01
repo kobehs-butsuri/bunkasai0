@@ -34,7 +34,7 @@ export default function Content() {
                         <div
                             key={i}
                             onClick={() => router.push(`/event/${garden.id}`)}
-                            className="p-10 flex-col md:flex-row border-2 border-accent-dark border-b-8 border-r-8 border-b-accent border-r-accent cursor-pointer"
+                            className="p-10 border-2 border-accent-dark border-b-8 border-r-8 border-b-accent border-r-accent cursor-pointer"
                         >
                             <div>
                                 <h3 className="text-xl font-bold text-accent-dark mb-6">{garden.name}</h3>
@@ -93,7 +93,7 @@ export default function Content() {
                         <div
                             key={i}
                             onClick={() => router.push(`/event/${volunteer.id}`)}
-                            className="flex flex-col md:flex-row p-10 border-2 border-accent-dark border-b-8 border-r-8 border-b-accent border-r-accent cursor-pointer"
+                            className="p-10 border-2 border-accent-dark border-b-8 border-r-8 border-b-accent border-r-accent cursor-pointer"
                         >
                             <div>
                                 <h3 className="text-xl font-bold text-accent-dark mb-6">{volunteer.name}</h3>
