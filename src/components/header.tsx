@@ -260,7 +260,7 @@ export default function Header() {
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
-                        className="fixed top-0 right-0 w-64 max-w-xs bg-background border-l border-accent-light shadow-2xl z-60 md:hidden h-screen overflow-hidden"
+                        className="fixed top-0 right-0 w-64 max-w-xs bg-background border-l border-accent-light shadow-2xl z-60 md:hidden h-screen overflow-auto"
                         initial={{ x: "50%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
