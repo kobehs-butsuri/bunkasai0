@@ -259,7 +259,7 @@ export default function Timetable() {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <TabView tabs={tabs} defaultTabIndex={0} />
+            <TabView tabs={tabs} defaultTabIndex={1} />
         </div>
     )
 }
