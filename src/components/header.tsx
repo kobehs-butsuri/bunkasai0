@@ -266,7 +266,7 @@ export default function Header() {
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 100, stiffness: 800 }}
                     >
-                        <div className="relative w-full h-full">
+                        <div className="relative w-full min-h-dvh">
                             {/* Main Menu */}
                             <motion.nav
                                 className="flex flex-col py-8 mt-8 px-6 gap-2 absolute inset-0"
