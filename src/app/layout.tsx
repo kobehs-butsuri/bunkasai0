@@ -48,7 +48,7 @@ export default function RootLayout({
         <body className={`font-sans antialiased flex flex-col min-h-screen w-full min-w-[80vw] mr-0 ${lineSeedSans.className}`}>
         <NextTopLoader color="#e94709" />
         <PageTitleProvider>
-            <div className={"z-50"}>
+            <div className={"z-60"}>
                 <Header/>
             </div>
             <main className="mt-16 md:mt-20 w-full bg-background grow">
