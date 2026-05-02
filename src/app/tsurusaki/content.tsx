@@ -459,11 +459,13 @@ export default function Content() {
                         />
                         <div className="pl-6 md:pl-10">
                             <p className="text-xl md:text-3xl lg:text-4xl text-primary leading-relaxed font-bold tracking-wide text-pretty">
+                                <span className="text-background bg-primary">
                                 <QuoteReveal text="「行き詰まったら" delay={2.5} />
                                 <br className="hidden md:block" />
                                 <QuoteReveal text="初心に返ることも" delay={3.0} />
                                 <br className="hidden md:block" />
                                 <QuoteReveal text="大切である」" delay={3.5} />
+                                </span>
                             </p>
                         </div>
                     </motion.blockquote>
