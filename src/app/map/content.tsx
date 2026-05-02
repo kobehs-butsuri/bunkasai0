@@ -126,6 +126,13 @@ function MapContent() {
 
         const nextFrame = () => new Promise<void>(resolve => requestAnimationFrame(() => resolve()))
 
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
+
         const targetLayer = roomLayerCache.get(roomId)
         if (targetLayer === undefined) {
             console.error(`Room ${roomId} not found in cache`)
